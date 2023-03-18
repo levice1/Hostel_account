@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/frameLayout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".view.accounting.AccountingAddNewEntryFragment">
+
+    <EditText
+        android:id="@+id/txtPlWhoOrWhat"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="328dp"
+        android:ems="10"
+        android:hint="Who or what"
+        android:inputType="textPersonName"
+        android:minHeight="48dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <EditText
+        android:id="@+id/txtPlSum"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:ems="10"
+        android:hint="Sum"
+        android:inputType="textPersonName"
+        android:minHeight="48dp"
+        app:layout_constraintEnd_toEndOf="@+id/txtPlWhoOrWhat"
+        app:layout_constraintStart_toStartOf="@+id/txtPlWhoOrWhat"
+        app:layout_constraintTop_toBottomOf="@+id/txtPlWhoOrWhat" />
+
+    <Switch
+        android:id="@+id/switchPlusOrMinus"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:minHeight="48dp"
+        android:text="+ or -"
+        android:textOff="-"
+        android:textOn="+"
+        app:layout_constraintEnd_toEndOf="@+id/txtPlSum"
+        app:layout_constraintStart_toStartOf="@+id/txtPlSum"
+        app:layout_constraintTop_toBottomOf="@+id/txtPlSum" />
+
+    <EditText
+        android:id="@+id/txtPlDate"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:ems="10"
+        android:hint="Date"
+        android:inputType="textPersonName"
+        android:minHeight="48dp"
+        app:layout_constraintEnd_toEndOf="@+id/switchPlusOrMinus"
+        app:layout_constraintStart_toStartOf="@+id/switchPlusOrMinus"
+        app:layout_constraintTop_toBottomOf="@+id/switchPlusOrMinus" />
+
+    <Button
+        android:id="@+id/btnSave"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="Save"
+        app:layout_constraintEnd_toEndOf="@+id/txtPlDate"
+        app:layout_constraintStart_toStartOf="@+id/txtPlDate"
+        app:layout_constraintTop_toBottomOf="@+id/txtPlDate" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
