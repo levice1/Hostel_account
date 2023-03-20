@@ -12,16 +12,8 @@ class AccountingActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityAccountingBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        initFragment(R.id.fragmentLayoutAccounting ,AccountingListFragment.newInstance())
     }
-
-    override fun onResume() {
-        super.onResume()
-        initFragment(R.layout.fragment_accounting_list,AccountingListFragment.newInstance())
-
-
-    }
-
-
 
     fun initFragment(idFrameLayout: Int, fragment: Fragment) {
         supportFragmentManager.beginTransaction().replace(idFrameLayout, fragment).commit()

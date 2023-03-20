@@ -27,7 +27,7 @@ class AccountingListAdapter: RecyclerView.Adapter<AccountingListAdapter.ViewHold
         if (accountingList[position].profit) holder.binding.mainLinLayout.setBackgroundColor(1007617580)
     }
 
-    fun setList(list: ArrayList<AccountingListModel>) {
+    fun setList(list: List<AccountingListModel>) {
         accountingList.addAll(list)
         notifyDataSetChanged()
     }

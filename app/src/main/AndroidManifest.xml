@@ -12,10 +12,10 @@
         android:theme="@style/Theme.HostelAccount"
         tools:targetApi="31">
         <activity
-            android:name=".AccountingActivity"
+            android:name=".view.accounting.AccountingActivity"
             android:exported="false" />
         <activity
-            android:name=".PeoplesActivity"
+            android:name=".view.peoples.PeoplesActivity"
             android:exported="false" />
         <activity
             android:name=".view.MainActivity"

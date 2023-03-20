@@ -1,11 +1,13 @@
 package com.example.hostelaccount.view
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.lifecycle.asLiveData
 import com.example.hostelaccount.databinding.ActivityMainBinding
 import com.example.hostelaccount.db.DbManager
 import com.example.hostelaccount.db.People
+import com.example.hostelaccount.view.accounting.AccountingActivity
 
 
 class MainActivity : AppCompatActivity() {
@@ -26,13 +28,8 @@ class MainActivity : AppCompatActivity() {
 
 
         binding.button2.setOnClickListener {
-            val item = People(null,1,
-                binding.edName.text.toString(),
-                binding.edPrice.text.toString(),"12","none"
-            )
-//            Thread{
-//                db.getDao().insertItem(item)
-//            }.start()
+            val i = Intent(this, AccountingActivity::class.java)
+            startActivity(i)
         }
     }
 }

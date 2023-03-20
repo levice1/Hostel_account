@@ -1,48 +1,27 @@
 package com.example.hostelaccount.view.accounting
 
+import android.content.Context
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.asLiveData
 import androidx.recyclerview.widget.RecyclerView
 import com.example.hostelaccount.R
 import com.example.hostelaccount.adapter.AccountingListAdapter
-import com.example.hostelaccount.databinding.ActivityAccountingBinding
 import com.example.hostelaccount.databinding.FragmentAccountingListBinding
 import com.example.hostelaccount.db.DbManager
 import com.example.hostelaccount.model.AccountingListModel
 
+@Suppress("DEPRECATION")
 class AccountingListFragment : Fragment() {
-    lateinit var binding: FragmentAccountingListBinding
+    private lateinit var binding: FragmentAccountingListBinding
 
     private lateinit var adapter: AccountingListAdapter
     private lateinit var recyclerView: RecyclerView
 
-    private var accountingList = ArrayList<AccountingListModel>()
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-
-        val db = DbManager.getDb(this@AccountingListFragment)
-        db.getDao().getAllItem().asLiveData().observe(this){
-         initRecyclerView(it)
-        }
-
-        binding.btnAddNewEntry.setOnClickListener(){
-TODO() переключення одного фрагменту з другого
-            val bind: AccountingActivity
-            bind = AccountingActivity()
-            fragmentManager?.beginTransaction()?.replace(   , AccountingAddNewEntryFragment, "TAG")?.commit();
-
-
-
-
-        }
-
-    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -51,16 +30,40 @@ TODO() переключення одного фрагменту з другог�
         return binding.root
     }
 
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        val db = DbManager.getInstance(requireActivity())
+        db.accountingDao().getAll().asLiveData().observe(viewLifecycleOwner){
+            initRecyclerView(it)
+        }
+        initAddButton()
+    }
+
+
+
+
+
     companion object {
         @JvmStatic
         fun newInstance() = AccountingListFragment()
     }
 
-    private fun initRecyclerView(list:ArrayList<AccountingListModel>) {
+    private fun initRecyclerView(list:List<AccountingListModel>) {
         recyclerView = binding.recViewAccountingList
         adapter = AccountingListAdapter()
         recyclerView.adapter = adapter
         adapter.setList(list)
 
+    }
+
+    private fun initAddButton(){
+        binding.btnAddNewEntry.setOnClickListener {
+            // переключення одного фрагменту з другого
+            val fragmentManager = fragmentManager
+            fragmentManager?.beginTransaction()
+                ?.replace(R.id.fragmentLayoutAccounting, AccountingAddNewEntryFragment.newInstance(), "TAG")!!
+                .commit()
+        }
     }
 }

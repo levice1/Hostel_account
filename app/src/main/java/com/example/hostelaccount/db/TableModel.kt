@@ -20,3 +20,18 @@ data class People (
     @ColumnInfo ( name = "addInfo" )
     var addInfo:String
 )
+
+
+@Entity (tableName = "accounting")
+data class Accounting (
+    @PrimaryKey (autoGenerate = true)
+    var id : Int? = null,
+    @ColumnInfo ( name = "date")
+    var date: String,
+    @ColumnInfo ( name = "reason")
+    var reason: String,
+    @ColumnInfo ( name = "sum")
+    var sum: Int,
+    @ColumnInfo ( name = "profit" )
+    var profit: Boolean
+)
