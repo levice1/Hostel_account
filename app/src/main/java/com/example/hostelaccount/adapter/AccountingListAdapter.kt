@@ -11,6 +11,7 @@ import com.example.hostelaccount.model.SharedViewModel
 import com.example.hostelaccount.view.accounting.AccountingAddNewEntryFragment
 import com.example.hostelaccount.view.accounting.AccountingListFragment
 
+
 class AccountingListAdapter(private val viewModel: SharedViewModel): RecyclerView.Adapter<AccountingListAdapter.ViewHolder>() {
     inner class ViewHolder ( val binding: RecViewAccountingListLayoutBinding) : RecyclerView.ViewHolder(binding.root)
 
@@ -25,12 +26,13 @@ class AccountingListAdapter(private val viewModel: SharedViewModel): RecyclerVie
         return accountingList.size
     }
 
+
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.binding.txtDateItem.text = accountingList[position].date
         holder.binding.txtReasonItem.text = accountingList[position].reason
         holder.binding.txtSumItem.text = accountingList[position].sum.toString()
 
-        if (accountingList[position].profit) holder.binding.mainLinLayout.setBackgroundColor(1007617580)
+        if (accountingList[position].profit) holder.binding.mainLinLayout.setBackgroundColor((holder.itemView.context as AppCompatActivity).getColor(R.color.profit_plus))
 
         // слушатель нажатий на каждый елемент
         holder.itemView.setOnClickListener {

@@ -24,4 +24,7 @@ interface AccountingDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertAll(vararg accountingItemModel: AccountingItemModel)
+
+    @Query("DELETE FROM Accounting WHERE id = :id")
+    fun deleteById(id: Int)
 }

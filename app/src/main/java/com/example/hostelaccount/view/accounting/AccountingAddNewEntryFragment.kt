@@ -36,10 +36,19 @@ class AccountingAddNewEntryFragment : Fragment() {
 
         //  ЕСЛИ БЫЛИ ПЕРЕДАНЫ ДАННЫЕ ИЗ ДРУГОГО ФРАГМЕНТА, ТО ЗАПОЛНЯЕТ ПОЛЯ АВТОМАТИЧЕСКИ
         if (inputData != null){
+            binding.btnDelete.visibility = View.VISIBLE
             binding.txtPlSum.setText(inputData.sum.toString())
             binding.txtPlDate.setText(inputData.date.toString())
             binding.txtPlWhoOrWhat.setText(inputData.reason.toString())
             binding.switchPlusOrMinus.isChecked = inputData.profit
+            // и запускает слушатель на кнопку удаления
+            binding.btnDelete.setOnClickListener {
+                Thread {
+                    db.accountingDao().deleteById(inputData.id!!)
+                    startFirstFragment()
+                }.start()
+
+            }
         }
 
         // слушатель нажатий на кнопку сохранить
@@ -58,10 +67,8 @@ class AccountingAddNewEntryFragment : Fragment() {
             // запуск нового потока для асинхронного сохранения данных в БД
             Thread {
                      db.accountingDao().insertAll(accountingItem) // сохранение
-                // запуск нового фрагмента после сохранения
-                @Suppress("DEPRECATION")
-                fragmentManager?.beginTransaction()?.replace(R.id.fragmentLayoutAccounting, AccountingListFragment.newInstance(), "TAG")!!
-                .commit()
+                // запуск первого фрагмента после сохранения
+               startFirstFragment()
             }.start()
         }
     }
@@ -69,6 +76,12 @@ class AccountingAddNewEntryFragment : Fragment() {
     companion object {
         @JvmStatic
         fun newInstance() = AccountingAddNewEntryFragment()
+    }
+
+    fun startFirstFragment() { // функция запуска первого фрагмента
+        @Suppress("DEPRECATION")
+        fragmentManager?.beginTransaction()?.replace(R.id.fragmentLayoutAccounting, AccountingListFragment.newInstance(), "TAG")!!
+            .commit()
     }
 
 }
