@@ -23,7 +23,7 @@ data class People (
 
 
 @Entity (tableName = "accounting")
-data class Accounting (
+data class AccountingItemModel (
     @PrimaryKey (autoGenerate = true)
     var id : Int? = null,
     @ColumnInfo ( name = "date")

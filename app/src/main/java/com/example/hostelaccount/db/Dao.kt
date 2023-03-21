@@ -1,8 +1,8 @@
 package com.example.hostelaccount.db
 import androidx.room.Dao
 import androidx.room.Insert
+import androidx.room.OnConflictStrategy
 import androidx.room.Query
-import com.example.hostelaccount.model.AccountingListModel
 import kotlinx.coroutines.flow.Flow
 
 
@@ -20,8 +20,8 @@ interface PeopleDao {
 @Dao
 interface AccountingDao {
     @Query("SELECT * FROM Accounting")
-    fun getAll(): Flow<List<AccountingListModel>>
+    fun getAll(): Flow<List<AccountingItemModel>>
 
-    @Insert
-    fun insertAll(vararg accounting: Accounting)
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    fun insertAll(vararg accountingItemModel: AccountingItemModel)
 }

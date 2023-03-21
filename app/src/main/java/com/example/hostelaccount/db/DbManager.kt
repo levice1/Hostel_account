@@ -3,12 +3,10 @@ package com.example.hostelaccount.db
 import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
-import androidx.room.Dao
 import androidx.room.RoomDatabase
-import com.example.hostelaccount.view.accounting.AccountingListFragment
 
 
-@Database(entities = [People::class, Accounting::class], version = 1)
+@Database(entities = [People::class, AccountingItemModel::class], version = 1)
 abstract class DbManager : RoomDatabase() {
     abstract fun peopleDao(): PeopleDao
     abstract fun accountingDao(): AccountingDao
@@ -20,7 +18,7 @@ abstract class DbManager : RoomDatabase() {
             if (instance == null) {
                 instance = Room.databaseBuilder(
                     context.applicationContext,
-                    DbManager::class.java, "my-database"
+                    DbManager::class.java, "hostel-db"
                 ).build()
             }
             return instance!!

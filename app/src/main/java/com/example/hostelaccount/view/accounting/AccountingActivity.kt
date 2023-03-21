@@ -1,8 +1,9 @@
 package com.example.hostelaccount.view.accounting
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentManager
 import com.example.hostelaccount.R
 import com.example.hostelaccount.databinding.ActivityAccountingBinding
 
@@ -14,8 +15,7 @@ class AccountingActivity : AppCompatActivity() {
         setContentView(binding.root)
         initFragment(R.id.fragmentLayoutAccounting ,AccountingListFragment.newInstance())
     }
-
-    fun initFragment(idFrameLayout: Int, fragment: Fragment) {
+    private fun initFragment(idFrameLayout: Int, fragment: Fragment) {
         supportFragmentManager.beginTransaction().replace(idFrameLayout, fragment).commit()
     }
 }

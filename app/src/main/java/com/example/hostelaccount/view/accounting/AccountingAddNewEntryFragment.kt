@@ -1,21 +1,22 @@
 package com.example.hostelaccount.view.accounting
 
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.lifecycle.asLiveData
+import androidx.lifecycle.ViewModelProvider
 import com.example.hostelaccount.R
 import com.example.hostelaccount.databinding.FragmentAccountingAddNewEntryBinding
-import com.example.hostelaccount.db.Accounting
+import com.example.hostelaccount.db.AccountingItemModel
 import com.example.hostelaccount.db.DbManager
-import com.example.hostelaccount.model.AccountingListModel
+import com.example.hostelaccount.model.SharedViewModel
 
 
 class AccountingAddNewEntryFragment : Fragment() {
-    lateinit var binding: FragmentAccountingAddNewEntryBinding
 
+    lateinit var binding: FragmentAccountingAddNewEntryBinding
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -26,28 +27,43 @@ class AccountingAddNewEntryFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        // определение viewModel для приёма данных от фрагмента
+        val viewModel = ViewModelProvider(requireActivity()).get(SharedViewModel::class.java)
+        // определение переменной БД
+        val db = DbManager.getInstance(requireActivity())
+        //  определение объекта viewModel и получение данных
+        val inputData = viewModel.getData()
+
+        //  ЕСЛИ БЫЛИ ПЕРЕДАНЫ ДАННЫЕ ИЗ ДРУГОГО ФРАГМЕНТА, ТО ЗАПОЛНЯЕТ ПОЛЯ АВТОМАТИЧЕСКИ
+        if (inputData != null){
+            binding.txtPlSum.setText(inputData.sum.toString())
+            binding.txtPlDate.setText(inputData.date.toString())
+            binding.txtPlWhoOrWhat.setText(inputData.reason.toString())
+            binding.switchPlusOrMinus.isChecked = inputData.profit
+        }
+
+        // слушатель нажатий на кнопку сохранить
         binding.btnSave.setOnClickListener {
-            val accountingModel = Accounting(null,
+            // ЕСЛИ БЫЛИ ПЕРЕДАНЫ ДАННЫЕ, ТО ID ПРИСВАЕВАЕТ ТОТ ЧТО БЫЛ ПЕРЕДАН. ЕСЛИ НЕТ ТО NULL
+            var id :Int? = null
+            if (inputData?.id != null) { id = inputData.id
+            }
+            // создание переменной с введёнными данными
+            val accountingItem = AccountingItemModel(id,
                 binding.txtPlDate.text.toString(),
                 binding.txtPlWhoOrWhat.text.toString(),
                 binding.txtPlSum.text.toString().toInt(),
-                true // TODO(виправити перемикач плюс чи мінус)
+                binding.switchPlusOrMinus.isChecked
             )
-            val db = DbManager.getInstance(requireActivity())
-            Thread{
-                db.accountingDao().insertAll(accountingModel)
-                val fragmentManager = fragmentManager
-                fragmentManager?.beginTransaction()
-                    ?.replace(
-                        R.id.fragmentLayoutAccounting,
-                        AccountingListFragment.newInstance(),
-                        "TAG"
-                    )!!
-                    .commit()
+            // запуск нового потока для асинхронного сохранения данных в БД
+            Thread {
+                     db.accountingDao().insertAll(accountingItem) // сохранение
+                // запуск нового фрагмента после сохранения
+                @Suppress("DEPRECATION")
+                fragmentManager?.beginTransaction()?.replace(R.id.fragmentLayoutAccounting, AccountingListFragment.newInstance(), "TAG")!!
+                .commit()
             }.start()
-
         }
-
     }
 
     companion object {
