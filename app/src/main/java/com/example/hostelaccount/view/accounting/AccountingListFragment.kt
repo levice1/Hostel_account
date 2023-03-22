@@ -53,7 +53,6 @@ class AccountingListFragment : Fragment() {
         adapter = AccountingListAdapter(viewModel)
         recyclerView.adapter = adapter
         adapter.setList(list)
-
     }
 
     private fun initAddButton(){ // функция инициализации кнопки добавления новой записи

@@ -11,10 +11,10 @@ import kotlinx.coroutines.flow.Flow
 @Dao
 interface PeopleDao {
     @Query("SELECT * FROM Peoples")
-    fun getAll(): List<People>
+    fun getAll(): List<PeopleItemModel>
 
     @Insert
-    fun insertAll(vararg peoples: People)
+    fun insertAll(vararg peopleItemModels: PeopleItemModel)
 }
 
 @Dao

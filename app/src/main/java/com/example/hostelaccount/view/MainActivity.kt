@@ -3,11 +3,8 @@ package com.example.hostelaccount.view
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import androidx.lifecycle.asLiveData
 import com.example.hostelaccount.databinding.ActivityMainBinding
-import com.example.hostelaccount.db.DbManager
-import com.example.hostelaccount.db.People
-import com.example.hostelaccount.view.accounting.AccountingActivity
+import com.example.hostelaccount.view.peoples.PeoplesActivity
 
 
 class MainActivity : AppCompatActivity() {
@@ -28,7 +25,7 @@ class MainActivity : AppCompatActivity() {
 
 
         binding.button2.setOnClickListener {
-            val i = Intent(this, AccountingActivity::class.java)
+            val i = Intent(this, PeoplesActivity::class.java)
             startActivity(i)
         }
     }

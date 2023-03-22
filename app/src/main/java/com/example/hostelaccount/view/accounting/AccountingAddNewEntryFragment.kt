@@ -45,7 +45,7 @@ class AccountingAddNewEntryFragment : Fragment() {
             binding.btnDelete.setOnClickListener {
                 Thread {
                     db.accountingDao().deleteById(inputData.id!!)
-                    startFirstFragment()
+                    startAccountingListFragment()
                 }.start()
 
             }
@@ -68,7 +68,7 @@ class AccountingAddNewEntryFragment : Fragment() {
             Thread {
                      db.accountingDao().insertAll(accountingItem) // сохранение
                 // запуск первого фрагмента после сохранения
-               startFirstFragment()
+               startAccountingListFragment()
             }.start()
         }
     }
@@ -78,7 +78,7 @@ class AccountingAddNewEntryFragment : Fragment() {
         fun newInstance() = AccountingAddNewEntryFragment()
     }
 
-    fun startFirstFragment() { // функция запуска первого фрагмента
+    fun startAccountingListFragment() { // функция запуска первого фрагмента
         @Suppress("DEPRECATION")
         fragmentManager?.beginTransaction()?.replace(R.id.fragmentLayoutAccounting, AccountingListFragment.newInstance(), "TAG")!!
             .commit()

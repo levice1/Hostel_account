@@ -1,14 +1,150 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/frameLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".view.peoples.AddNewPeopleFragment">
+    tools:context=".view.peoples.AddNewPeopleFragment"
+    tools:ignore="UseSwitchCompatOrMaterialXml"
+    tools:background="@drawable/backgroung_gradient_main">
 
-    <!-- TODO: Update blank fragment layout -->
+    <Button
+        android:id="@+id/btnDelete"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:background="@drawable/backgroung_button_orange"
+        android:padding="10dp"
+        android:text="Delete"
+        android:visibility="gone"
+        app:layout_constraintEnd_toEndOf="@+id/btnSave"
+        app:layout_constraintStart_toStartOf="@+id/btnSave"
+        app:layout_constraintTop_toBottomOf="@+id/btnSave"
+        tools:visibility="gone" />
+
+    <EditText
+        android:id="@+id/txtRoomNumNewMan"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:ems="10"
+        android:hint="Room number"
+        android:inputType="textPersonName"
+        android:minHeight="48dp"
+        android:padding="10dp"
+        android:textColor="#FFFFFF"
+        android:textColorHint="#99FFFFFF"
+        app:layout_constraintEnd_toEndOf="@+id/txtNameNewMan"
+        app:layout_constraintStart_toStartOf="@+id/txtNameNewMan"
+        app:layout_constraintTop_toBottomOf="@+id/txtNameNewMan" />
+
+    <EditText
+        android:id="@+id/txtNameNewMan"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:ems="10"
+        android:hint="Name"
+        android:inputType="textPersonName"
+        android:minHeight="48dp"
+        android:padding="10dp"
+        android:textColor="#FFFFFF"
+        android:textColorHint="#99FFFFFF"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.497"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView" />
+
+    <EditText
+        android:id="@+id/txtPlDateFrom"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:ems="10"
+        android:hint="Date from"
+        android:inputType="date"
+        android:minHeight="48dp"
+        android:padding="10dp"
+        android:textColor="#FFFFFF"
+        android:textColorHint="#99FFFFFF"
+        app:layout_constraintEnd_toEndOf="@+id/txtRoomNumNewMan"
+        app:layout_constraintStart_toStartOf="@+id/txtRoomNumNewMan"
+        app:layout_constraintTop_toBottomOf="@+id/txtRoomNumNewMan" />
+
+    <EditText
+        android:id="@+id/txtPlDateTo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:ems="10"
+        android:hint="Date to"
+        android:inputType="date"
+        android:minHeight="48dp"
+        android:padding="10dp"
+        android:textColor="#FFFFFF"
+        android:textColorHint="#99FFFFFF"
+        app:layout_constraintEnd_toEndOf="@+id/txtPlDateFrom"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/txtPlDateFrom"
+        app:layout_constraintTop_toBottomOf="@+id/txtPlDateFrom" />
+
+    <Button
+        android:id="@+id/btnSave"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:background="@drawable/backgroung_button_orange"
+        android:padding="10dp"
+        android:text="Save"
+        app:layout_constraintEnd_toEndOf="@+id/txtEdAddInfo"
+        app:layout_constraintStart_toStartOf="@+id/txtEdAddInfo"
+        app:layout_constraintTop_toBottomOf="@+id/txtEdAddInfo" />
+
+    <Switch
+        android:id="@+id/switchUsMan"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:padding="10dp"
+        android:showText="true"
+        android:text="Work in our company"
+        android:textColor="#DADADA"
+        android:textOff="n"
+        android:textOn="y"
+        android:textSize="16sp"
+        app:layout_constraintEnd_toEndOf="@+id/txtPlDateTo"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="@+id/txtPlDateTo"
+        app:layout_constraintTop_toBottomOf="@+id/txtPlDateTo"
+        tools:checked="true" />
+
     <TextView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+        android:id="@+id/textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="80dp"
+        android:text="New man"
+        android:textColor="#E3E3E3"
+        android:textSize="25sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
-</FrameLayout>
+    <EditText
+        android:id="@+id/txtEdAddInfo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:ems="10"
+        android:gravity="start|top"
+        android:hint="Info"
+        android:textColor="#FFFFFF"
+        android:textColorHint="#99FFFFFF"
+        android:inputType="textMultiLine"
+        app:layout_constraintEnd_toEndOf="@+id/switchUsMan"
+        app:layout_constraintStart_toStartOf="@+id/switchUsMan"
+        app:layout_constraintTop_toBottomOf="@+id/switchUsMan" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

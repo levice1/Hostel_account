@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.RecyclerView
 import com.example.hostelaccount.R
 import com.example.hostelaccount.databinding.RecViewAccountingListLayoutBinding
+import com.example.hostelaccount.databinding.RecViewRoomListLayoutBinding
 import com.example.hostelaccount.db.AccountingItemModel
 import com.example.hostelaccount.model.SharedViewModel
 import com.example.hostelaccount.view.accounting.AccountingAddNewEntryFragment

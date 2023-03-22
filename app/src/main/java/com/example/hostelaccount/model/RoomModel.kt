@@ -1,0 +1,25 @@
+package com.example.hostelaccount.model
+
+class RoomModel (
+    var roomNum : Int,
+    var nameMan1: String,
+    var idMan1: String,
+    var liveFromMan1: String,
+    var liveToMan1: String,
+    var additionalInfoMan1: String,
+    var nameMan2: String,
+    var idMan2: String,
+    var liveFromMan2: String,
+    var liveToMan2: String,
+    var additionalInfoMan2: String,
+    var nameMan3: String,
+    var idMan3: String,
+    var liveFromMan3: String,
+    var liveToMan3: String,
+    var additionalInfoMan3: String,
+    var nameMan4: String,
+    var idMan4: String,
+    var liveFromMan4: String,
+    var liveToMan4: String,
+    var additionalInfoMan4: String,
+)

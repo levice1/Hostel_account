@@ -6,17 +6,19 @@ import androidx.room.PrimaryKey
 
 
 @Entity (tableName = "peoples")
-data class People (
+data class PeopleItemModel (
     @PrimaryKey (autoGenerate = true)
     var id : Int? = null,
     @ColumnInfo ( name = "roomNumber")
-    var roomNumber: Int,
+    var roomNumber: String,
     @ColumnInfo ( name = "guestName")
     var guestName: String,
     @ColumnInfo ( name = "liveFrom")
     var liveFrom: String,
     @ColumnInfo ( name = "liveTo" )
     var liveTo: String,
+    @ColumnInfo ( name = "usPeople" )
+    var usPeople: Boolean,
     @ColumnInfo ( name = "addInfo" )
     var addInfo:String
 )

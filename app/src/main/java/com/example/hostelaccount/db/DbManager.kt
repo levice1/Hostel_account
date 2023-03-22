@@ -6,7 +6,7 @@ import androidx.room.Room
 import androidx.room.RoomDatabase
 
 
-@Database(entities = [People::class, AccountingItemModel::class], version = 1)
+@Database(entities = [PeopleItemModel::class, AccountingItemModel::class], version = 1)
 abstract class DbManager : RoomDatabase() {
     abstract fun peopleDao(): PeopleDao
     abstract fun accountingDao(): AccountingDao
