@@ -41,21 +41,25 @@ class CreatingRoomsArray(context: Context) {
                 idMan1 = "",
                 liveFromMan1 = "",
                 liveToMan1 = "",
+                usMan1 = "".toBoolean(),
                 additionalInfoMan1 = "",
                 nameMan2 = "",
                 idMan2 = "",
                 liveFromMan2 = "",
                 liveToMan2 = "",
+                usMan2 = "".toBoolean(),
                 additionalInfoMan2 = "",
                 nameMan3 = "",
                 idMan3 = "",
                 liveFromMan3 = "",
                 liveToMan3 = "",
+                usMan3 = "".toBoolean(),
                 additionalInfoMan3 = "",
                 nameMan4 = "",
                 idMan4 = "",
                 liveFromMan4 = "",
                 liveToMan4 = "",
+                usMan4 = "".toBoolean(),
                 additionalInfoMan4 = ""
             )
             for ((index, people) in peopleInRoom.withIndex()) {
@@ -65,6 +69,7 @@ class CreatingRoomsArray(context: Context) {
                         room.idMan1 = people.roomNumber
                         room.liveFromMan1 = people.liveFrom
                         room.liveToMan1 = people.liveTo
+                        room.usMan1 = people.usPeople
                         room.additionalInfoMan1 = people.addInfo
                     }
                     1 -> {
@@ -72,6 +77,7 @@ class CreatingRoomsArray(context: Context) {
                         room.idMan2 = people.roomNumber
                         room.liveFromMan2 = people.liveFrom
                         room.liveToMan2 = people.liveTo
+                        room.usMan2 = people.usPeople
                         room.additionalInfoMan2 = people.addInfo
                     }
                     2 -> {
@@ -79,6 +85,7 @@ class CreatingRoomsArray(context: Context) {
                         room.idMan3 = people.roomNumber
                         room.liveFromMan3 = people.liveFrom
                         room.liveToMan3 = people.liveTo
+                        room.usMan3 = people.usPeople
                         room.additionalInfoMan3 = people.addInfo
                     }
                     3 -> {
@@ -86,6 +93,7 @@ class CreatingRoomsArray(context: Context) {
                         room.idMan4 = people.roomNumber
                         room.liveFromMan4 = people.liveFrom
                         room.liveToMan4 = people.liveTo
+                        room.usMan4 = people.usPeople
                         room.additionalInfoMan4 = people.addInfo
                     }
                 }
