@@ -1,26 +1,30 @@
 package com.example.hostelaccount.view.peoples
 
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.RecyclerView
 import com.example.hostelaccount.R
-import com.example.hostelaccount.adapter.AccountingListAdapter
 import com.example.hostelaccount.adapter.RoomListAdapter
 import com.example.hostelaccount.databinding.FragmentListRoomsBinding
-import com.example.hostelaccount.db.AccountingItemModel
+import com.example.hostelaccount.db.DbManager
+import com.example.hostelaccount.model.GetRoomsLiveDataModel
 import com.example.hostelaccount.model.RoomModel
 import com.example.hostelaccount.model.SharedViewModel
-import com.example.hostelaccount.view.accounting.AccountingAddNewEntryFragment
+import com.example.hostelaccount.viewmodel.ProcessingPeoplesData
 
 class ListRoomsFragment : Fragment() {
     lateinit var binding: FragmentListRoomsBinding
 
     private lateinit var adapter: RoomListAdapter
     private lateinit var recyclerView: RecyclerView
+
+    val roomListLiveData: GetRoomsLiveDataModel by viewModels()
 
 
     override fun onCreateView(
@@ -33,7 +37,15 @@ class ListRoomsFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initAddButton()
-//        initRecyclerView(TODO())
+
+
+    val process = ProcessingPeoplesData(requireContext())
+    process.getRoomList(roomListLiveData.dbResponse)
+    roomListLiveData.dbResponse.observe(viewLifecycleOwner) {
+            Log.d("TestMsg", "RoomList: $it")
+            initRecyclerView(it)
+    }
+
     }
 
     companion object {
@@ -57,6 +69,4 @@ class ListRoomsFragment : Fragment() {
                 .commit()
         }
     }
-
-
 }
