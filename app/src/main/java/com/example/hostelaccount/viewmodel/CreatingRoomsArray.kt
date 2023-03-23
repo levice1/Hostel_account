@@ -6,11 +6,13 @@ import com.example.hostelaccount.db.DbManager
 import com.example.hostelaccount.db.PeopleItemModel
 import com.example.hostelaccount.model.RoomModel
 
-class ProcessingPeoplesData(context: Context) {
+class CreatingRoomsArray(context: Context) {
 
     // DB
     val db = DbManager.getInstance(context)
 
+
+    // функция для возврата данных из обьекта
     fun getRoomList (liveData: MutableLiveData<ArrayList<RoomModel>>) {
         Thread{
             val result =  createRoomList(db.peopleDao().getAll())
@@ -18,11 +20,12 @@ class ProcessingPeoplesData(context: Context) {
         }.start()
     }
 
+    // функция для создания массива комнат с разспределёнными людьми
     private fun createRoomList(peopleList: List<PeopleItemModel>): ArrayList<RoomModel> {
-        // Створюємо порожні ArrayList для зберігання RoomModel об'єктів
+        // создаем пустые ArrayList для хранения RoomModel объектов
         val roomList = ArrayList<RoomModel>()
 
-        // Створюємо мапу для зберігання даних людей залежно від номеру кімнати
+        // создаем карту для хранения данных людей в зависимости от номера комнаты
         val peopleMap = mutableMapOf<String, MutableList<PeopleItemModel>>()
         for (people in peopleList) {
             if (!peopleMap.containsKey(people.roomNumber)) {
@@ -30,7 +33,7 @@ class ProcessingPeoplesData(context: Context) {
             }
             peopleMap[people.roomNumber]?.add(people)
         }
-        // Ітеруємося по мапі, створюємо RoomModel об'єкти та додаємо їх до roomList
+        // итерируемся по карте, создаем RoomModel объекты и добавляем их к roomList.
         for ((roomNumber, peopleInRoom) in peopleMap) {
             val room = RoomModel(
                 roomNum = roomNumber.toInt(),
@@ -89,7 +92,7 @@ class ProcessingPeoplesData(context: Context) {
             }
             roomList.add(room)
         }
-        // Повертаємо roomList
+        // возвращаем roomList
         return roomList
     }
 
