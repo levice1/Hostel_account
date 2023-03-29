@@ -4,8 +4,8 @@ import android.content.Context
 import androidx.lifecycle.MutableLiveData
 import com.example.hostelaccount.db.DbManager
 import com.example.hostelaccount.db.PeopleItemModel
+import com.example.hostelaccount.model.Resident
 import com.example.hostelaccount.model.RoomModel
-
 class CreatingRoomsArray(context: Context) {
 
     // DB
@@ -36,66 +36,23 @@ class CreatingRoomsArray(context: Context) {
         // итерируемся по карте, создаем RoomModel объекты и добавляем их к roomList.
         for ((roomNumber, peopleInRoom) in peopleMap) {
             val room = RoomModel(
-                roomNum = roomNumber.toInt(),
-                nameMan1 = "",
-                idMan1 = "",
-                liveFromMan1 = "",
-                liveToMan1 = "",
-                usMan1 = "".toBoolean(),
-                additionalInfoMan1 = "",
-                nameMan2 = "",
-                idMan2 = "",
-                liveFromMan2 = "",
-                liveToMan2 = "",
-                usMan2 = "".toBoolean(),
-                additionalInfoMan2 = "",
-                nameMan3 = "",
-                idMan3 = "",
-                liveFromMan3 = "",
-                liveToMan3 = "",
-                usMan3 = "".toBoolean(),
-                additionalInfoMan3 = "",
-                nameMan4 = "",
-                idMan4 = "",
-                liveFromMan4 = "",
-                liveToMan4 = "",
-                usMan4 = "".toBoolean(),
-                additionalInfoMan4 = ""
+                roomNum = roomNumber,
+                people = mutableListOf()
             )
-            for ((index, people) in peopleInRoom.withIndex()) {
-                when (index) {
-                    0 -> {
-                        room.nameMan1 = people.guestName
-                        room.idMan1 = people.roomNumber
-                        room.liveFromMan1 = people.liveFrom
-                        room.liveToMan1 = people.liveTo
-                        room.usMan1 = people.usPeople
-                        room.additionalInfoMan1 = people.addInfo
-                    }
-                    1 -> {
-                        room.nameMan2 = people.guestName
-                        room.idMan2 = people.roomNumber
-                        room.liveFromMan2 = people.liveFrom
-                        room.liveToMan2 = people.liveTo
-                        room.usMan2 = people.usPeople
-                        room.additionalInfoMan2 = people.addInfo
-                    }
-                    2 -> {
-                        room.nameMan3 = people.guestName
-                        room.idMan3 = people.roomNumber
-                        room.liveFromMan3 = people.liveFrom
-                        room.liveToMan3 = people.liveTo
-                        room.usMan3 = people.usPeople
-                        room.additionalInfoMan3 = people.addInfo
-                    }
-                    3 -> {
-                        room.nameMan4 = people.guestName
-                        room.idMan4 = people.roomNumber
-                        room.liveFromMan4 = people.liveFrom
-                        room.liveToMan4 = people.liveTo
-                        room.usMan4 = people.usPeople
-                        room.additionalInfoMan4 = people.addInfo
-                    }
+            for (i in 0 until 4) {
+                if (i < peopleInRoom.size) {
+                    val people = peopleInRoom[i]
+                    val resident = Resident(
+                        name = people.guestName,
+                        id = people.id!!,
+                        liveFrom = people.liveFrom,
+                        liveTo = people.liveTo,
+                        usMan = people.usPeople,
+                        additionalInfo = people.addInfo
+                    )
+                    room.people += (resident)
+                } else {
+                    room.people += (Resident("", 0, "", "", false, ""))
                 }
             }
             roomList.add(room)
@@ -103,5 +60,6 @@ class CreatingRoomsArray(context: Context) {
         // возвращаем roomList
         return roomList
     }
+
 
 }

@@ -13,7 +13,7 @@ import com.example.hostelaccount.adapter.RoomListAdapter
 import com.example.hostelaccount.databinding.FragmentListRoomsBinding
 import com.example.hostelaccount.model.GetRoomsLiveDataModel
 import com.example.hostelaccount.model.RoomModel
-import com.example.hostelaccount.model.SharedViewModel
+import com.example.hostelaccount.model.PeopleIdViewModel
 import com.example.hostelaccount.viewmodel.CreatingRoomsArray
 
 class ListRoomsFragment : Fragment() {
@@ -57,7 +57,7 @@ class ListRoomsFragment : Fragment() {
     // Принимает массив комнат с уже распределёнными людьми
     private fun initRecyclerView(list:ArrayList<RoomModel>) {
         recyclerView = binding.recViewRoomsList
-        val viewModel = ViewModelProvider(requireActivity()).get(SharedViewModel::class.java)
+        val viewModel = ViewModelProvider(requireActivity()).get(PeopleIdViewModel::class.java)
         adapter = RoomListAdapter(viewModel)
         recyclerView.adapter = adapter
         adapter.setList(list)

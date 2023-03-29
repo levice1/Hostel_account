@@ -1,7 +1,6 @@
 package com.example.hostelaccount.view.accounting
 
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -11,7 +10,7 @@ import com.example.hostelaccount.R
 import com.example.hostelaccount.databinding.FragmentAccountingAddNewEntryBinding
 import com.example.hostelaccount.db.AccountingItemModel
 import com.example.hostelaccount.db.DbManager
-import com.example.hostelaccount.model.SharedViewModel
+import com.example.hostelaccount.model.AccountingViewModel
 
 
 class AccountingAddNewEntryFragment : Fragment() {
@@ -28,7 +27,7 @@ class AccountingAddNewEntryFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         // определение viewModel для приёма данных от фрагмента
-        val viewModel = ViewModelProvider(requireActivity()).get(SharedViewModel::class.java)
+        val viewModel = ViewModelProvider(requireActivity()).get(AccountingViewModel::class.java)
         // определение переменной БД
         val db = DbManager.getInstance(requireActivity())
         //  определение объекта viewModel и получение данных
@@ -47,7 +46,6 @@ class AccountingAddNewEntryFragment : Fragment() {
                     db.accountingDao().deleteById(inputData.id!!)
                     startAccountingListFragment()
                 }.start()
-
             }
         }
 
@@ -55,8 +53,8 @@ class AccountingAddNewEntryFragment : Fragment() {
         binding.btnSave.setOnClickListener {
             // ЕСЛИ БЫЛИ ПЕРЕДАНЫ ДАННЫЕ, ТО ID ПРИСВАЕВАЕТ ТОТ ЧТО БЫЛ ПЕРЕДАН. ЕСЛИ НЕТ ТО NULL
             var id :Int? = null
-            if (inputData?.id != null) { id = inputData.id
-            }
+            if (inputData?.id != null) id = inputData.id
+
             // создание переменной с введёнными данными
             val accountingItem = AccountingItemModel(id,
                 binding.txtPlDate.text.toString(),
@@ -66,9 +64,9 @@ class AccountingAddNewEntryFragment : Fragment() {
             )
             // запуск нового потока для асинхронного сохранения данных в БД
             Thread {
-                     db.accountingDao().insertAll(accountingItem) // сохранение
+                db.accountingDao().insertAll(accountingItem) // сохранение
                 // запуск первого фрагмента после сохранения
-               startAccountingListFragment()
+                startAccountingListFragment()
             }.start()
         }
     }

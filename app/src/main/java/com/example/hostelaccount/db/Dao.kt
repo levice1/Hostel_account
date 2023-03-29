@@ -13,7 +13,10 @@ interface PeopleDao {
     @Query("SELECT * FROM Peoples")
     fun getAll(): List<PeopleItemModel>
 
-    @Insert
+    @Query("SELECT * FROM Peoples WHERE id=:id")
+    fun getById(id: Int): PeopleItemModel?
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertAll(vararg peopleItemModels: PeopleItemModel)
 }
 

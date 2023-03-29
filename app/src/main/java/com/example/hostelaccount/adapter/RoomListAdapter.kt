@@ -7,12 +7,15 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.hostelaccount.R
 import com.example.hostelaccount.databinding.RecViewRoomListLayoutBinding
 import com.example.hostelaccount.model.RoomModel
-import com.example.hostelaccount.model.SharedViewModel
+import com.example.hostelaccount.model.PeopleIdViewModel
+import com.example.hostelaccount.model.Resident
+import com.example.hostelaccount.view.peoples.AddNewPeopleFragment
+import com.example.hostelaccount.view.peoples.ListRoomsFragment
 
-class RoomListAdapter(private val viewModel: SharedViewModel): RecyclerView.Adapter<RoomListAdapter.ViewHolder>() {
+class RoomListAdapter(private val viewModel: PeopleIdViewModel): RecyclerView.Adapter<RoomListAdapter.ViewHolder>() {
     inner class ViewHolder (val binding: RecViewRoomListLayoutBinding) : RecyclerView.ViewHolder(binding.root)
 
-    private var roomsList = ArrayList<RoomModel>()
+    var roomsList = ArrayList<RoomModel>()
 
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -27,48 +30,62 @@ class RoomListAdapter(private val viewModel: SharedViewModel): RecyclerView.Adap
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.binding.txtRoomNum.text = roomsList[position].roomNum.toString()
 
-        holder.binding.txtManOnBed1.text = roomsList[position].nameMan1
-        holder.binding.txtFromBed1.text = roomsList[position].liveFromMan1
-        holder.binding.txtToBed1.text = roomsList[position].liveToMan1
-        if (!roomsList[position].usMan1 && roomsList[position].nameMan1 != "") holder.binding.bed1.setBackgroundColor((holder.itemView.context as AppCompatActivity).getColor(
-            R.color.not_us_man))
+        // BED 1
+        holder.binding.txtManOnBed1.text = roomsList[position].people[0].name
+        holder.binding.txtFromBed1.text = roomsList[position].people[0].liveFrom
+        holder.binding.txtToBed1.text = roomsList[position].people[0].liveTo
+        if (!roomsList[position].people[0].usMan && roomsList[position].people[0].name != ""){
+            holder.binding.bed1.setBackgroundColor((holder.itemView.context as AppCompatActivity).getColor(R.color.not_us_man))
+        }
+        holder.binding.bed1.setOnClickListener(){
+            startFragForEditing(holder,roomsList[position].roomNum ,roomsList[position].people[0])
+        }
 
-        holder.binding.txtManOnBed2.text = roomsList[position].nameMan2
-        holder.binding.txtFromBed2.text = roomsList[position].liveFromMan2
-        holder.binding.txtToBed2.text = roomsList[position].liveToMan2
-        if (!roomsList[position].usMan2 && roomsList[position].nameMan2 != "") holder.binding.bed2.setBackgroundColor((holder.itemView.context as AppCompatActivity).getColor(
-            R.color.not_us_man))
+        // BED 2
+        holder.binding.txtManOnBed2.text = roomsList[position].people[1].name
+        holder.binding.txtFromBed2.text = roomsList[position].people[1].liveFrom
+        holder.binding.txtToBed2.text = roomsList[position].people[1].liveTo
+        if (!roomsList[position].people[1].usMan && roomsList[position].people[1].name != ""){
+            holder.binding.bed2.setBackgroundColor((holder.itemView.context as AppCompatActivity).getColor(R.color.not_us_man))
+        }
+        holder.binding.bed2.setOnClickListener(){
+            startFragForEditing(holder,roomsList[position].roomNum ,roomsList[position].people[1])
+        }
 
-        holder.binding.txtManOnBed3.text = roomsList[position].nameMan3
-        holder.binding.txtFromBed3.text = roomsList[position].liveFromMan3
-        holder.binding.txtToBed3.text = roomsList[position].liveToMan3
-        if (!roomsList[position].usMan3 && roomsList[position].nameMan3 != "") holder.binding.bed3.setBackgroundColor((holder.itemView.context as AppCompatActivity).getColor(
-            R.color.not_us_man))
+        // BED 3
+        holder.binding.txtManOnBed3.text = roomsList[position].people[2].name
+        holder.binding.txtFromBed3.text = roomsList[position].people[2].liveFrom
+        holder.binding.txtToBed3.text = roomsList[position].people[2].liveTo
+        if (!roomsList[position].people[2].usMan && roomsList[position].people[2].name != "") {
+            holder.binding.bed3.setBackgroundColor((holder.itemView.context as AppCompatActivity).getColor(R.color.not_us_man))
+        }
+        holder.binding.bed3.setOnClickListener(){
+            startFragForEditing(holder,roomsList[position].roomNum ,roomsList[position].people[2])
+        }
 
-        holder.binding.txtManOnBed4.text = roomsList[position].nameMan4
-        holder.binding.txtFromBed4.text = roomsList[position].liveFromMan4
-        holder.binding.txtToBed4.text = roomsList[position].liveToMan4
-        if (!roomsList[position].usMan4 && roomsList[position].nameMan4 != "") holder.binding.bed4.setBackgroundColor((holder.itemView.context as AppCompatActivity).getColor(
-            R.color.not_us_man))
+        // BED 4
+        holder.binding.txtManOnBed4.text = roomsList[position].people[3].name
+        holder.binding.txtFromBed4.text = roomsList[position].people[3].liveFrom
+        holder.binding.txtToBed4.text = roomsList[position].people[3].liveTo
+        if (!roomsList[position].people[3].usMan && roomsList[position].people[3].name != "") {
+            holder.binding.bed4.setBackgroundColor((holder.itemView.context as AppCompatActivity).getColor(R.color.not_us_man))
+        }
+        holder.binding.bed4.setOnClickListener(){
+            startFragForEditing(holder,roomsList[position].roomNum ,roomsList[position].people[3])
+        }
 
+    }
 
-    /*  if (accountingList[position].profit) holder.binding.mainLinLayout.setBackgroundColor((holder.itemView.context as AppCompatActivity).getColor(
-            R.color.profit_plus))
-
-         // слушатель нажатий на каждый елемент
-                  holder.itemView.setOnClickListener {
-             // при нажатии устанавлявает данные у viewModel
-             viewModel.setData(accountingList[position])
-             // и запускает новый фрагмент
-             val fragmentManager = (holder.itemView.context as AppCompatActivity).supportFragmentManager
-             val transaction = fragmentManager.beginTransaction()
-             transaction.replace(R.id.fragmentLayoutAccounting, AccountingListFragment.newInstance()).apply {
-                 replace(R.id.fragmentLayoutAccounting, AccountingAddNewEntryFragment.newInstance())
-                 addToBackStack(null)
-                 commit()
-             }
-         }*/
-
+    private fun startFragForEditing(holder: ViewHolder, roomNum: String, resident: Resident){
+        viewModel.setData(resident, roomNum)
+        // и запускает новый фрагмент
+        val fragmentManager = (holder.itemView.context as AppCompatActivity).supportFragmentManager
+        val transaction = fragmentManager.beginTransaction()
+        transaction.replace(R.id.fragmentLayoutPeoples, ListRoomsFragment.newInstance()).apply {
+            replace(R.id.fragmentLayoutPeoples, AddNewPeopleFragment.newInstance())
+            addToBackStack(null)
+            commit()
+        }
     }
 
     fun setList(list: ArrayList<RoomModel>) {

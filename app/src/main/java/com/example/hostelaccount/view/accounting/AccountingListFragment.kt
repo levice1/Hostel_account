@@ -13,7 +13,7 @@ import com.example.hostelaccount.adapter.AccountingListAdapter
 import com.example.hostelaccount.databinding.FragmentAccountingListBinding
 import com.example.hostelaccount.db.AccountingItemModel
 import com.example.hostelaccount.db.DbManager
-import com.example.hostelaccount.model.SharedViewModel
+import com.example.hostelaccount.model.AccountingViewModel
 
 class AccountingListFragment : Fragment() {
     private lateinit var binding: FragmentAccountingListBinding
@@ -49,7 +49,7 @@ class AccountingListFragment : Fragment() {
 
     private fun initRecyclerView(list:List<AccountingItemModel>) { // функция инициализации адаптера
         recyclerView = binding.recViewAccountingList
-        val viewModel = ViewModelProvider(requireActivity()).get(SharedViewModel::class.java)
+        val viewModel = ViewModelProvider(requireActivity()).get(AccountingViewModel::class.java)
         adapter = AccountingListAdapter(viewModel)
         recyclerView.adapter = adapter
         adapter.setList(list)

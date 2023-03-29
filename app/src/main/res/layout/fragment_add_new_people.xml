@@ -30,7 +30,7 @@
         android:layout_marginTop="16dp"
         android:ems="10"
         android:hint="Room number"
-        android:inputType="textPersonName"
+        android:inputType="numberSigned|text"
         android:minHeight="48dp"
         android:padding="10dp"
         android:textColor="#FFFFFF"

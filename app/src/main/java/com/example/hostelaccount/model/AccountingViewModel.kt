@@ -5,7 +5,7 @@ import com.example.hostelaccount.db.AccountingItemModel
 
 
 // КЛАСС ДЛЯ ViewModel С МЕТОДАМИ ЗАПИСИ И ПОЛУЧЕНИЯ ДАННЫХ
-class SharedViewModel : ViewModel() {
+class AccountingViewModel : ViewModel() {
     private var data: AccountingItemModel? = null
 
     fun setData(newData: AccountingItemModel) {

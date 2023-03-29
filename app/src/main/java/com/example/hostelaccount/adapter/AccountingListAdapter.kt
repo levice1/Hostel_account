@@ -6,14 +6,13 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.RecyclerView
 import com.example.hostelaccount.R
 import com.example.hostelaccount.databinding.RecViewAccountingListLayoutBinding
-import com.example.hostelaccount.databinding.RecViewRoomListLayoutBinding
 import com.example.hostelaccount.db.AccountingItemModel
-import com.example.hostelaccount.model.SharedViewModel
+import com.example.hostelaccount.model.AccountingViewModel
 import com.example.hostelaccount.view.accounting.AccountingAddNewEntryFragment
 import com.example.hostelaccount.view.accounting.AccountingListFragment
 
 
-class AccountingListAdapter(private val viewModel: SharedViewModel): RecyclerView.Adapter<AccountingListAdapter.ViewHolder>() {
+class AccountingListAdapter(private val viewModel: AccountingViewModel): RecyclerView.Adapter<AccountingListAdapter.ViewHolder>() {
     inner class ViewHolder ( val binding: RecViewAccountingListLayoutBinding) : RecyclerView.ViewHolder(binding.root)
 
    private var accountingList = ArrayList<AccountingItemModel>()
