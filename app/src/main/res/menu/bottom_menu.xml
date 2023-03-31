@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    app:labelVisibilityMode="labeled" >
+    <item
+        android:id="@+id/menu_rooms"
+        android:title="Rooms"
+        android:orderInCategory="2"
+        android:icon="@drawable/rooms"
+        />
+    <item
+        android:id="@+id/menu_accounting"
+        android:title="Accounting"
+        android:orderInCategory="3"
+        android:icon="@drawable/accounting"
+        />
+    <item
+        android:id="@+id/menu_main"
+        android:title="Statistic"
+        android:orderInCategory="1"
+        android:icon="@drawable/statistic"
+        />
+
+</menu>

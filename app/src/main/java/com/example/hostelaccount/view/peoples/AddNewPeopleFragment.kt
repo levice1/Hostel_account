@@ -29,13 +29,16 @@ class AddNewPeopleFragment : Fragment() {
         val viewModel = ViewModelProvider(requireActivity()).get(PeopleIdViewModel::class.java)
         //  определение объекта viewModel и получение данных
         val inputData = viewModel.getData()
-        viewModel.setData(null,null)
+//        viewModel.setData(null,null) под вопросом
         // определение переменной БД
         val db = DbManager.getInstance(requireActivity())
 
 
         //  ЕСЛИ БЫЛИ ПЕРЕДАНЫ ДАННЫЕ ИЗ ДРУГОГО ФРАГМЕНТА, ТО ЗАПОЛНЯЕТ ПОЛЯ АВТОМАТИЧЕСКИ
-        if (inputData != null) fillFields(inputData)
+        if (inputData != null) {
+            fillFields(inputData)
+            initDeleteBtn(db,inputData.id!!)
+        }
         // слушатель нажатий на кнопку сохранить
         initSaveBtnListener(inputData, db)
     }
@@ -51,9 +54,10 @@ class AddNewPeopleFragment : Fragment() {
             .commit()
     }
 
+
+    // инициализация кнопки сохранить
     private fun initSaveBtnListener(inputData: PeopleItemModel?, db: DbManager){ // функция инициализации слушателя нажатий на кнопку сохранить
         binding.btnSave.setOnClickListener {
-
             // ЕСЛИ БЫЛИ ПЕРЕДАНЫ ДАННЫЕ, ТО ID ПРИСВАЕВАЕТ ТОТ ЧТО БЫЛ ПЕРЕДАН. ЕСЛИ НЕТ ТО NULL
             var id :Int? = null
             if (inputData != null) id = inputData.id
@@ -75,7 +79,9 @@ class AddNewPeopleFragment : Fragment() {
         }
     }
 
-    private fun fillFields(people: PeopleItemModel ){
+
+    // если были переданы данные - заполняет поля автоматически
+    private fun fillFields(people: PeopleItemModel){
         binding.txtNameNewMan.setText(people.guestName)
         binding.txtRoomNumNewMan.setText(people.roomNumber)
         binding.txtPlDateFrom.setText(people.liveFrom)
@@ -83,4 +89,20 @@ class AddNewPeopleFragment : Fragment() {
         binding.txtEdAddInfo.setText(people.addInfo)
         binding.switchUsMan.isChecked = people.usPeople
     }
+
+
+    // инициализация кнопки удалить, и слушателя нажатий
+    // когда слушатель срабатывает - отправляет команду в ДАО БД на удаление, и передаёт id удаляемого
+    private fun initDeleteBtn(db: DbManager, id: Int) {
+        binding.btnDelete.visibility = View.VISIBLE
+        binding.btnDelete.setOnClickListener() {
+            Thread {
+                db.peopleDao().deleteById(id)
+                startPeoplesListFragment()
+            }.start()
+        }
+    }
+
+
+
 }

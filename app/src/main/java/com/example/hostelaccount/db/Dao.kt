@@ -18,6 +18,9 @@ interface PeopleDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertAll(vararg peopleItemModels: PeopleItemModel)
+
+    @Query("DELETE FROM Peoples WHERE id = :id")
+    fun deleteById(id: Int)
 }
 
 @Dao

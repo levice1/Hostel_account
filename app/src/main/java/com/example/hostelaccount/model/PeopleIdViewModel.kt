@@ -28,8 +28,4 @@ class PeopleIdViewModel : ViewModel() {
     fun getData(): PeopleItemModel? {
         return residentData
     }
-
-    override fun onCleared() {
-        super.onCleared()
-    }
 }

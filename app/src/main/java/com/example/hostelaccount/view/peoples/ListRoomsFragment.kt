@@ -17,6 +17,7 @@ import com.example.hostelaccount.model.PeopleIdViewModel
 import com.example.hostelaccount.viewmodel.CreatingRoomsArray
 
 class ListRoomsFragment : Fragment() {
+
     lateinit var binding: FragmentListRoomsBinding
 
     private lateinit var adapter: RoomListAdapter
@@ -34,10 +35,8 @@ class ListRoomsFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        // создание обьекта для обработки
-        val creatingRoomsArray = CreatingRoomsArray(requireContext())
         // запуск класса для обработки данных людей и преобразование их в массив комнат
-        creatingRoomsArray.getRoomList(getRoomsLiveData.roomsLiveData)
+        CreatingRoomsArray(requireContext()).getRoomList(getRoomsLiveData.roomsLiveData)
         // наблюдатель. Ждёт обработанные данные из класса CreatingRoomsArray
         getRoomsLiveData.roomsLiveData.observe(viewLifecycleOwner) {
             // когда получит данные - отправляет их в адаптер RecView
