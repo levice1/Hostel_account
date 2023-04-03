@@ -6,13 +6,17 @@ import com.example.hostelaccount.db.local.AccountingItemModel
 
 // КЛАСС ДЛЯ ViewModel С МЕТОДАМИ ЗАПИСИ И ПОЛУЧЕНИЯ ДАННЫХ
 class AccountingViewModel : ViewModel() {
-    private var data: AccountingItemModel? = null
+    private var accountingData: AccountingItemModel? = null
 
     fun setData(newData: AccountingItemModel) {
-        data = newData
+        accountingData = newData
     }
 
     fun getData(): AccountingItemModel? {
-        return data
+        return accountingData
+    }
+
+    fun clearData(){
+        accountingData = null
     }
 }

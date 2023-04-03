@@ -142,7 +142,9 @@
             android:backgroundTintMode="add"
             android:padding="10dp"
             android:text="delete"
-            android:textColor="#B33030" />
+            android:textColor="#B33030"
+            android:visibility="gone"
+            tools:visibility="visible" />
 
         <Button
             android:id="@+id/btnSave"

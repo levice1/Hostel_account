@@ -1,7 +1,7 @@
 package com.example.hostelaccount.model
 
 data class RoomModel(
-    var roomNum: String,
+    var roomNum: Int,
     var people: List<Resident>
 
 )

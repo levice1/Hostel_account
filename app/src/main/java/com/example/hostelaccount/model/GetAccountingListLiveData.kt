@@ -5,6 +5,6 @@ import androidx.lifecycle.ViewModel
 import com.example.hostelaccount.db.local.AccountingItemModel
 
 
-open class GetAccountingListLiveData: ViewModel() {
-    val accountingListLiveData = MutableLiveData<List<AccountingItemModel>>()
-}
+//open class GetAccountingListLiveData: ViewModel() {
+//    val accountingListLiveData = MutableLiveData<List<AccountingItemModel>>()
+//}

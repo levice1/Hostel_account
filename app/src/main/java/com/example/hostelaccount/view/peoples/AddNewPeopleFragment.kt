@@ -15,6 +15,8 @@ import com.example.hostelaccount.model.PeopleIdViewModel
 class AddNewPeopleFragment : Fragment() {
     lateinit var binding: FragmentAddNewPeopleBinding
 
+    lateinit var viewModel: PeopleIdViewModel
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle? ): View {
@@ -22,13 +24,19 @@ class AddNewPeopleFragment : Fragment() {
         return binding.root
     }
 
+    override fun onStop() {
+        super.onStop()
+        viewModel.clearData()
+    }
+
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         // определение viewModel для приёма данных от фрагмента
-        val viewModel = ViewModelProvider(requireActivity()).get(PeopleIdViewModel::class.java)
+        viewModel = ViewModelProvider(requireActivity()).get(PeopleIdViewModel::class.java)
         //  определение объекта viewModel и получение данных
         val inputData = viewModel.getData()
+
 //        viewModel.setData(null,null) под вопросом
         // определение переменной БД
         val db = DbManager.getInstance(requireActivity())
@@ -63,7 +71,7 @@ class AddNewPeopleFragment : Fragment() {
             if (inputData != null) id = inputData.id
             // создание переменной с введёнными данными
             val peopleItem = PeopleItemModel(id,
-                binding.txtRoomNumNewMan.text.toString(),
+                binding.txtRoomNumNewMan.text.toString().toInt(),
                 binding.txtNameNewMan.text.toString(),
                 binding.txtPlDateFrom.text.toString(),
                 binding.txtPlDateTo.text.toString(),

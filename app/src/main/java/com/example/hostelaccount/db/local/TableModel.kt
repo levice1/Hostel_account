@@ -10,7 +10,7 @@ data class PeopleItemModel (
     @PrimaryKey (autoGenerate = true)
     var id : Int? = null,
     @ColumnInfo ( name = "roomNumber")
-    var roomNumber: String,
+    var roomNumber: Int,
     @ColumnInfo ( name = "guestName")
     var guestName: String,
     @ColumnInfo ( name = "liveFrom")

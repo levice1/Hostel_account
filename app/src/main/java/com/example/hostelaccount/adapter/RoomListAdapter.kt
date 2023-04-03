@@ -76,7 +76,7 @@ class RoomListAdapter(private val viewModel: PeopleIdViewModel): RecyclerView.Ad
 
     }
 
-    private fun startFragForEditing(holder: ViewHolder, roomNum: String, resident: Resident){
+    private fun startFragForEditing(holder: ViewHolder, roomNum: Int, resident: Resident){
         viewModel.setData(resident, roomNum)
         // и запускает новый фрагмент
         val fragmentManager = (holder.itemView.context as AppCompatActivity).supportFragmentManager

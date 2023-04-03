@@ -11,7 +11,7 @@ class PeopleIdViewModel : ViewModel() {
 
     // так как CreatingRoomArray не возвращает в каждом резиденте номер комнаты, мы формируем обьект PeopleItemModel здесь.
     // Это сделано для передачи человека со всеми данными, из фрагмента списка комнат в фрагмент редактирования, при нажатии на него.
-    fun setData(resident: Resident?, roomNum: String?) {
+    fun setData(resident: Resident?, roomNum: Int?) {
         if (resident != null && roomNum != null) {
             residentData = PeopleItemModel(
                 resident.id,
@@ -27,5 +27,9 @@ class PeopleIdViewModel : ViewModel() {
 
     fun getData(): PeopleItemModel? {
         return residentData
+    }
+
+    fun clearData(){
+        residentData = null
     }
 }

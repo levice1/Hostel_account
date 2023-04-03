@@ -11,11 +11,14 @@ import com.example.hostelaccount.databinding.FragmentAccountingAddNewEntryBindin
 import com.example.hostelaccount.db.local.AccountingItemModel
 import com.example.hostelaccount.db.local.DbManager
 import com.example.hostelaccount.model.AccountingViewModel
+import com.example.hostelaccount.model.PeopleIdViewModel
 
 
 class AccountingAddNewEntryFragment : Fragment() {
 
     lateinit var binding: FragmentAccountingAddNewEntryBinding
+
+    lateinit var viewModel: AccountingViewModel
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -24,10 +27,15 @@ class AccountingAddNewEntryFragment : Fragment() {
         return binding.root
     }
 
+    override fun onStop() {
+        super.onStop()
+        viewModel.clearData()
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         // определение viewModel для приёма данных от фрагмента
-        val viewModel = ViewModelProvider(requireActivity()).get(AccountingViewModel::class.java)
+        viewModel = ViewModelProvider(requireActivity()).get(AccountingViewModel::class.java)
         // определение переменной БД
         val db = DbManager.getInstance(requireActivity())
         //  определение объекта viewModel и получение данных
