@@ -25,7 +25,7 @@ interface PeopleDao {
 
 @Dao
 interface AccountingDao {
-    @Query("SELECT * FROM Accounting ORDER BY date ASC")
+    @Query("SELECT * FROM Accounting ORDER BY id DESC")
     fun getAll(): Flow<List<AccountingItemModel>>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)

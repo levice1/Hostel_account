@@ -14,6 +14,7 @@ import com.example.hostelaccount.databinding.FragmentAccountingListBinding
 import com.example.hostelaccount.db.local.AccountingItemModel
 import com.example.hostelaccount.db.local.DbManager
 import com.example.hostelaccount.model.AccountingViewModel
+import com.example.hostelaccount.viewmodel.SortAccountingItems
 
 class AccountingListFragment : Fragment() {
     private lateinit var binding: FragmentAccountingListBinding
@@ -52,7 +53,7 @@ class AccountingListFragment : Fragment() {
         val viewModel = ViewModelProvider(requireActivity()).get(AccountingViewModel::class.java)
         adapter = AccountingListAdapter(viewModel)
         recyclerView.adapter = adapter
-        adapter.setList(list)
+        adapter.setList(SortAccountingItems(list).getSortedList())
     }
 
     private fun initAddButton(){ // функция инициализации кнопки добавления новой записи
