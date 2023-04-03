@@ -5,6 +5,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.asLiveData
 import androidx.recyclerview.widget.RecyclerView
@@ -14,6 +15,7 @@ import com.example.hostelaccount.databinding.FragmentAccountingListBinding
 import com.example.hostelaccount.db.local.AccountingItemModel
 import com.example.hostelaccount.db.local.DbManager
 import com.example.hostelaccount.model.AccountingViewModel
+import com.example.hostelaccount.view.FragmentManageHelper
 import com.example.hostelaccount.viewmodel.SortAccountingItems
 
 class AccountingListFragment : Fragment() {
@@ -58,10 +60,8 @@ class AccountingListFragment : Fragment() {
 
     private fun initAddButton(){ // функция инициализации кнопки добавления новой записи
         binding.btnAddNewEntry.setOnClickListener {
-            val fragmentManager = fragmentManager
-            fragmentManager?.beginTransaction()
-                ?.replace(R.id.fragmentLayoutAccounting, AccountingAddNewEntryFragment.newInstance(), "TAG")!!
-                .commit()
+            FragmentManageHelper(parentFragmentManager)
+                .initFragment(R.id.fragmentLayoutAccounting, AccountingAddNewEntryFragment.newInstance())
         }
     }
 }

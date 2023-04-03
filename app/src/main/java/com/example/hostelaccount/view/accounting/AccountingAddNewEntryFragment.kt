@@ -12,6 +12,7 @@ import com.example.hostelaccount.db.local.AccountingItemModel
 import com.example.hostelaccount.db.local.DbManager
 import com.example.hostelaccount.model.AccountingViewModel
 import com.example.hostelaccount.model.PeopleIdViewModel
+import com.example.hostelaccount.view.FragmentManageHelper
 
 
 class AccountingAddNewEntryFragment : Fragment() {
@@ -52,7 +53,8 @@ class AccountingAddNewEntryFragment : Fragment() {
             binding.btnDelete.setOnClickListener {
                 Thread {
                     db.accountingDao().deleteById(inputData.id!!)
-                    startAccountingListFragment()
+                    FragmentManageHelper(parentFragmentManager)
+                        .initFragment(R.id.fragmentLayoutAccounting, AccountingListFragment.newInstance())
                 }.start()
             }
         }
@@ -74,7 +76,8 @@ class AccountingAddNewEntryFragment : Fragment() {
             Thread {
                 db.accountingDao().insertAll(accountingItem) // сохранение
                 // запуск первого фрагмента после сохранения
-                startAccountingListFragment()
+                FragmentManageHelper(parentFragmentManager)
+                    .initFragment(R.id.fragmentLayoutAccounting, AccountingListFragment.newInstance())
             }.start()
         }
     }
@@ -83,13 +86,6 @@ class AccountingAddNewEntryFragment : Fragment() {
         @JvmStatic
         fun newInstance() = AccountingAddNewEntryFragment()
     }
-
-    fun startAccountingListFragment() { // функция запуска первого фрагмента
-        @Suppress("DEPRECATION")
-        fragmentManager?.beginTransaction()?.replace(R.id.fragmentLayoutAccounting, AccountingListFragment.newInstance(), "TAG")!!
-            .commit()
-    }
-
 }
 
 

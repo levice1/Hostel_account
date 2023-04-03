@@ -9,13 +9,14 @@ import com.example.hostelaccount.databinding.RecViewRoomListLayoutBinding
 import com.example.hostelaccount.model.RoomModel
 import com.example.hostelaccount.model.PeopleIdViewModel
 import com.example.hostelaccount.model.Resident
+import com.example.hostelaccount.view.FragmentManageHelper
 import com.example.hostelaccount.view.peoples.AddNewPeopleFragment
 import com.example.hostelaccount.view.peoples.ListRoomsFragment
 
 class RoomListAdapter(private val viewModel: PeopleIdViewModel): RecyclerView.Adapter<RoomListAdapter.ViewHolder>() {
     inner class ViewHolder (val binding: RecViewRoomListLayoutBinding) : RecyclerView.ViewHolder(binding.root)
 
-    var roomsList = ArrayList<RoomModel>()
+    private var roomsList = ArrayList<RoomModel>()
 
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -80,12 +81,12 @@ class RoomListAdapter(private val viewModel: PeopleIdViewModel): RecyclerView.Ad
         viewModel.setData(resident, roomNum)
         // и запускает новый фрагмент
         val fragmentManager = (holder.itemView.context as AppCompatActivity).supportFragmentManager
-        val transaction = fragmentManager.beginTransaction()
-        transaction.replace(R.id.fragmentLayoutPeoples, ListRoomsFragment.newInstance()).apply {
-            replace(R.id.fragmentLayoutPeoples, AddNewPeopleFragment.newInstance())
-            addToBackStack(null)
-            commit()
-        }
+        FragmentManageHelper(fragmentManager)
+            .replaceFragment(
+                R.id.fragmentLayoutPeoples,
+                ListRoomsFragment.newInstance(),
+                AddNewPeopleFragment.newInstance()
+            )
     }
 
     fun setList(list: ArrayList<RoomModel>) {

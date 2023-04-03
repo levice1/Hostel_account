@@ -8,6 +8,7 @@ import com.example.hostelaccount.R
 import com.example.hostelaccount.databinding.RecViewAccountingListLayoutBinding
 import com.example.hostelaccount.db.local.AccountingItemModel
 import com.example.hostelaccount.model.AccountingViewModel
+import com.example.hostelaccount.view.FragmentManageHelper
 import com.example.hostelaccount.view.accounting.AccountingAddNewEntryFragment
 import com.example.hostelaccount.view.accounting.AccountingListFragment
 
@@ -40,14 +41,13 @@ class AccountingListAdapter(private val viewModel: AccountingViewModel): Recycle
             viewModel.setData(accountingList[position])
             // и запускает новый фрагмент
             val fragmentManager = (holder.itemView.context as AppCompatActivity).supportFragmentManager
-            val transaction = fragmentManager.beginTransaction()
-            transaction.replace(R.id.fragmentLayoutAccounting, AccountingListFragment.newInstance()).apply {
-                replace(R.id.fragmentLayoutAccounting, AccountingAddNewEntryFragment.newInstance())
-                addToBackStack(null)
-                commit()
-            }
+            FragmentManageHelper(fragmentManager)
+                .replaceFragment(
+                    R.id.fragmentLayoutAccounting,
+                    AccountingListFragment.newInstance(),
+                    AccountingAddNewEntryFragment.newInstance()
+                )
         }
-
     }
 
     fun setList(list: List<AccountingItemModel>) {

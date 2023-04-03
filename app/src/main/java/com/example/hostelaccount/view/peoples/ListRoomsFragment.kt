@@ -14,6 +14,7 @@ import com.example.hostelaccount.databinding.FragmentListRoomsBinding
 import com.example.hostelaccount.model.GetRoomsLiveDataModel
 import com.example.hostelaccount.model.RoomModel
 import com.example.hostelaccount.model.PeopleIdViewModel
+import com.example.hostelaccount.view.FragmentManageHelper
 import com.example.hostelaccount.viewmodel.CreatingRoomsArray
 
 class ListRoomsFragment : Fragment() {
@@ -66,10 +67,8 @@ class ListRoomsFragment : Fragment() {
     // функция инициализации кнопки добавления нового человека
     private fun initAddButton(){
         binding.btnAddNewGuest.setOnClickListener {
-            val fragmentManager = fragmentManager
-            fragmentManager?.beginTransaction()
-                ?.replace(R.id.fragmentLayoutPeoples, AddNewPeopleFragment.newInstance(), "TAG")!!
-                .commit()
+            FragmentManageHelper(parentFragmentManager)
+                .initFragment(R.id.fragmentLayoutPeoples, AddNewPeopleFragment.newInstance())
         }
     }
 }

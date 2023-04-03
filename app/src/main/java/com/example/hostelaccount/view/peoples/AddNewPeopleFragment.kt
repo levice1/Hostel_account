@@ -11,6 +11,7 @@ import com.example.hostelaccount.databinding.FragmentAddNewPeopleBinding
 import com.example.hostelaccount.db.local.DbManager
 import com.example.hostelaccount.db.local.PeopleItemModel
 import com.example.hostelaccount.model.PeopleIdViewModel
+import com.example.hostelaccount.view.FragmentManageHelper
 
 class AddNewPeopleFragment : Fragment() {
     lateinit var binding: FragmentAddNewPeopleBinding
@@ -56,12 +57,6 @@ class AddNewPeopleFragment : Fragment() {
         fun newInstance() = AddNewPeopleFragment()
     }
 
-    private fun startPeoplesListFragment() { // функция запуска первого фрагмента
-        @Suppress("DEPRECATION")
-        fragmentManager?.beginTransaction()?.replace(R.id.fragmentLayoutPeoples, ListRoomsFragment.newInstance(), "TAG")!!
-            .commit()
-    }
-
 
     // инициализация кнопки сохранить
     private fun initSaveBtnListener(inputData: PeopleItemModel?, db: DbManager){ // функция инициализации слушателя нажатий на кнопку сохранить
@@ -82,7 +77,7 @@ class AddNewPeopleFragment : Fragment() {
             Thread {
                 db.peopleDao().insertAll(peopleItem) // сохранение
                 // запуск первого фрагмента после сохранения
-                startPeoplesListFragment()
+                FragmentManageHelper(parentFragmentManager).initFragment(R.id.fragmentLayoutPeoples, ListRoomsFragment.newInstance())
             }.start()
         }
     }
@@ -91,7 +86,7 @@ class AddNewPeopleFragment : Fragment() {
     // если были переданы данные - заполняет поля автоматически
     private fun fillFields(people: PeopleItemModel){
         binding.txtNameNewMan.setText(people.guestName)
-        binding.txtRoomNumNewMan.setText(people.roomNumber)
+        binding.txtRoomNumNewMan.setText(people.roomNumber.toString())
         binding.txtPlDateFrom.setText(people.liveFrom)
         binding.txtPlDateTo.setText(people.liveTo)
         binding.txtEdAddInfo.setText(people.addInfo)
@@ -106,7 +101,7 @@ class AddNewPeopleFragment : Fragment() {
         binding.btnDelete.setOnClickListener() {
             Thread {
                 db.peopleDao().deleteById(id)
-                startPeoplesListFragment()
+                FragmentManageHelper(parentFragmentManager).initFragment(R.id.fragmentLayoutPeoples, ListRoomsFragment.newInstance())
             }.start()
         }
     }
