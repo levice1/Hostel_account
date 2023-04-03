@@ -1,7 +1,7 @@
 package com.example.hostelaccount.viewmodel
 
 import androidx.lifecycle.MutableLiveData
-import com.example.hostelaccount.db.DbManager
+import com.example.hostelaccount.db.local.DbManager
 
 class CalculatingPeople(val db: DbManager, val peoplesCountLiveData: MutableLiveData<Int>) {
 

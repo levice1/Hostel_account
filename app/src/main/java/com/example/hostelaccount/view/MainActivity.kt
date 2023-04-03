@@ -3,11 +3,9 @@ package com.example.hostelaccount.view
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.activity.viewModels
-import androidx.fragment.app.viewModels
 import com.example.hostelaccount.databinding.ActivityMainBinding
-import com.example.hostelaccount.db.DbManager
+import com.example.hostelaccount.db.local.DbManager
 import com.example.hostelaccount.model.GetCountAllPeoples
-import com.example.hostelaccount.model.GetRoomsLiveDataModel
 import com.example.hostelaccount.viewmodel.CalculatingMoney
 import com.example.hostelaccount.viewmodel.CalculatingPeople
 import com.example.hostelaccount.viewmodel.InitMenuChoise

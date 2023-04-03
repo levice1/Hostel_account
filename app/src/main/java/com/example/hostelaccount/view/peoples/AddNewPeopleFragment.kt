@@ -8,8 +8,8 @@ import android.view.ViewGroup
 import androidx.lifecycle.ViewModelProvider
 import com.example.hostelaccount.R
 import com.example.hostelaccount.databinding.FragmentAddNewPeopleBinding
-import com.example.hostelaccount.db.DbManager
-import com.example.hostelaccount.db.PeopleItemModel
+import com.example.hostelaccount.db.local.DbManager
+import com.example.hostelaccount.db.local.PeopleItemModel
 import com.example.hostelaccount.model.PeopleIdViewModel
 
 class AddNewPeopleFragment : Fragment() {

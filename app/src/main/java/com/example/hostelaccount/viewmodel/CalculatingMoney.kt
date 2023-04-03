@@ -5,8 +5,8 @@ import androidx.lifecycle.asLiveData
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import com.example.hostelaccount.db.AccountingItemModel
-import com.example.hostelaccount.db.DbManager
+import com.example.hostelaccount.db.local.AccountingItemModel
+import com.example.hostelaccount.db.local.DbManager
 
 class CalculatingMoney(val db: DbManager, val context: Context, val owner: LifecycleOwner = context as LifecycleOwner) {
 

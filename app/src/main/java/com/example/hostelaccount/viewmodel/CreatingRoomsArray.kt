@@ -2,8 +2,8 @@ package com.example.hostelaccount.viewmodel
 
 import android.content.Context
 import androidx.lifecycle.MutableLiveData
-import com.example.hostelaccount.db.DbManager
-import com.example.hostelaccount.db.PeopleItemModel
+import com.example.hostelaccount.db.local.DbManager
+import com.example.hostelaccount.db.local.PeopleItemModel
 import com.example.hostelaccount.model.Resident
 import com.example.hostelaccount.model.RoomModel
 class CreatingRoomsArray(context: Context) {

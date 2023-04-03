@@ -11,8 +11,8 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.hostelaccount.R
 import com.example.hostelaccount.adapter.AccountingListAdapter
 import com.example.hostelaccount.databinding.FragmentAccountingListBinding
-import com.example.hostelaccount.db.AccountingItemModel
-import com.example.hostelaccount.db.DbManager
+import com.example.hostelaccount.db.local.AccountingItemModel
+import com.example.hostelaccount.db.local.DbManager
 import com.example.hostelaccount.model.AccountingViewModel
 
 class AccountingListFragment : Fragment() {

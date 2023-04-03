@@ -1,4 +1,4 @@
-package com.example.hostelaccount.db
+package com.example.hostelaccount.db.local
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy

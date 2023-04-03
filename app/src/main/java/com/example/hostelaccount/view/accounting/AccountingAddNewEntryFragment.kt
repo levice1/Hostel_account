@@ -8,8 +8,8 @@ import android.view.ViewGroup
 import androidx.lifecycle.ViewModelProvider
 import com.example.hostelaccount.R
 import com.example.hostelaccount.databinding.FragmentAccountingAddNewEntryBinding
-import com.example.hostelaccount.db.AccountingItemModel
-import com.example.hostelaccount.db.DbManager
+import com.example.hostelaccount.db.local.AccountingItemModel
+import com.example.hostelaccount.db.local.DbManager
 import com.example.hostelaccount.model.AccountingViewModel
 
 

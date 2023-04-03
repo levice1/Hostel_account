@@ -1,4 +1,4 @@
-package com.example.hostelaccount.db
+package com.example.hostelaccount.db.local
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity
