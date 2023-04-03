@@ -4,18 +4,30 @@ import androidx.fragment.app.Fragment
 
 class FragmentManageHelper(private val manager: androidx.fragment.app.FragmentManager) {
 
-    fun initFragment( idFrameLayout: Int , fragment: Fragment ) {
-        manager.beginTransaction().replace(idFrameLayout, fragment).commit()
+    fun initFragment(layoutId: Int, fragment: Fragment ) {
+        manager.beginTransaction().replace( layoutId, fragment).commit()
     }
 
 
-    fun replaceFragment( where: Int, oldFrag: Fragment, newFrag: Fragment ){
+    fun replaceFragment(layoutId: Int, oldFrag: Fragment, newFrag: Fragment ){
         manager.beginTransaction()
-            .replace(where, oldFrag).apply {
-            replace(where, newFrag)
+            .replace(layoutId, oldFrag).apply {
+            replace(layoutId, newFrag)
             addToBackStack(null)
             commit()
         }
     }
 
+    // ПОКА НЕ РАБОТАЕТ, ВОЗМОЖНО УДАЛИТЬ!
+//    fun backPressed(context: Context, where: Int, firstFrag: Fragment, secondFrag: Fragment){
+//        val currentFragment = manager.findFragmentById(where)
+//        if (currentFragment!!::class.java == firstFrag::class.java) {
+//            // Показать фрагмент списка
+//            FragmentManageHelper(manager)
+//                .initFragment(where , secondFrag)
+//        } else if (currentFragment!!::class.java == secondFrag::class.java) {
+//            // перейти на главное активити (Statistic)
+//            InitMenuChoise(context).startMainActivity()
+//        }
+//    }
 }
