@@ -5,6 +5,9 @@ import android.os.Bundle
 import androidx.fragment.app.Fragment
 import com.example.hostelaccount.R
 import com.example.hostelaccount.databinding.ActivityPeoplesBinding
+import com.example.hostelaccount.view.FragmentManageHelper
+import com.example.hostelaccount.view.accounting.AccountingAddNewEntryFragment
+import com.example.hostelaccount.view.accounting.AccountingListFragment
 import com.example.hostelaccount.viewmodel.InitMenuChoise
 
 class PeoplesActivity : AppCompatActivity() {
@@ -14,17 +17,23 @@ class PeoplesActivity : AppCompatActivity() {
         binding = ActivityPeoplesBinding.inflate(layoutInflater)
         setContentView(binding.root)
         InitMenuChoise(this).initMenuChiose(binding.bottomNavigation)
-        initFragment(R.id.fragmentLayoutPeoples , ListRoomsFragment.newInstance())
+        FragmentManageHelper(supportFragmentManager)
+            .initFragment(R.id.fragmentLayoutPeoples , ListRoomsFragment.newInstance())
     }
 
-    // на Peoples и Accounting активити, нажатие назад переходит на главное активити (Statistic)
+    // на Peoples и Accounting активити, нажатие назад переходит на:
+    // если включен фрагмент добавления - переход на фграмент списка.
+    // если включен фрагмент списка - переход на фграмент списка главное активити (Statistic).
     override fun onBackPressed() {
-        InitMenuChoise(this).startMainActivity()
-        super.onBackPressed()
+        val currentFragment = supportFragmentManager.findFragmentById(R.id.fragmentLayoutPeoples)
+        if (currentFragment is AddNewPeopleFragment) {
+            // Показать фрагмент списка
+            FragmentManageHelper(supportFragmentManager)
+                .initFragment(R.id.fragmentLayoutPeoples ,ListRoomsFragment.newInstance())
+        } else if (currentFragment is ListRoomsFragment) {
+            // перейти на главное активити (Statistic)
+            InitMenuChoise(this).startMainActivity()
+            super.onBackPressed()
+        }
     }
-
-    private fun initFragment(idFrameLayout: Int, fragment: Fragment) {
-        supportFragmentManager.beginTransaction().replace(idFrameLayout, fragment).commit()
-    }
-
 }
