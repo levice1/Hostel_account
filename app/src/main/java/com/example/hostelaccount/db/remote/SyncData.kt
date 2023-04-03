@@ -20,7 +20,7 @@ class SyncData {
     val peopleList = listOf(
         PeopleItemModel(
             null,
-            "101",
+            101,
             "John Doe",
             "2022-04-03",
             "2022-04-10",
@@ -29,7 +29,7 @@ class SyncData {
         ),
         PeopleItemModel(
             null,
-            "102",
+            102,
             "Jane Smith",
             "2022-04-03",
             "2022-04-10",

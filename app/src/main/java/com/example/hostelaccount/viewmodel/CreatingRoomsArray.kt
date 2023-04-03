@@ -26,7 +26,7 @@ class CreatingRoomsArray(context: Context) {
         val roomList = ArrayList<RoomModel>()
 
         // создаем карту для хранения данных людей в зависимости от номера комнаты
-        val peopleMap = mutableMapOf<String, MutableList<PeopleItemModel>>()
+        val peopleMap = mutableMapOf<Int, MutableList<PeopleItemModel>>()
         for (people in peopleList) {
             if (!peopleMap.containsKey(people.roomNumber)) {
                 peopleMap[people.roomNumber] = mutableListOf()

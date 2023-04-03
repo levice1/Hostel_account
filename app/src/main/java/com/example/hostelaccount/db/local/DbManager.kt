@@ -8,6 +8,8 @@ import androidx.room.RoomDatabase
 
 @Database(entities = [PeopleItemModel::class, AccountingItemModel::class], version = 1)
 abstract class DbManager : RoomDatabase() {
+
+
     abstract fun peopleDao(): PeopleDao
     abstract fun accountingDao(): AccountingDao
 
@@ -18,7 +20,7 @@ abstract class DbManager : RoomDatabase() {
             if (instance == null) {
                 instance = Room.databaseBuilder(
                     context.applicationContext,
-                    DbManager::class.java, "hostel-db"
+                    DbManager::class.java, "hostel-db0"
                 ).build()
             }
             return instance!!
