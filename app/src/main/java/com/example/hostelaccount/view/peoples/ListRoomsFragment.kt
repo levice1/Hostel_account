@@ -1,6 +1,7 @@
 package com.example.hostelaccount.view.peoples
 
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -41,11 +42,13 @@ class ListRoomsFragment : Fragment() {
         // наблюдатель. Ждёт обработанные данные из класса CreatingRoomsArray
         getRoomsLiveData.roomsLiveData.observe(viewLifecycleOwner) {
             // когда получит данные - отправляет их в адаптер RecView
+            Log.d("TestMsg", "${it[2].people}")
             initRecyclerView(it)
         }
         // инициализация кнопки добавления нового человека
         initAddButton()
     }
+
 
 
     companion object {
