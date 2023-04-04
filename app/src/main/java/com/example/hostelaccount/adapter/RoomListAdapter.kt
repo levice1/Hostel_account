@@ -37,6 +37,8 @@ class RoomListAdapter(private val viewModel: PeopleIdViewModel): RecyclerView.Ad
         holder.binding.txtToBed1.text = roomsList[position].people[0].liveTo
         if (!roomsList[position].people[0].usMan && roomsList[position].people[0].name != ""){
             holder.binding.bed1.setBackgroundColor((holder.itemView.context as AppCompatActivity).getColor(R.color.not_us_man))
+        } else {
+            holder.binding.bed1.setBackgroundColor((holder.itemView.context as AppCompatActivity).getColor(R.color.transparent))
         }
         holder.binding.bed1.setOnClickListener(){
             startFragForEditing(holder,roomsList[position].roomNum ,roomsList[position].people[0])
@@ -48,6 +50,8 @@ class RoomListAdapter(private val viewModel: PeopleIdViewModel): RecyclerView.Ad
         holder.binding.txtToBed2.text = roomsList[position].people[1].liveTo
         if (!roomsList[position].people[1].usMan && roomsList[position].people[1].name != ""){
             holder.binding.bed2.setBackgroundColor((holder.itemView.context as AppCompatActivity).getColor(R.color.not_us_man))
+        } else {
+            holder.binding.bed2.setBackgroundColor((holder.itemView.context as AppCompatActivity).getColor(R.color.transparent))
         }
         holder.binding.bed2.setOnClickListener(){
             startFragForEditing(holder,roomsList[position].roomNum ,roomsList[position].people[1])
@@ -59,6 +63,8 @@ class RoomListAdapter(private val viewModel: PeopleIdViewModel): RecyclerView.Ad
         holder.binding.txtToBed3.text = roomsList[position].people[2].liveTo
         if (!roomsList[position].people[2].usMan && roomsList[position].people[2].name != "") {
             holder.binding.bed3.setBackgroundColor((holder.itemView.context as AppCompatActivity).getColor(R.color.not_us_man))
+        } else {
+            holder.binding.bed3.setBackgroundColor((holder.itemView.context as AppCompatActivity).getColor(R.color.transparent))
         }
         holder.binding.bed3.setOnClickListener(){
             startFragForEditing(holder,roomsList[position].roomNum ,roomsList[position].people[2])
@@ -70,6 +76,8 @@ class RoomListAdapter(private val viewModel: PeopleIdViewModel): RecyclerView.Ad
         holder.binding.txtToBed4.text = roomsList[position].people[3].liveTo
         if (!roomsList[position].people[3].usMan && roomsList[position].people[3].name != "") {
             holder.binding.bed4.setBackgroundColor((holder.itemView.context as AppCompatActivity).getColor(R.color.not_us_man))
+        } else {
+            holder.binding.bed4.setBackgroundColor((holder.itemView.context as AppCompatActivity).getColor(R.color.transparent))
         }
         holder.binding.bed4.setOnClickListener(){
             startFragForEditing(holder,roomsList[position].roomNum ,roomsList[position].people[3])
