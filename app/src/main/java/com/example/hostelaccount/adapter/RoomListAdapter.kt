@@ -1,5 +1,6 @@
 package com.example.hostelaccount.adapter
 
+import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -20,10 +21,10 @@ class RoomListAdapter(private val viewModel: PeopleIdViewModel): RecyclerView.Ad
     private var roomsList = ArrayList<RoomModel>()
 
 
-
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         return ViewHolder(RecViewRoomListLayoutBinding.inflate(LayoutInflater.from(parent.context),parent,false))
     }
+
 
     override fun getItemCount(): Int {
         return roomsList.size
@@ -140,6 +141,7 @@ class RoomListAdapter(private val viewModel: PeopleIdViewModel): RecyclerView.Ad
             }
     }
 
+
     private fun startFragForEditing(holder: ViewHolder, roomNum: Int, resident: Resident){
         viewModel.setData(resident, roomNum)
         // и запускает новый фрагмент
@@ -150,6 +152,7 @@ class RoomListAdapter(private val viewModel: PeopleIdViewModel): RecyclerView.Ad
                 AddNewPeopleFragment.newInstance()
             )
     }
+
 
     fun setList(list: ArrayList<RoomModel>) {
         roomsList.addAll(list)

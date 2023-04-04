@@ -55,7 +55,7 @@ class AccountingListFragment : Fragment() {
         val viewModel = ViewModelProvider(requireActivity()).get(AccountingViewModel::class.java)
         adapter = AccountingListAdapter(viewModel)
         recyclerView.adapter = adapter
-        adapter.setList(SortAccountingItems(list).getSortedList())
+        adapter.setList(list)
     }
 
     private fun initAddButton(){ // функция инициализации кнопки добавления новой записи

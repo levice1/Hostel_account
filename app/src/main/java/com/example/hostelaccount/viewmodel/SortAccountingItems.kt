@@ -7,6 +7,8 @@ import com.example.hostelaccount.db.local.AccountingItemModel
 import java.text.SimpleDateFormat
 import java.util.*
 
+
+// Old. To delete!
 class SortAccountingItems(val list: List<AccountingItemModel>) {
     fun getSortedList(): List<AccountingItemModel> {
         Log.d("TestMsg", "before: $list")
