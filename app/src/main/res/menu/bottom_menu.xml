@@ -5,19 +5,19 @@
     app:labelVisibilityMode="labeled" >
     <item
         android:id="@+id/menu_rooms"
-        android:title="Rooms"
+        android:title="@string/rooms"
         android:orderInCategory="2"
         android:icon="@drawable/rooms"
         />
     <item
         android:id="@+id/menu_accounting"
-        android:title="Accounting"
+        android:title="@string/accounting"
         android:orderInCategory="3"
         android:icon="@drawable/accounting"
         />
     <item
         android:id="@+id/menu_main"
-        android:title="Statistic"
+        android:title="@string/statistic"
         android:orderInCategory="1"
         android:icon="@drawable/statistic"
         />

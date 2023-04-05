@@ -37,11 +37,11 @@
 
         <Button
             android:id="@+id/btnAddNewGuest"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_margin="5dp"
             android:layout_weight="1"
-            android:text="Add new guest" />
+            android:text="@string/add_guest" />
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

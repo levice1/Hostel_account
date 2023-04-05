@@ -22,10 +22,11 @@
             android:id="@+id/txtDateItem"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="22.03.2022"
+            android:text="@string/rand_data"
             android:textColor="@color/white"
             android:textSize="16sp"
-            android:textStyle="italic" />
+            android:textStyle="italic"
+            tools:ignore="TextContrastCheck" />
 
         <TextView
             android:id="@+id/txtReasonItem"
@@ -34,24 +35,26 @@
             android:autoText="false"
             android:elegantTextHeight="true"
             android:inputType="textMultiLine"
-            android:text="зп для Levchenko Andrii"
+            android:text="@string/rand_reason"
             android:textAlignment="center"
             android:textAllCaps="false"
             android:textColor="@color/white"
             android:textSize="18sp"
-            android:textStyle="bold" />
+            android:textStyle="bold"
+            tools:ignore="Deprecated,TextViewEdits,TextContrastCheck,TouchTargetSizeCheck" />
 
         <TextView
             android:id="@+id/txtSumItem"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="0dp"
             android:layout_weight="1"
             android:breakStrategy="high_quality"
             android:gravity="center"
-            android:text="5000"
+            android:text="@string/rand_sum"
             android:textColor="@color/white"
             android:textSize="20sp"
-            android:textStyle="bold" />
+            android:textStyle="bold"
+            tools:ignore="TextContrastCheck" />
 
     </LinearLayout>
 </androidx.cardview.widget.CardView>

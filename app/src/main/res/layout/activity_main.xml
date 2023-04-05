@@ -29,7 +29,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
                 android:fontFamily="@font/montserrat_alternates_extralight"
-                android:text="Денег осталось:"
+                android:text="@string/money_stay"
                 android:textColor="#EAEAEA"
                 android:textSize="18sp" />
 
@@ -46,7 +46,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:fontFamily="@font/montserrat_alternates_extralight"
-                    android:text="3150"
+                    android:text="@string/rand_sum"
                     android:textColor="#FFFFFF"
                     android:textSize="24sp" />
 
@@ -56,7 +56,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:fontFamily="@font/montserrat_alternates_extralight"
-                    android:text=" CZ"
+                    android:text="@string/currency"
                     android:textColor="#FFFFFF"
                     android:textSize="24sp" />
             </LinearLayout>
@@ -73,7 +73,8 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:menu="@menu/bottom_menu" />
+        app:menu="@menu/bottom_menu"
+        tools:ignore="VisualLintBottomNav" />
 
     <androidx.cardview.widget.CardView
         android:id="@+id/livePeoples"
@@ -98,7 +99,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
                 android:fontFamily="@font/montserrat_alternates_extralight"
-                android:text="Проживает людей:"
+                android:text="@string/peoples_live"
                 android:textColor="#EAEAEA"
                 android:textSize="18sp" />
 
@@ -115,7 +116,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:fontFamily="@font/montserrat_alternates_extralight"
-                    android:text="31"
+                    android:text="@string/rand_peoples_count"
                     android:textColor="#FFFFFF"
                     android:textSize="24sp" />
 
@@ -125,7 +126,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:fontFamily="@font/montserrat_alternates_extralight"
-                    android:text="/50"
+                    android:text="@string/max_peoples_count"
                     android:textColor="#FFFFFF"
                     android:textSize="24sp" />
             </LinearLayout>

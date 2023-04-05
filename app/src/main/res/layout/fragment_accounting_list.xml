@@ -4,27 +4,28 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:backgroundTintMode="src_over"
     tools:context=".view.accounting.AccountingListFragment">
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recViewAccountingList"
         android:layout_width="0dp"
         android:layout_height="match_parent"
+        app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
 
         tools:itemCount="8"
-        tools:listitem="@layout/rec_view_accounting_list_layout" >
+        tools:listitem="@layout/rec_view_accounting_list_layout">
 
     </androidx.recyclerview.widget.RecyclerView>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="71dp"
-        android:background="@drawable/background_same_transparent"
+        android:background="#BCD8D8D8"
         android:orientation="horizontal"
         android:padding="10dp"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -36,10 +37,11 @@
 
         <Button
             android:id="@+id/btnAddNewEntry"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="Add new entry" />
+            android:text="@string/add_entry"
+            tools:ignore="VisualLintButtonSize" />
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

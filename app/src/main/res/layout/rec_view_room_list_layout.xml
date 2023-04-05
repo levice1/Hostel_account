@@ -21,7 +21,7 @@
             android:id="@+id/txtRoomNum"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="5"
+            android:text="@string/rand_room_num"
             android:textColor="@color/white"
             android:textSize="22sp"
             android:textStyle="italic" />
@@ -44,10 +44,11 @@
                 android:layout_weight="0"
                 android:breakStrategy="high_quality"
                 android:gravity="start|center_vertical"
-                android:text="1."
+                android:text="@string/bed_num_1"
                 android:textColor="@color/white"
                 android:textSize="16sp"
-                android:textStyle="bold" />
+                android:textStyle="bold"
+                tools:ignore="TextContrastCheck" />
 
             <TextView
                 android:id="@+id/txtManOnBed1"
@@ -56,21 +57,23 @@
                 android:layout_gravity="center_vertical"
                 android:layout_marginStart="5dp"
                 android:elegantTextHeight="true"
-                android:text="Bon Mariana"
+                android:text="@string/rand_name_1"
                 android:textAllCaps="false"
                 android:textColor="@color/white"
                 android:textSize="14sp"
-                android:textStyle="bold" />
+                android:textStyle="bold"
+                tools:ignore="TextContrastCheck" />
 
             <TextView
                 android:id="@+id/txtFromBed1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="6"
-                android:text="21.03.23"
+                android:text="@string/rand_date"
                 android:textAlignment="textEnd"
                 android:textColor="#FFFFFF"
-                android:textSize="12sp" />
+                android:textSize="12sp"
+                tools:ignore="TextContrastCheck" />
 
             <TextView
                 android:id="@+id/txtToBed1"
@@ -78,10 +81,11 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="10sp"
                 android:layout_weight="0"
-                android:text="21.04.23"
+                android:text="@string/rand_date"
                 android:textAlignment="textEnd"
                 android:textColor="#FFFFFF"
-                android:textSize="12sp" />
+                android:textSize="12sp"
+                tools:ignore="TextContrastCheck" />
 
         </LinearLayout>
 
@@ -103,10 +107,11 @@
                 android:layout_weight="0"
                 android:breakStrategy="high_quality"
                 android:gravity="start|center_vertical"
-                android:text="2."
+                android:text="@string/bed_num_2"
                 android:textColor="@color/white"
                 android:textSize="16sp"
-                android:textStyle="bold" />
+                android:textStyle="bold"
+                tools:ignore="TextContrastCheck" />
 
             <TextView
                 android:id="@+id/txtManOnBed2"
@@ -115,21 +120,23 @@
                 android:layout_gravity="center_vertical"
                 android:layout_marginStart="5dp"
                 android:elegantTextHeight="true"
-                android:text="Fryntsko Sofia"
+                android:text="@string/rand_name_2"
                 android:textAllCaps="false"
                 android:textColor="@color/white"
                 android:textSize="14sp"
-                android:textStyle="bold" />
+                android:textStyle="bold"
+                tools:ignore="TextContrastCheck" />
 
             <TextView
                 android:id="@+id/txtFromBed2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="6"
-                android:text="21.03.23"
+                android:text="@string/rand_date"
                 android:textAlignment="textEnd"
                 android:textColor="#FFFFFF"
-                android:textSize="12sp" />
+                android:textSize="12sp"
+                tools:ignore="TextContrastCheck" />
 
             <TextView
                 android:id="@+id/txtToBed2"
@@ -137,10 +144,11 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="10sp"
                 android:layout_weight="0"
-                android:text="21.04.23"
+                android:text="@string/rand_date"
                 android:textAlignment="textEnd"
                 android:textColor="#FFFFFF"
-                android:textSize="12sp" />
+                android:textSize="12sp"
+                tools:ignore="TextContrastCheck" />
 
         </LinearLayout>
 
@@ -162,10 +170,11 @@
                 android:layout_weight="0"
                 android:breakStrategy="high_quality"
                 android:gravity="start|center_vertical"
-                android:text="3."
+                android:text="@string/bed_num_3"
                 android:textColor="@color/white"
                 android:textSize="16sp"
-                android:textStyle="bold" />
+                android:textStyle="bold"
+                tools:ignore="TextContrastCheck" />
 
             <TextView
                 android:id="@+id/txtManOnBed3"
@@ -174,21 +183,23 @@
                 android:layout_gravity="center_vertical"
                 android:layout_marginStart="5dp"
                 android:elegantTextHeight="true"
-                android:text="Olshanetska Amina"
+                android:text="@string/rand_name_3"
                 android:textAllCaps="false"
                 android:textColor="@color/white"
                 android:textSize="14sp"
-                android:textStyle="bold" />
+                android:textStyle="bold"
+                tools:ignore="TextContrastCheck" />
 
             <TextView
                 android:id="@+id/txtFromBed3"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="6"
-                android:text="21.03.23"
+                android:text="@string/rand_date"
                 android:textAlignment="textEnd"
                 android:textColor="#FFFFFF"
-                android:textSize="12sp" />
+                android:textSize="12sp"
+                tools:ignore="TextContrastCheck" />
 
             <TextView
                 android:id="@+id/txtToBed3"
@@ -196,10 +207,11 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="10sp"
                 android:layout_weight="0"
-                android:text="21.04.23"
+                android:text="@string/rand_date"
                 android:textAlignment="textEnd"
                 android:textColor="#FFFFFF"
-                android:textSize="12sp" />
+                android:textSize="12sp"
+                tools:ignore="TextContrastCheck" />
 
         </LinearLayout>
 
@@ -220,10 +232,11 @@
                 android:layout_weight="0"
                 android:breakStrategy="high_quality"
                 android:gravity="start|center_vertical"
-                android:text="4."
+                android:text="@string/bed_num_4"
                 android:textColor="@color/white"
                 android:textSize="16sp"
-                android:textStyle="bold" />
+                android:textStyle="bold"
+                tools:ignore="TextContrastCheck" />
 
             <TextView
                 android:id="@+id/txtManOnBed4"
@@ -231,22 +244,24 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="5dp"
                 android:elegantTextHeight="true"
-                android:text="free bed"
+                android:text="@string/rand_name_4"
                 android:textAlignment="center"
                 android:textAllCaps="false"
                 android:textColor="@color/white"
                 android:textSize="14sp"
-                android:textStyle="bold" />
+                android:textStyle="bold"
+                tools:ignore="TextContrastCheck" />
 
             <TextView
                 android:id="@+id/txtFromBed4"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="6"
-                android:text="21.03.23"
+                android:text="@string/rand_date"
                 android:textAlignment="textEnd"
                 android:textColor="#FFFFFF"
-                android:textSize="12sp" />
+                android:textSize="12sp"
+                tools:ignore="TextContrastCheck" />
 
             <TextView
                 android:id="@+id/txtToBed4"
@@ -254,10 +269,11 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="10sp"
                 android:layout_weight="0"
-                android:text="21.04.23"
+                android:text="@string/rand_date"
                 android:textAlignment="textEnd"
                 android:textColor="#FFFFFF"
-                android:textSize="12sp" />
+                android:textSize="12sp"
+                tools:ignore="TextContrastCheck" />
 
         </LinearLayout>
 

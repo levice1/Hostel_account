@@ -14,8 +14,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
+        android:autofillHints=""
         android:ems="10"
-        android:hint="Room number"
+        android:hint="@string/room_num"
         android:inputType="numberSigned|text"
         android:minHeight="48dp"
         android:padding="10dp"
@@ -23,15 +24,17 @@
         android:textColorHint="#99FFFFFF"
         app:layout_constraintEnd_toEndOf="@+id/txtNameNewMan"
         app:layout_constraintStart_toStartOf="@+id/txtNameNewMan"
-        app:layout_constraintTop_toBottomOf="@+id/txtNameNewMan" />
+        app:layout_constraintTop_toBottomOf="@+id/txtNameNewMan"
+        tools:ignore="TextContrastCheck" />
 
     <EditText
         android:id="@+id/txtNameNewMan"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="24dp"
+        android:autofillHints=""
         android:ems="10"
-        android:hint="Name"
+        android:hint="@string/name"
         android:inputType="textPersonName"
         android:minHeight="48dp"
         android:padding="10dp"
@@ -40,15 +43,17 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView" />
+        app:layout_constraintTop_toBottomOf="@+id/textView"
+        tools:ignore="TextContrastCheck" />
 
     <EditText
         android:id="@+id/txtPlDateFrom"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
+        android:autofillHints=""
         android:ems="10"
-        android:hint="Date from"
+        android:hint="@string/date_from"
         android:inputType="date"
         android:minHeight="48dp"
         android:padding="10dp"
@@ -56,15 +61,17 @@
         android:textColorHint="#99FFFFFF"
         app:layout_constraintEnd_toEndOf="@+id/txtRoomNumNewMan"
         app:layout_constraintStart_toStartOf="@+id/txtRoomNumNewMan"
-        app:layout_constraintTop_toBottomOf="@+id/txtRoomNumNewMan" />
+        app:layout_constraintTop_toBottomOf="@+id/txtRoomNumNewMan"
+        tools:ignore="TextContrastCheck" />
 
     <EditText
         android:id="@+id/txtPlDateTo"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
+        android:autofillHints=""
         android:ems="10"
-        android:hint="Date to"
+        android:hint="@string/date_to"
         android:inputType="date"
         android:minHeight="48dp"
         android:padding="10dp"
@@ -73,7 +80,8 @@
         app:layout_constraintEnd_toEndOf="@+id/txtPlDateFrom"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="@+id/txtPlDateFrom"
-        app:layout_constraintTop_toBottomOf="@+id/txtPlDateFrom" />
+        app:layout_constraintTop_toBottomOf="@+id/txtPlDateFrom"
+        tools:ignore="TextContrastCheck" />
 
     <Switch
         android:id="@+id/switchUsMan"
@@ -82,23 +90,24 @@
         android:layout_marginTop="16dp"
         android:padding="10dp"
         android:showText="true"
-        android:text="Work in our company"
+        android:text="@string/work_in_our_company"
         android:textColor="#DADADA"
-        android:textOff="n"
-        android:textOn="y"
+        android:textOff="@string/n"
+        android:textOn="@string/y"
         android:textSize="16sp"
         app:layout_constraintEnd_toEndOf="@+id/txtPlDateTo"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="@+id/txtPlDateTo"
         app:layout_constraintTop_toBottomOf="@+id/txtPlDateTo"
-        tools:checked="false" />
+        tools:checked="false"
+        tools:ignore="TextContrastCheck" />
 
     <TextView
         android:id="@+id/textView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="80dp"
-        android:text="New man"
+        android:text="@string/add_guest"
         android:textColor="#E3E3E3"
         android:textSize="25sp"
         app:layout_constraintEnd_toEndOf="parent"
@@ -111,15 +120,18 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="24dp"
+        android:autofillHints=""
         android:ems="10"
         android:gravity="start|top"
-        android:hint="Info"
+        android:hint="@string/info"
+        android:inputType="textMultiLine"
+        android:minHeight="48dp"
         android:textColor="#FFFFFF"
         android:textColorHint="#99FFFFFF"
-        android:inputType="textMultiLine"
         app:layout_constraintEnd_toEndOf="@+id/switchUsMan"
         app:layout_constraintStart_toStartOf="@+id/switchUsMan"
-        app:layout_constraintTop_toBottomOf="@+id/switchUsMan" />
+        app:layout_constraintTop_toBottomOf="@+id/switchUsMan"
+        tools:ignore="TextContrastCheck" />
 
     <LinearLayout
         android:id="@+id/buttons"
@@ -141,9 +153,10 @@
             android:background="@drawable/backgroung_button_orange"
             android:backgroundTintMode="add"
             android:padding="10dp"
-            android:text="delete"
+            android:text="@string/delete"
             android:textColor="#B33030"
             android:visibility="gone"
+            tools:ignore="ButtonStyle,TextContrastCheck"
             tools:visibility="visible" />
 
         <Button
@@ -154,7 +167,8 @@
             android:layout_margin="16dp"
             android:background="@drawable/backgroung_button_orange"
             android:padding="10dp"
-            android:text="Save" />
+            android:text="@string/save"
+            tools:ignore="ButtonStyle" />
 
     </LinearLayout>
 
