@@ -13,6 +13,7 @@ import com.example.hostelaccount.db.local.DbManager
 import com.example.hostelaccount.model.AccountingViewModel
 import com.example.hostelaccount.model.PeopleIdViewModel
 import com.example.hostelaccount.view.FragmentManageHelper
+import com.example.hostelaccount.viewmodel.GetCurrentDate
 
 
 class AccountingAddNewEntryFragment : Fragment() {
@@ -57,6 +58,9 @@ class AccountingAddNewEntryFragment : Fragment() {
                         .initFragment(R.id.fragmentLayoutAccounting, AccountingListFragment.newInstance())
                 }.start()
             }
+        } else {
+            // Установка текущей даты для удобства
+            binding.txtPlDate.setText(GetCurrentDate().getDate())
         }
 
         // слушатель нажатий на кнопку сохранить

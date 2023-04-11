@@ -33,7 +33,12 @@ class AccountingListAdapter(private val viewModel: AccountingViewModel): Recycle
         holder.binding.txtReasonItem.text = accountingList[position].reason
         holder.binding.txtSumItem.text = accountingList[position].sum.toString()
 
-        if (accountingList[position].profit) holder.binding.mainLinLayout.setBackgroundColor((holder.itemView.context as AppCompatActivity).getColor(R.color.profit_plus))
+        if (accountingList[position].profit) holder.binding.mainLinLayout
+            .setBackgroundColor((holder.itemView.context as AppCompatActivity)
+                .getColor(R.color.profit_plus))
+        else { holder.binding.mainLinLayout
+            .setBackgroundColor((holder.itemView.context as AppCompatActivity)
+                .getColor(R.color.profit_minus)) }
 
         // слушатель нажатий на каждый елемент
         holder.itemView.setOnClickListener {

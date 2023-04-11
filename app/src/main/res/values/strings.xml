@@ -1,46 +1,44 @@
 <resources>
-    <string name="app_name">Hostel account</string>
+    <string name="app_name">Hostel accounting</string>
     <string name="rooms">Rooms</string>
     <string name="accounting">Accounting</string>
     <string name="statistic">Statistic</string>
     <string name="money_stay">Money stay:</string>
-    <string name="rand_sum">3150</string>
-    <string name="currency"> CZK</string>
+    <string name="rand_sum" translatable="false">3150</string>
+    <string name="currency" translatable="false">"  CZK"</string>
     <string name="peoples_live">Peoples live:</string>
-    <string name="rand_peoples_count">99</string>
-    <string name="max_peoples_count"> / 50</string>
+    <string name="rand_peoples_count" translatable="false">99</string>
+    <string name="max_peoples_count" translatable="false"> / 50</string>
     <string name="summa">Summa</string>
     <string name="reason">Reason</string>
     <string name="date">Date</string>
     <string name="profit">Profit</string>
-    <string name="plus">+</string>
-    <string name="minus">-</string>
+    <string name="plus" translatable="false">+</string>
+    <string name="minus" translatable="false">-</string>
     <string name="new_entry">New entry</string>
     <string name="delete">Delete</string>
     <string name="save">Save</string>
     <string name="add_entry">Add new entry</string>
     <string name="room_num">Room number</string>
     <string name="name">Name</string>
-    <string name="y">y</string>
-    <string name="n">n</string>
+    <string name="y" translatable="false">y</string>
+    <string name="n" translatable="false">n</string>
     <string name="date_from">Date from</string>
     <string name="date_to">Date to</string>
     <string name="work_in_our_company">Work in our company</string>
     <string name="edit_man">Editing man</string>
     <string name="info">Info</string>
     <string name="add_guest">Add new guest</string>
-
-    <string name="hello_blank_fragment">Hello blank fragment</string>
-    <string name="rand_data">22.03.2022</string>
-    <string name="rand_reason">зп для Levchenko Andrii</string>
-    <string name="rand_room_num">5</string>
-    <string name="bed_num_1">1.</string>
-    <string name="rand_name_1">Bon Mariana</string>
-    <string name="rand_name_2">Fryntsko Sofia</string>
-    <string name="rand_name_3">Olshanetska Amina</string>
-    <string name="rand_name_4">free bed</string>
-    <string name="bed_num_3">3.</string>
-    <string name="rand_date">21.03.23</string>
-    <string name="bed_num_2">2.</string>
-    <string name="bed_num_4">4.</string>
+    <string name="rand_data" translatable="false">22.03.2022</string>
+    <string name="rand_reason" translatable="false">зп для Levchenko Andrii</string>
+    <string name="rand_room_num" translatable="false">5</string>
+    <string name="bed_num_1" translatable="false">1.</string>
+    <string name="rand_name_1" translatable="false">Bon Mariana</string>
+    <string name="rand_name_2" translatable="false">Fryntsko Sofia</string>
+    <string name="rand_name_3" translatable="false">Olshanetska Amina</string>
+    <string name="rand_name_4" translatable="false">free bed</string>
+    <string name="bed_num_3" translatable="false">3.</string>
+    <string name="rand_date" translatable="false">21.03.23</string>
+    <string name="bed_num_2" translatable="false">2.</string>
+    <string name="bed_num_4" translatable="false">4.</string>
 </resources>

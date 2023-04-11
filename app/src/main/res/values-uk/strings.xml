@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Hostel accounting</string>
+    <string name="rooms">Кімнати</string>
+    <string name="accounting">Бухгалтерія</string>
+    <string name="statistic">Статистика</string>
+    <string name="money_stay">Залишок в кассі:</string>
+    <string name="peoples_live">Проживає людей:</string>
+    <string name="summa">Сумма</string>
+    <string name="reason">Причина</string>
+    <string name="date">Дата</string>
+    <string name="profit">Прибуток</string>
+    <string name="new_entry">Новий запис</string>
+    <string name="delete">Видалити</string>
+    <string name="save">Зберегти</string>
+    <string name="add_entry">Додати запис</string>
+    <string name="room_num">Номер кімнати</string>
+    <string name="name">Імʼя</string>
+    <string name="date_from">Дата від</string>
+    <string name="date_to">Дата до</string>
+    <string name="work_in_our_company">Наш працівник</string>
+    <string name="edit_man">Редагувати гостя</string>
+    <string name="info">Інформація</string>
+    <string name="add_guest">Додати гостя</string>
+</resources>
