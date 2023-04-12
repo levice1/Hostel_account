@@ -51,12 +51,12 @@ class RoomListAdapter(private val viewModel: PeopleIdViewModel): RecyclerView.Ad
         holder.binding.txtToBed1.text = roomsList[position].people[0].liveTo
             // проверка на то, наш человек или нет. Если нет - закрашивает его поле в другой цвет
         if (!roomsList[position].people[0].usMan){
-            holder.binding.bed1.setBackgroundColor((holder.itemView.context as AppCompatActivity).getColor(R.color.not_us_man))
+            holder.binding.bed1.setBackgroundResource(R.drawable.background_element_not_us_people)
             // установка цвета даты в зависимости от количества дней, до окончания срока аренды
             setTextColorBasedOnDate(roomsList[position].people[0].liveTo,holder.binding.txtToBed1,holder.itemView.context)
         } else {
             // если человек наш, оставляет цвет его поля прозрачным
-            holder.binding.bed1.setBackgroundColor((holder.itemView.context as AppCompatActivity).getColor(R.color.transparent))
+            holder.binding.bed1.setBackgroundResource(R.drawable.background_elements_same_transparent)
         }
         holder.binding.bed1.setOnClickListener(){
             startFragForEditing(holder,roomsList[position].roomNum ,roomsList[position].people[0])
@@ -69,16 +69,12 @@ class RoomListAdapter(private val viewModel: PeopleIdViewModel): RecyclerView.Ad
             holder.binding.txtToBed2.text = roomsList[position].people[1].liveTo
             // проверка на то, наш человек или нет. Если нет - закрашивает его поле в другой цвет
             if (!roomsList[position].people[1].usMan) {
-                holder.binding.bed2.setBackgroundColor(
-                    (holder.itemView.context as AppCompatActivity).getColor(R.color.not_us_man)
-                )
+                holder.binding.bed2.setBackgroundResource(R.drawable.background_element_not_us_people)
                 // установка цвета даты в зависимости от количества дней, до окончания срока аренды
                 setTextColorBasedOnDate(roomsList[position].people[1].liveTo,holder.binding.txtToBed2,holder.itemView.context)
             } else {
                 // если человек наш, оставляет цвет его поля прозрачным
-                holder.binding.bed2.setBackgroundColor(
-                    (holder.itemView.context as AppCompatActivity).getColor(R.color.transparent)
-                )
+                holder.binding.bed2.setBackgroundResource(R.drawable.background_elements_same_transparent)
             }
             // проверка на то, если ли данные на этой кровати. Если нет - скрывает поле.
             if(roomsList[position].people[1].id == 0){
@@ -99,16 +95,12 @@ class RoomListAdapter(private val viewModel: PeopleIdViewModel): RecyclerView.Ad
             holder.binding.txtToBed3.text = roomsList[position].people[2].liveTo
             // проверка на то, наш человек или нет. Если нет - закрашивает его поле в другой цвет
             if (!roomsList[position].people[2].usMan) {
-                holder.binding.bed3.setBackgroundColor(
-                    (holder.itemView.context as AppCompatActivity).getColor(R.color.not_us_man)
-                )
+                holder.binding.bed3.setBackgroundResource(R.drawable.background_element_not_us_people)
                 // установка цвета даты в зависимости от количества дней, до окончания срока аренды
                 setTextColorBasedOnDate(roomsList[position].people[2].liveTo,holder.binding.txtToBed3,holder.itemView.context)
             } else {
                 // если человек наш, оставляет цвет его поля прозрачным
-                holder.binding.bed3.setBackgroundColor(
-                    (holder.itemView.context as AppCompatActivity).getColor(R.color.transparent)
-                )
+                holder.binding.bed3.setBackgroundResource(R.drawable.background_elements_same_transparent)
             }
             // проверка на то, если ли данные на этой кровати. Если нет - скрывает поле.
         if(roomsList[position].people[2].id == 0 && roomsList[position].people[2].name == ""){
@@ -129,18 +121,12 @@ class RoomListAdapter(private val viewModel: PeopleIdViewModel): RecyclerView.Ad
             holder.binding.txtToBed4.text = roomsList[position].people[3].liveTo
             // проверка на то, наш человек или нет. Если нет - закрашивает его поле в другой цвет
             if (!roomsList[position].people[3].usMan && roomsList[position].people[3].name != "") {
-                holder.binding.bed4.setBackgroundColor(
-                    (holder.itemView.context as AppCompatActivity).getColor(
-                        R.color.not_us_man
-                    )
-                )
+                holder.binding.bed4.setBackgroundResource(R.drawable.background_element_not_us_people)
                 // установка цвета даты в зависимости от количества дней, до окончания срока аренды
                 setTextColorBasedOnDate(roomsList[position].people[3].liveTo,holder.binding.txtToBed4,holder.itemView.context)
             } else {
                 // если человек наш, оставляет цвет его поля прозрачным
-                holder.binding.bed4.setBackgroundColor(
-                    (holder.itemView.context as AppCompatActivity).getColor(R.color.transparent)
-                )
+                holder.binding.bed4.setBackgroundResource(R.drawable.background_elements_same_transparent)
             }
             // проверка на то, если ли данные на этой кровати. Если нет - скрывает поле.
             if(roomsList[position].people[3].id == 0 && roomsList[position].people[3].name == ""){
@@ -170,8 +156,8 @@ class RoomListAdapter(private val viewModel: PeopleIdViewModel): RecyclerView.Ad
 
     private fun setTextColorBasedOnDate(dateString: String, textView: TextView, context: Context) {
         when (ProcessingDate().calculateDaysDifference(dateString)) {
-            in -999..0 -> textView.setTextColor(context.getColor(R.color.red))
-            in 1..3 -> textView.setTextColor(context.getColor(R.color.profit_minus))
+            in -999..0 -> textView.setTextColor(context.getColor(R.color.overdue_payment))
+            in 1..3 -> textView.setTextColor(context.getColor(R.color.soon_overgue))
             else -> textView.setTextColor(context.getColor(R.color.white))
         }
     }
