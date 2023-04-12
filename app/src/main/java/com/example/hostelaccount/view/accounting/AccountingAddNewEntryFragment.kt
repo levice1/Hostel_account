@@ -11,9 +11,8 @@ import com.example.hostelaccount.databinding.FragmentAccountingAddNewEntryBindin
 import com.example.hostelaccount.db.local.AccountingItemModel
 import com.example.hostelaccount.db.local.DbManager
 import com.example.hostelaccount.model.AccountingViewModel
-import com.example.hostelaccount.model.PeopleIdViewModel
 import com.example.hostelaccount.view.FragmentManageHelper
-import com.example.hostelaccount.viewmodel.GetCurrentDate
+import com.example.hostelaccount.viewmodel.ProcessingDate
 
 
 class AccountingAddNewEntryFragment : Fragment() {
@@ -60,7 +59,7 @@ class AccountingAddNewEntryFragment : Fragment() {
             }
         } else {
             // Установка текущей даты для удобства
-            binding.txtPlDate.setText(GetCurrentDate().getDate())
+            binding.txtPlDate.setText(ProcessingDate().getCurrentDate())
         }
 
         // слушатель нажатий на кнопку сохранить

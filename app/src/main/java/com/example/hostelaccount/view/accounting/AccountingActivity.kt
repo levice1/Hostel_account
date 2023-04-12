@@ -1,9 +1,7 @@
 package com.example.hostelaccount.view.accounting
 
 import android.os.Bundle
-import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
-import androidx.fragment.app.Fragment
 import com.example.hostelaccount.R
 import com.example.hostelaccount.databinding.ActivityAccountingBinding
 import com.example.hostelaccount.view.FragmentManageHelper

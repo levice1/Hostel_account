@@ -15,6 +15,7 @@
         android:layout_height="match_parent"
         android:gravity="center_horizontal|center_vertical"
         android:orientation="vertical"
+        tools:background="@color/black"
         android:padding="10dp">
 
         <TextView
@@ -84,7 +85,8 @@
                 android:text="@string/rand_date"
                 android:textAlignment="textEnd"
                 android:textColor="#FFFFFF"
-                android:textSize="12sp"
+                android:textSize="16sp"
+                android:textStyle="bold"
                 tools:ignore="TextContrastCheck" />
 
         </LinearLayout>
@@ -147,7 +149,8 @@
                 android:text="@string/rand_date"
                 android:textAlignment="textEnd"
                 android:textColor="#FFFFFF"
-                android:textSize="12sp"
+                android:textSize="16sp"
+                android:textStyle="bold"
                 tools:ignore="TextContrastCheck" />
 
         </LinearLayout>
@@ -210,7 +213,8 @@
                 android:text="@string/rand_date"
                 android:textAlignment="textEnd"
                 android:textColor="#FFFFFF"
-                android:textSize="12sp"
+                android:textSize="16sp"
+                android:textStyle="bold"
                 tools:ignore="TextContrastCheck" />
 
         </LinearLayout>
@@ -272,7 +276,8 @@
                 android:text="@string/rand_date"
                 android:textAlignment="textEnd"
                 android:textColor="#FFFFFF"
-                android:textSize="12sp"
+                android:textSize="16sp"
+                android:textStyle="bold"
                 tools:ignore="TextContrastCheck" />
 
         </LinearLayout>

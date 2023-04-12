@@ -1,5 +1,6 @@
 package com.example.hostelaccount
 
+import com.example.hostelaccount.viewmodel.ProcessingDate
 import org.junit.Test
 
 import org.junit.Assert.*
@@ -13,5 +14,10 @@ class ExampleUnitTest {
     @Test
     fun addition_isCorrect() {
         assertEquals(4, 2 + 2)
+    }
+@Test
+    fun test_calculating_different_days(){
+        val daysDiff = ProcessingDate().calculateDaysDifference("01.05.23")
+        assertEquals(17,daysDiff)
     }
 }

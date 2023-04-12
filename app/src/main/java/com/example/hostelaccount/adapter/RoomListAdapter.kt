@@ -1,9 +1,11 @@
 package com.example.hostelaccount.adapter
 
-import android.annotation.SuppressLint
+
+import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.RecyclerView
 import com.example.hostelaccount.R
@@ -14,6 +16,7 @@ import com.example.hostelaccount.model.Resident
 import com.example.hostelaccount.view.FragmentManageHelper
 import com.example.hostelaccount.view.peoples.AddNewPeopleFragment
 import com.example.hostelaccount.view.peoples.ListRoomsFragment
+import com.example.hostelaccount.viewmodel.ProcessingDate
 
 class RoomListAdapter(private val viewModel: PeopleIdViewModel): RecyclerView.Adapter<RoomListAdapter.ViewHolder>() {
     inner class ViewHolder (val binding: RecViewRoomListLayoutBinding) : RecyclerView.ViewHolder(binding.root)
@@ -35,9 +38,8 @@ class RoomListAdapter(private val viewModel: PeopleIdViewModel): RecyclerView.Ad
 
         // сброс видимости полей перед присваиванием новых значений
         // исправление бага с пропаданием некоторых полей в элементах
-        holder.binding.bed2.visibility = View.VISIBLE
-        holder.binding.bed3.visibility = View.VISIBLE
-        holder.binding.bed4.visibility = View.VISIBLE
+        repareVisibility(holder)
+
 
         // номер комнаты
         holder.binding.txtRoomNum.text = roomsList[position].roomNum.toString()
@@ -50,7 +52,10 @@ class RoomListAdapter(private val viewModel: PeopleIdViewModel): RecyclerView.Ad
             // проверка на то, наш человек или нет. Если нет - закрашивает его поле в другой цвет
         if (!roomsList[position].people[0].usMan){
             holder.binding.bed1.setBackgroundColor((holder.itemView.context as AppCompatActivity).getColor(R.color.not_us_man))
+            // установка цвета даты в зависимости от количества дней, до окончания срока аренды
+            setTextColorBasedOnDate(roomsList[position].people[0].liveTo,holder.binding.txtToBed1,holder.itemView.context)
         } else {
+            // если человек наш, оставляет цвет его поля прозрачным
             holder.binding.bed1.setBackgroundColor((holder.itemView.context as AppCompatActivity).getColor(R.color.transparent))
         }
         holder.binding.bed1.setOnClickListener(){
@@ -67,7 +72,10 @@ class RoomListAdapter(private val viewModel: PeopleIdViewModel): RecyclerView.Ad
                 holder.binding.bed2.setBackgroundColor(
                     (holder.itemView.context as AppCompatActivity).getColor(R.color.not_us_man)
                 )
+                // установка цвета даты в зависимости от количества дней, до окончания срока аренды
+                setTextColorBasedOnDate(roomsList[position].people[1].liveTo,holder.binding.txtToBed2,holder.itemView.context)
             } else {
+                // если человек наш, оставляет цвет его поля прозрачным
                 holder.binding.bed2.setBackgroundColor(
                     (holder.itemView.context as AppCompatActivity).getColor(R.color.transparent)
                 )
@@ -94,7 +102,10 @@ class RoomListAdapter(private val viewModel: PeopleIdViewModel): RecyclerView.Ad
                 holder.binding.bed3.setBackgroundColor(
                     (holder.itemView.context as AppCompatActivity).getColor(R.color.not_us_man)
                 )
+                // установка цвета даты в зависимости от количества дней, до окончания срока аренды
+                setTextColorBasedOnDate(roomsList[position].people[2].liveTo,holder.binding.txtToBed3,holder.itemView.context)
             } else {
+                // если человек наш, оставляет цвет его поля прозрачным
                 holder.binding.bed3.setBackgroundColor(
                     (holder.itemView.context as AppCompatActivity).getColor(R.color.transparent)
                 )
@@ -123,15 +134,18 @@ class RoomListAdapter(private val viewModel: PeopleIdViewModel): RecyclerView.Ad
                         R.color.not_us_man
                     )
                 )
+                // установка цвета даты в зависимости от количества дней, до окончания срока аренды
+                setTextColorBasedOnDate(roomsList[position].people[3].liveTo,holder.binding.txtToBed4,holder.itemView.context)
             } else {
+                // если человек наш, оставляет цвет его поля прозрачным
                 holder.binding.bed4.setBackgroundColor(
                     (holder.itemView.context as AppCompatActivity).getColor(R.color.transparent)
                 )
             }
             // проверка на то, если ли данные на этой кровати. Если нет - скрывает поле.
-        if(roomsList[position].people[3].id == 0 && roomsList[position].people[3].name == ""){
+            if(roomsList[position].people[3].id == 0 && roomsList[position].people[3].name == ""){
             holder.binding.bed4.visibility = View.GONE
-        }
+            }
             holder.binding.bed4.setOnClickListener() {
                 startFragForEditing(
                     holder,
@@ -154,8 +168,30 @@ class RoomListAdapter(private val viewModel: PeopleIdViewModel): RecyclerView.Ad
     }
 
 
+    private fun setTextColorBasedOnDate(dateString: String, textView: TextView, context: Context) {
+        when (ProcessingDate().calculateDaysDifference(dateString)) {
+            in -999..0 -> textView.setTextColor(context.getColor(R.color.red))
+            in 1..3 -> textView.setTextColor(context.getColor(R.color.profit_minus))
+            else -> textView.setTextColor(context.getColor(R.color.white))
+        }
+    }
+
+
     fun setList(list: ArrayList<RoomModel>) {
         roomsList.addAll(list)
         notifyDataSetChanged()
+    }
+
+    fun repareVisibility(holder: ViewHolder){
+        // сброс видимости полей перед присваиванием новых значений
+        // исправление бага с пропаданием некоторых полей в элементах
+        // и бага с некорректным цветов в зависимости от даты
+        holder.binding.bed2.visibility = View.VISIBLE
+        holder.binding.bed3.visibility = View.VISIBLE
+        holder.binding.bed4.visibility = View.VISIBLE
+        holder.binding.txtToBed1.setTextColor((holder.itemView.context as AppCompatActivity).getColor(R.color.white))
+        holder.binding.txtToBed2.setTextColor((holder.itemView.context as AppCompatActivity).getColor(R.color.white))
+        holder.binding.txtToBed3.setTextColor((holder.itemView.context as AppCompatActivity).getColor(R.color.white))
+        holder.binding.txtToBed4.setTextColor((holder.itemView.context as AppCompatActivity).getColor(R.color.white))
     }
 }
