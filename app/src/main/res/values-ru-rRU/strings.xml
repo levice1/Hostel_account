@@ -16,10 +16,17 @@
     <string name="add_entry">Добавить запись</string>
     <string name="room_num">Номер комнаты</string>
     <string name="name">Имя</string>
+    <string name="error_name_required">Поле \"Имя\" обязательное</string>
+    <string name="error_roomnum_required">Поле \"Номер комнаты\" обязательное, и может местить только цифры</string>
     <string name="date_from">Дата от</string>
     <string name="date_to">Дата до</string>
     <string name="work_in_our_company">Работает у нас</string>
     <string name="edit_man">Редактировать гостя</string>
     <string name="info">Информация</string>
     <string name="add_guest">Добавить гостя</string>
+    <string name="error_sum_required">Поле \"Сумма\" обязательное, и может местить только цифры</string>
+    <string name="error_reason_required">Поле \"Причина\" обязательное</string>
+    <string name="error_datefrom_required">Поле \"Дата от\" обязательное, и должно быть формата дд.мм.гг</string>
+    <string name="error_dateto_required">Поле \"Дата до\" обязательное, и должно быть формата дд.мм.гг</string>
+    <string name="error_date_required">Поле \"Дата\" обязательное, и должно быть формата дд.мм.гг</string>
 </resources>

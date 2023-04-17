@@ -5,14 +5,17 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
 import com.example.hostelaccount.R
 import com.example.hostelaccount.databinding.FragmentAccountingAddNewEntryBinding
 import com.example.hostelaccount.db.local.AccountingItemModel
 import com.example.hostelaccount.db.local.DbManager
+import com.example.hostelaccount.db.local.PeopleItemModel
 import com.example.hostelaccount.model.AccountingViewModel
 import com.example.hostelaccount.view.FragmentManageHelper
 import com.example.hostelaccount.viewmodel.ProcessingDate
+import com.example.hostelaccount.viewmodel.ValidationInputData
 
 
 class AccountingAddNewEntryFragment : Fragment() {
@@ -20,6 +23,8 @@ class AccountingAddNewEntryFragment : Fragment() {
     lateinit var binding: FragmentAccountingAddNewEntryBinding
 
     lateinit var viewModel: AccountingViewModel
+
+    private val validationInputData = ValidationInputData()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -33,6 +38,11 @@ class AccountingAddNewEntryFragment : Fragment() {
         viewModel.clearData()
     }
 
+    // Функция для отображения короткого сообщения
+    fun showToast(msg: Int) {
+        Toast.makeText(requireContext(), msg, Toast.LENGTH_SHORT).show()
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         // определение viewModel для приёма данных от фрагмента
@@ -43,7 +53,7 @@ class AccountingAddNewEntryFragment : Fragment() {
         val inputData = viewModel.getData()
 
         //  ЕСЛИ БЫЛИ ПЕРЕДАНЫ ДАННЫЕ ИЗ ДРУГОГО ФРАГМЕНТА, ТО ЗАПОЛНЯЕТ ПОЛЯ АВТОМАТИЧЕСКИ
-        if (inputData != null){
+        if (inputData != null) {
             binding.btnDelete.visibility = View.VISIBLE
             binding.txtPlSum.setText(inputData.sum.toString())
             binding.txtPlDate.setText(inputData.date.toString())
@@ -54,7 +64,10 @@ class AccountingAddNewEntryFragment : Fragment() {
                 Thread {
                     db.accountingDao().deleteById(inputData.id!!)
                     FragmentManageHelper(parentFragmentManager)
-                        .initFragment(R.id.fragmentLayoutAccounting, AccountingListFragment.newInstance())
+                        .initFragment(
+                            R.id.fragmentLayoutAccounting,
+                            AccountingListFragment.newInstance()
+                        )
                 }.start()
             }
         } else {
@@ -65,26 +78,35 @@ class AccountingAddNewEntryFragment : Fragment() {
         // слушатель нажатий на кнопку сохранить
         binding.btnSave.setOnClickListener {
             // ЕСЛИ БЫЛИ ПЕРЕДАНЫ ДАННЫЕ, ТО ID ПРИСВАЕВАЕТ ТОТ ЧТО БЫЛ ПЕРЕДАН. ЕСЛИ НЕТ ТО NULL
-            var id :Int? = null
+            var id: Int? = null
             if (inputData?.id != null) id = inputData.id
 
-            // создание переменной с введёнными данными
-            val accountingItem = AccountingItemModel(id,
-                binding.txtPlDate.text.toString(),
-                binding.txtPlWhoOrWhat.text.toString(),
-                binding.txtPlSum.text.toString().toInt(),
-                binding.switchPlusOrMinus.isChecked
-            )
-            // запуск нового потока для асинхронного сохранения данных в БД
-            Thread {
-                db.accountingDao().insertAll(accountingItem) // сохранение
-                // запуск первого фрагмента после сохранения
-                FragmentManageHelper(parentFragmentManager)
-                    .initFragment(R.id.fragmentLayoutAccounting, AccountingListFragment.newInstance())
-            }.start()
+            val date = binding.txtPlDate.text.toString()
+            val reason = binding.txtPlWhoOrWhat.text.toString()
+            val sum = binding.txtPlSum.text.toString()
+            val profit = binding.switchPlusOrMinus.isChecked
+
+            when {
+                !validationInputData.validateNameStr(reason) -> showToast(R.string.error_reason_required)
+                !validationInputData.validateDateStr(date) -> showToast(R.string.error_date_required)
+                !validationInputData.validateIntNum(sum) -> showToast(R.string.error_sum_required)
+                else -> {
+                    // создание переменной с введёнными данными
+                    val accountingItem = AccountingItemModel( id, date, reason, sum.toInt(), profit )
+                    // запуск нового потока для асинхронного сохранения данных в БД
+                    Thread {
+                        db.accountingDao().insertAll(accountingItem) // сохранение
+                        // запуск первого фрагмента после сохранения
+                        FragmentManageHelper(parentFragmentManager)
+                            .initFragment(
+                                R.id.fragmentLayoutAccounting,
+                                AccountingListFragment.newInstance()
+                            )
+                    }.start()
+                }
+            }
         }
     }
-
     companion object {
         @JvmStatic
         fun newInstance() = AccountingAddNewEntryFragment()

@@ -5,6 +5,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
 import com.example.hostelaccount.R
 import com.example.hostelaccount.databinding.FragmentAddNewPeopleBinding
@@ -12,6 +13,7 @@ import com.example.hostelaccount.db.local.DbManager
 import com.example.hostelaccount.db.local.PeopleItemModel
 import com.example.hostelaccount.model.PeopleIdViewModel
 import com.example.hostelaccount.view.FragmentManageHelper
+import com.example.hostelaccount.viewmodel.ValidationInputData
 
 class AddNewPeopleFragment : Fragment() {
     lateinit var binding: FragmentAddNewPeopleBinding
@@ -38,7 +40,6 @@ class AddNewPeopleFragment : Fragment() {
         //  определение объекта viewModel и получение данных
         val inputData = viewModel.getData()
 
-//        viewModel.setData(null,null) под вопросом
         // определение переменной БД
         val db = DbManager.getInstance(requireActivity())
 
@@ -58,27 +59,43 @@ class AddNewPeopleFragment : Fragment() {
     }
 
 
+
     // инициализация кнопки сохранить
-    private fun initSaveBtnListener(inputData: PeopleItemModel?, db: DbManager){ // функция инициализации слушателя нажатий на кнопку сохранить
+    private fun initSaveBtnListener(inputData: PeopleItemModel?, db: DbManager) {
+        // Функция для отображения короткого сообщения
+        fun showToast(msg: Int) {
+            Toast.makeText(requireContext(), msg, Toast.LENGTH_SHORT).show()
+        }
+
+        val validationInputData = ValidationInputData()
+        var peopleItem: PeopleItemModel
+
         binding.btnSave.setOnClickListener {
-            // ЕСЛИ БЫЛИ ПЕРЕДАНЫ ДАННЫЕ, ТО ID ПРИСВАЕВАЕТ ТОТ ЧТО БЫЛ ПЕРЕДАН. ЕСЛИ НЕТ ТО NULL
-            var id :Int? = null
-            if (inputData != null) id = inputData.id
-            // создание переменной с введёнными данными
-            val peopleItem = PeopleItemModel(id,
-                binding.txtRoomNumNewMan.text.toString().toInt(),
-                binding.txtNameNewMan.text.toString(),
-                binding.txtPlDateFrom.text.toString(),
-                binding.txtPlDateTo.text.toString(),
-                binding.switchUsMan.isChecked,
-                binding.txtEdAddInfo.text.toString()
-            )
-            // запуск нового потока для асинхронного сохранения данных в БД
-            Thread {
-                db.peopleDao().insertAll(peopleItem) // сохранение
-                // запуск первого фрагмента после сохранения
-                FragmentManageHelper(parentFragmentManager).initFragment(R.id.fragmentLayoutPeoples, ListRoomsFragment.newInstance())
-            }.start()
+            // ID будет присвоен только если передан объект PeopleItemModel
+            val id: Int? = inputData?.id
+
+            val name = binding.txtNameNewMan.text.toString().trim()
+            val roomNum = binding.txtRoomNumNewMan.text.toString().trim()
+            val dateFrom = binding.txtPlDateFrom.text.toString().trim()
+            val dateTo = binding.txtPlDateTo.text.toString().trim()
+            val usMan = binding.switchUsMan.isChecked
+            val addInfo = binding.txtEdAddInfo.text.toString().trim()
+
+            when {
+                !validationInputData.validateNameStr(name) -> showToast(R.string.error_name_required)
+                !validationInputData.validateDateStr(dateFrom) && !validationInputData.validateDateStr(dateTo) -> showToast(R.string.error_datefrom_required)
+                !validationInputData.validateIntNum(roomNum) -> showToast(R.string.error_roomnum_required)
+                else -> {
+                    // создание переменной с введёнными данными
+                    peopleItem = PeopleItemModel(id, roomNum.toInt(), name, dateFrom, dateTo, usMan, addInfo)
+                    // запуск нового потока для асинхронного сохранения данных в БД
+                    Thread {
+                        db.peopleDao().insertAll(peopleItem) // сохранение
+                        // запуск первого фрагмента после сохранения
+                        FragmentManageHelper(parentFragmentManager).initFragment(R.id.fragmentLayoutPeoples, ListRoomsFragment.newInstance())
+                    }.start()
+                }
+            }
         }
     }
 
@@ -105,7 +122,4 @@ class AddNewPeopleFragment : Fragment() {
             }.start()
         }
     }
-
-
-
 }

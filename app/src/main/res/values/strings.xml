@@ -21,6 +21,13 @@
     <string name="add_entry">Add new entry</string>
     <string name="room_num">Room number</string>
     <string name="name">Name</string>
+    <string name="error_name_required">Field "Name" is required</string>
+    <string name="error_roomnum_required">The \"Room number\" field is required and must contain only a numeric value.</string>
+    <string name="error_datefrom_required">Field "Date from" is required and must be type "dd.mm.yy"</string>
+    <string name="error_dateto_required">Field "Date to" is required and must be type "dd.mm.yy"</string>
+    <string name="error_date_required">Field "Date" is required and must be type "dd.mm.yy"</string>
+    <string name="error_sum_required">The field "Sum" is required and must contain only a numeric value.</string>
+    <string name="error_reason_required">Field "Reason" is required.</string>
     <string name="y" translatable="false">y</string>
     <string name="n" translatable="false">n</string>
     <string name="date_from">Date from</string>

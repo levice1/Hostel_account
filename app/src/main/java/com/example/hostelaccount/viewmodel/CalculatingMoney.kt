@@ -8,7 +8,7 @@ import androidx.lifecycle.MutableLiveData
 import com.example.hostelaccount.db.local.AccountingItemModel
 import com.example.hostelaccount.db.local.DbManager
 
-class CalculatingMoney(val db: DbManager, val context: Context, val owner: LifecycleOwner = context as LifecycleOwner) {
+class CalculatingMoney(val db: DbManager, val context: Context, private val owner: LifecycleOwner = context as LifecycleOwner) {
 
     fun getSum() : LiveData<Int> {
         val totalSum = MutableLiveData<Int>()
