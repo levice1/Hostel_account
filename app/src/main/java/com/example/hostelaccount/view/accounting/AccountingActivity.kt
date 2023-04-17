@@ -5,15 +5,15 @@ import androidx.appcompat.app.AppCompatActivity
 import com.example.hostelaccount.R
 import com.example.hostelaccount.databinding.ActivityAccountingBinding
 import com.example.hostelaccount.view.FragmentManageHelper
-import com.example.hostelaccount.viewmodel.InitMenuChoice
+import com.example.hostelaccount.viewmodel.InitMenuChoise
 
 class AccountingActivity : AppCompatActivity() {
-    lateinit var binding: ActivityAccountingBinding
+    private lateinit var binding: ActivityAccountingBinding
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityAccountingBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        InitMenuChoice(this).initMenuChioce(binding.bottomNavigation)
+        InitMenuChoise(this).initMenuChiose(binding.bottomNavigation)
         FragmentManageHelper(supportFragmentManager)
             .initFragment(R.id.fragmentLayoutAccounting ,AccountingListFragment.newInstance())
     }
@@ -36,7 +36,7 @@ class AccountingActivity : AppCompatActivity() {
                 .initFragment(R.id.fragmentLayoutAccounting ,AccountingListFragment.newInstance())
         } else if (currentFragment is AccountingListFragment) {
             // перейти на главное активити (Statistic)
-            InitMenuChoice(this).startMainActivity()
+            InitMenuChoise(this).startMainActivity()
             super.onBackPressed()
         }
     }

@@ -9,9 +9,9 @@ import com.example.hostelaccount.view.accounting.AccountingActivity
 import com.example.hostelaccount.view.peoples.PeoplesActivity
 import com.google.android.material.bottomnavigation.BottomNavigationView
 
-class InitMenuChoice(val context: Context) {
+class InitMenuChoise(val context: Context) {
 
-    fun initMenuChioce(navi: BottomNavigationView) {
+    fun initMenuChiose(navi: BottomNavigationView) {
         navi.setOnItemSelectedListener { menuItem ->
 
             when (menuItem.itemId) {

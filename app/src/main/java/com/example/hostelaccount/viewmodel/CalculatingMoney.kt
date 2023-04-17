@@ -22,7 +22,7 @@ class CalculatingMoney(val db: DbManager, val context: Context, private val owne
         return totalSum
     }
 
-    fun calculateTotalSum(items: List<AccountingItemModel>): Int {
+    private fun calculateTotalSum(items: List<AccountingItemModel>): Int {
         var totalSum = 0
         items.forEach { item ->
             val value = if (item.profit) item.sum else -item.sum

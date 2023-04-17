@@ -11,7 +11,6 @@ import com.example.hostelaccount.R
 import com.example.hostelaccount.databinding.FragmentAccountingAddNewEntryBinding
 import com.example.hostelaccount.db.local.AccountingItemModel
 import com.example.hostelaccount.db.local.DbManager
-import com.example.hostelaccount.db.local.PeopleItemModel
 import com.example.hostelaccount.model.AccountingViewModel
 import com.example.hostelaccount.view.FragmentManageHelper
 import com.example.hostelaccount.viewmodel.ProcessingDate
@@ -20,9 +19,9 @@ import com.example.hostelaccount.viewmodel.ValidationInputData
 
 class AccountingAddNewEntryFragment : Fragment() {
 
-    lateinit var binding: FragmentAccountingAddNewEntryBinding
+    private lateinit var binding: FragmentAccountingAddNewEntryBinding
 
-    lateinit var viewModel: AccountingViewModel
+    private lateinit var viewModel: AccountingViewModel
 
     private val validationInputData = ValidationInputData()
 
@@ -46,7 +45,7 @@ class AccountingAddNewEntryFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         // определение viewModel для приёма данных от фрагмента
-        viewModel = ViewModelProvider(requireActivity()).get(AccountingViewModel::class.java)
+        viewModel = ViewModelProvider(requireActivity())[AccountingViewModel::class.java]
         // определение переменной БД
         val db = DbManager.getInstance(requireActivity())
         //  определение объекта viewModel и получение данных
@@ -56,8 +55,8 @@ class AccountingAddNewEntryFragment : Fragment() {
         if (inputData != null) {
             binding.btnDelete.visibility = View.VISIBLE
             binding.txtPlSum.setText(inputData.sum.toString())
-            binding.txtPlDate.setText(inputData.date.toString())
-            binding.txtPlWhoOrWhat.setText(inputData.reason.toString())
+            binding.txtPlDate.setText(inputData.date)
+            binding.txtPlWhoOrWhat.setText(inputData.reason)
             binding.switchPlusOrMinus.isChecked = inputData.profit
             // и запускает слушатель на кнопку удаления
             binding.btnDelete.setOnClickListener {

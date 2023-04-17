@@ -9,11 +9,11 @@ import com.example.hostelaccount.db.local.DbManager
 import com.example.hostelaccount.model.GetCountAllPeoples
 import com.example.hostelaccount.viewmodel.CalculatingMoney
 import com.example.hostelaccount.viewmodel.CalculatingPeople
-import com.example.hostelaccount.viewmodel.InitMenuChoice
+import com.example.hostelaccount.viewmodel.InitMenuChoise
 
 
 class MainActivity : AppCompatActivity() {
-    lateinit var binding: ActivityMainBinding
+    private lateinit var binding: ActivityMainBinding
 
     private val getCountAllPeoples: GetCountAllPeoples by viewModels()
 
@@ -21,7 +21,7 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        InitMenuChoice(this).initMenuChioce(binding.bottomNavigation)
+        InitMenuChoise(this).initMenuChiose(binding.bottomNavigation)
         // выделить выбранный пункт меню
     }
 

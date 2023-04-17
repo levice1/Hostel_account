@@ -5,7 +5,6 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.asLiveData
 import androidx.recyclerview.widget.RecyclerView
@@ -16,7 +15,6 @@ import com.example.hostelaccount.db.local.AccountingItemModel
 import com.example.hostelaccount.db.local.DbManager
 import com.example.hostelaccount.model.AccountingViewModel
 import com.example.hostelaccount.view.FragmentManageHelper
-import com.example.hostelaccount.viewmodel.SortAccountingItems
 
 class AccountingListFragment : Fragment() {
     private lateinit var binding: FragmentAccountingListBinding
@@ -52,7 +50,7 @@ class AccountingListFragment : Fragment() {
 
     private fun initRecyclerView(list:List<AccountingItemModel>) { // функция инициализации адаптера
         recyclerView = binding.recViewAccountingList
-        val viewModel = ViewModelProvider(requireActivity()).get(AccountingViewModel::class.java)
+        val viewModel = ViewModelProvider(requireActivity())[AccountingViewModel::class.java]
         adapter = AccountingListAdapter(viewModel)
         recyclerView.adapter = adapter
         adapter.setList(list)

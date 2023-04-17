@@ -1,13 +1,12 @@
 package com.example.hostelaccount.viewmodel
 
+import android.annotation.SuppressLint
 import android.icu.text.SimpleDateFormat
-import java.text.ParseException
 import java.util.*
-import java.util.concurrent.TimeUnit
-import kotlin.math.sign
 
-open class ProcessingDate() {
+open class ProcessingDate {
 
+     @SuppressLint("SimpleDateFormat")
      val dateFormat = SimpleDateFormat("dd.MM.yy") // указываем формат даты
 
 

@@ -19,7 +19,7 @@ import com.example.hostelaccount.viewmodel.CreatingRoomsArray
 
 class ListRoomsFragment : Fragment() {
 
-    lateinit var binding: FragmentListRoomsBinding
+    private lateinit var binding: FragmentListRoomsBinding
 
     private lateinit var adapter: RoomListAdapter
     private lateinit var recyclerView: RecyclerView
@@ -58,7 +58,7 @@ class ListRoomsFragment : Fragment() {
     // Принимает массив комнат с уже распределёнными людьми
     private fun initRecyclerView(list:ArrayList<RoomModel>) {
         recyclerView = binding.recViewRoomsList
-        val viewModel = ViewModelProvider(requireActivity()).get(PeopleIdViewModel::class.java)
+        val viewModel = ViewModelProvider(requireActivity())[PeopleIdViewModel::class.java]
         adapter = RoomListAdapter(viewModel)
         recyclerView.adapter = adapter
         adapter.setList(list)

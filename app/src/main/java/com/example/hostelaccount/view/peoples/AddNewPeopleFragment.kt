@@ -16,9 +16,9 @@ import com.example.hostelaccount.view.FragmentManageHelper
 import com.example.hostelaccount.viewmodel.ValidationInputData
 
 class AddNewPeopleFragment : Fragment() {
-    lateinit var binding: FragmentAddNewPeopleBinding
+    private lateinit var binding: FragmentAddNewPeopleBinding
 
-    lateinit var viewModel: PeopleIdViewModel
+    private lateinit var viewModel: PeopleIdViewModel
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -36,7 +36,7 @@ class AddNewPeopleFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         // определение viewModel для приёма данных от фрагмента
-        viewModel = ViewModelProvider(requireActivity()).get(PeopleIdViewModel::class.java)
+        viewModel = ViewModelProvider(requireActivity())[PeopleIdViewModel::class.java]
         //  определение объекта viewModel и получение данных
         val inputData = viewModel.getData()
 
@@ -59,7 +59,7 @@ class AddNewPeopleFragment : Fragment() {
     }
 
     // Функция для отображения короткого сообщения
-    fun showToast(msg: Int) {
+    private fun showToast(msg: Int) {
         Toast.makeText(requireContext(), msg, Toast.LENGTH_LONG).show()
     }
 
@@ -114,7 +114,7 @@ class AddNewPeopleFragment : Fragment() {
     // когда слушатель срабатывает - отправляет команду в ДАО БД на удаление, и передаёт id удаляемого
     private fun initDeleteBtn(db: DbManager, id: Int) {
         binding.btnDelete.visibility = View.VISIBLE
-        binding.btnDelete.setOnClickListener() {
+        binding.btnDelete.setOnClickListener {
             Thread {
                 db.peopleDao().deleteById(id)
                 FragmentManageHelper(parentFragmentManager).initFragment(R.id.fragmentLayoutPeoples, ListRoomsFragment.newInstance())

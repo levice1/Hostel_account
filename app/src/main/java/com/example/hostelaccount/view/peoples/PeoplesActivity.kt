@@ -5,7 +5,7 @@ import android.os.Bundle
 import com.example.hostelaccount.R
 import com.example.hostelaccount.databinding.ActivityPeoplesBinding
 import com.example.hostelaccount.view.FragmentManageHelper
-import com.example.hostelaccount.viewmodel.InitMenuChoice
+import com.example.hostelaccount.viewmodel.InitMenuChoise
 
 class PeoplesActivity : AppCompatActivity() {
     private lateinit var binding: ActivityPeoplesBinding
@@ -13,7 +13,7 @@ class PeoplesActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityPeoplesBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        InitMenuChoice(this).initMenuChioce(binding.bottomNavigation)
+        InitMenuChoise(this).initMenuChiose(binding.bottomNavigation)
         FragmentManageHelper(supportFragmentManager)
             .initFragment(R.id.fragmentLayoutPeoples , ListRoomsFragment.newInstance())
     }
@@ -38,7 +38,7 @@ class PeoplesActivity : AppCompatActivity() {
                 .initFragment(R.id.fragmentLayoutPeoples ,ListRoomsFragment.newInstance())
         } else if (currentFragment is ListRoomsFragment) {
             // перейти на главное активити (Statistic)
-            InitMenuChoice(this).startMainActivity()
+            InitMenuChoise(this).startMainActivity()
             super.onBackPressed()
         }
     }
