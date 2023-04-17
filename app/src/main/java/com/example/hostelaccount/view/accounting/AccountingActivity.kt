@@ -5,7 +5,7 @@ import androidx.appcompat.app.AppCompatActivity
 import com.example.hostelaccount.R
 import com.example.hostelaccount.databinding.ActivityAccountingBinding
 import com.example.hostelaccount.view.FragmentManageHelper
-import com.example.hostelaccount.viewmodel.InitMenuChoise
+import com.example.hostelaccount.viewmodel.InitMenuChoice
 
 class AccountingActivity : AppCompatActivity() {
     lateinit var binding: ActivityAccountingBinding
@@ -13,9 +13,18 @@ class AccountingActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityAccountingBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        InitMenuChoise(this).initMenuChiose(binding.bottomNavigation)
+        InitMenuChoice(this).initMenuChioce(binding.bottomNavigation)
         FragmentManageHelper(supportFragmentManager)
             .initFragment(R.id.fragmentLayoutAccounting ,AccountingListFragment.newInstance())
+    }
+
+
+    // делает пункт меню активным когда фокус перемещается на это активити
+    override fun onWindowFocusChanged(hasFocus: Boolean) {
+        super.onWindowFocusChanged(hasFocus)
+        if (hasFocus) {
+            binding.bottomNavigation.selectedItemId = R.id.menu_accounting
+        }
     }
 
     // на Peoples и Accounting активити, нажатие назад переходит на главное активити (Statistic)
@@ -27,7 +36,7 @@ class AccountingActivity : AppCompatActivity() {
                 .initFragment(R.id.fragmentLayoutAccounting ,AccountingListFragment.newInstance())
         } else if (currentFragment is AccountingListFragment) {
             // перейти на главное активити (Statistic)
-            InitMenuChoise(this).startMainActivity()
+            InitMenuChoice(this).startMainActivity()
             super.onBackPressed()
         }
     }

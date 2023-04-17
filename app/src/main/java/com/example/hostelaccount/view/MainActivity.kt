@@ -3,12 +3,13 @@ package com.example.hostelaccount.view
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.activity.viewModels
+import com.example.hostelaccount.R
 import com.example.hostelaccount.databinding.ActivityMainBinding
 import com.example.hostelaccount.db.local.DbManager
 import com.example.hostelaccount.model.GetCountAllPeoples
 import com.example.hostelaccount.viewmodel.CalculatingMoney
 import com.example.hostelaccount.viewmodel.CalculatingPeople
-import com.example.hostelaccount.viewmodel.InitMenuChoise
+import com.example.hostelaccount.viewmodel.InitMenuChoice
 
 
 class MainActivity : AppCompatActivity() {
@@ -20,7 +21,8 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        InitMenuChoise(this).initMenuChiose(binding.bottomNavigation)
+        InitMenuChoice(this).initMenuChioce(binding.bottomNavigation)
+        // выделить выбранный пункт меню
     }
 
     override fun onResume() {
@@ -37,6 +39,15 @@ class MainActivity : AppCompatActivity() {
             .observe(this){
                 binding.infSum.text = it.toString()
             }
+    }
+
+
+    // делает пункт меню активным когда фокус перемещается на это активити
+    override fun onWindowFocusChanged(hasFocus: Boolean) {
+        super.onWindowFocusChanged(hasFocus)
+        if (hasFocus) {
+            binding.bottomNavigation.selectedItemId = R.id.menu_main
+        }
     }
 
 

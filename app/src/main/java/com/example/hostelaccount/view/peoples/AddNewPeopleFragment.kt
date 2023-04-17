@@ -58,15 +58,13 @@ class AddNewPeopleFragment : Fragment() {
         fun newInstance() = AddNewPeopleFragment()
     }
 
-
+    // Функция для отображения короткого сообщения
+    fun showToast(msg: Int) {
+        Toast.makeText(requireContext(), msg, Toast.LENGTH_LONG).show()
+    }
 
     // инициализация кнопки сохранить
     private fun initSaveBtnListener(inputData: PeopleItemModel?, db: DbManager) {
-        // Функция для отображения короткого сообщения
-        fun showToast(msg: Int) {
-            Toast.makeText(requireContext(), msg, Toast.LENGTH_SHORT).show()
-        }
-
         val validationInputData = ValidationInputData()
         var peopleItem: PeopleItemModel
 
@@ -83,7 +81,8 @@ class AddNewPeopleFragment : Fragment() {
 
             when {
                 !validationInputData.validateNameStr(name) -> showToast(R.string.error_name_required)
-                !validationInputData.validateDateStr(dateFrom) && !validationInputData.validateDateStr(dateTo) -> showToast(R.string.error_datefrom_required)
+                !validationInputData.validateDateStr(dateFrom) -> showToast(R.string.error_datefrom_required)
+                !validationInputData.validateDateStr(dateTo) -> showToast(R.string.error_dateto_required)
                 !validationInputData.validateIntNum(roomNum) -> showToast(R.string.error_roomnum_required)
                 else -> {
                     // создание переменной с введёнными данными

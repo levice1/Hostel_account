@@ -39,8 +39,8 @@ class AccountingAddNewEntryFragment : Fragment() {
     }
 
     // Функция для отображения короткого сообщения
-    fun showToast(msg: Int) {
-        Toast.makeText(requireContext(), msg, Toast.LENGTH_SHORT).show()
+    private fun showToast(msg: Int) {
+        Toast.makeText(requireContext(), msg, Toast.LENGTH_LONG).show()
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -82,7 +82,7 @@ class AccountingAddNewEntryFragment : Fragment() {
             if (inputData?.id != null) id = inputData.id
 
             val date = binding.txtPlDate.text.toString()
-            val reason = binding.txtPlWhoOrWhat.text.toString()
+            val reason = binding.txtPlWhoOrWhat.text.toString().replaceFirstChar { it.uppercase() }
             val sum = binding.txtPlSum.text.toString()
             val profit = binding.switchPlusOrMinus.isChecked
 
