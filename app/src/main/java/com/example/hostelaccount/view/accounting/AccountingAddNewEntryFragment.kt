@@ -1,6 +1,7 @@
 package com.example.hostelaccount.view.accounting
 
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -15,6 +16,7 @@ import com.example.hostelaccount.model.AccountingViewModel
 import com.example.hostelaccount.view.FragmentManageHelper
 import com.example.hostelaccount.viewmodel.ProcessingDate
 import com.example.hostelaccount.viewmodel.ValidationInputData
+import kotlinx.coroutines.*
 
 
 class AccountingAddNewEntryFragment : Fragment() {
@@ -42,6 +44,7 @@ class AccountingAddNewEntryFragment : Fragment() {
         Toast.makeText(requireContext(), msg, Toast.LENGTH_LONG).show()
     }
 
+    @OptIn(DelicateCoroutinesApi::class)
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         // определение viewModel для приёма данных от фрагмента
@@ -60,14 +63,15 @@ class AccountingAddNewEntryFragment : Fragment() {
             binding.switchPlusOrMinus.isChecked = inputData.profit
             // и запускает слушатель на кнопку удаления
             binding.btnDelete.setOnClickListener {
-                Thread {
+                GlobalScope.launch {
                     db.accountingDao().deleteById(inputData.id!!)
-                    FragmentManageHelper(parentFragmentManager)
-                        .initFragment(
-                            R.id.fragmentLayoutAccounting,
-                            AccountingListFragment.newInstance()
-                        )
-                }.start()
+                    Log.d("TestMsg", "Coroutine - delete accounting")
+                }
+                FragmentManageHelper(parentFragmentManager)
+                    .initFragment(
+                        R.id.fragmentLayoutAccounting,
+                        AccountingListFragment.newInstance()
+                    )
             }
         } else {
             // Установка текущей даты для удобства
@@ -77,9 +81,7 @@ class AccountingAddNewEntryFragment : Fragment() {
         // слушатель нажатий на кнопку сохранить
         binding.btnSave.setOnClickListener {
             // ЕСЛИ БЫЛИ ПЕРЕДАНЫ ДАННЫЕ, ТО ID ПРИСВАЕВАЕТ ТОТ ЧТО БЫЛ ПЕРЕДАН. ЕСЛИ НЕТ ТО NULL
-            var id: Int? = null
-            if (inputData?.id != null) id = inputData.id
-
+            val id = inputData?.id
             val date = binding.txtPlDate.text.toString()
             val reason = binding.txtPlWhoOrWhat.text.toString().replaceFirstChar { it.uppercase() }
             val sum = binding.txtPlSum.text.toString()
@@ -90,18 +92,19 @@ class AccountingAddNewEntryFragment : Fragment() {
                 !validationInputData.validateDateStr(date) -> showToast(R.string.error_date_required)
                 !validationInputData.validateIntNum(sum) -> showToast(R.string.error_sum_required)
                 else -> {
-                    // создание переменной с введёнными данными
-                    val accountingItem = AccountingItemModel( id, date, reason, sum.toInt(), profit )
-                    // запуск нового потока для асинхронного сохранения данных в БД
-                    Thread {
-                        db.accountingDao().insertAll(accountingItem) // сохранение
+                    // запуск корутины для асинхронного сохранения данных в БД
+                    GlobalScope.launch {
+                        // создание переменной с введёнными данными
+                        val accountingItem = AccountingItemModel( id, date, reason, sum.toInt(), profit )
+                        db.accountingDao().insertAll(accountingItem)
+                        Log.d("TestMsg", "Coroutine - insert accounting")
+                    }
                         // запуск первого фрагмента после сохранения
                         FragmentManageHelper(parentFragmentManager)
                             .initFragment(
                                 R.id.fragmentLayoutAccounting,
                                 AccountingListFragment.newInstance()
                             )
-                    }.start()
                 }
             }
         }
