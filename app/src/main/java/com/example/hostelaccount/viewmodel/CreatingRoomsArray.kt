@@ -6,22 +6,10 @@ import com.example.hostelaccount.db.local.DbManager
 import com.example.hostelaccount.db.local.PeopleItemModel
 import com.example.hostelaccount.model.Resident
 import com.example.hostelaccount.model.RoomModel
-class CreatingRoomsArray(context: Context) {
-
-    // DB
-    val db = DbManager.getInstance(context)
-
-
-    // функция для возврата данных из обьекта
-    fun getRoomList (liveData: MutableLiveData<ArrayList<RoomModel>>) {
-        Thread{
-            val result =  createRoomList(db.peopleDao().getAll())
-            liveData.postValue(result)
-        }.start()
-    }
+class CreatingRoomsArray() {
 
     // функция для создания массива комнат с разспределёнными людьми
-    private fun createRoomList(peopleList: List<PeopleItemModel>): ArrayList<RoomModel> {
+     fun createRoomList(peopleList: List<PeopleItemModel>): ArrayList<RoomModel> {
         // создаем пустые ArrayList для хранения RoomModel объектов
         val roomList = ArrayList<RoomModel>()
 

@@ -17,17 +17,4 @@ class FragmentManageHelper(private val manager: androidx.fragment.app.FragmentMa
             commit()
         }
     }
-
-    // ПОКА НЕ РАБОТАЕТ, ВОЗМОЖНО УДАЛИТЬ!
-//    fun backPressed(context: Context, where: Int, firstFrag: Fragment, secondFrag: Fragment){
-//        val currentFragment = manager.findFragmentById(where)
-//        if (currentFragment!!::class.java == firstFrag::class.java) {
-//            // Показать фрагмент списка
-//            FragmentManageHelper(manager)
-//                .initFragment(where , secondFrag)
-//        } else if (currentFragment!!::class.java == secondFrag::class.java) {
-//            // перейти на главное активити (Statistic)
-//            InitMenuChoise(context).startMainActivity()
-//        }
-//    }
 }
