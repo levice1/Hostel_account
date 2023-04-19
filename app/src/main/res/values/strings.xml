@@ -1,6 +1,11 @@
 <resources>
     <string name="app_name">Hostel accounting</string>
     <string name="rooms">Rooms</string>
+    <string name="room">Room:</string>
+    <string name="delay">Delay:</string>
+    <string name="days">days</string>
+    <string name="accounting">Accounting</string>
+    <string name="notifications">Notifications</string>
     <string name="accounting">Accounting</string>
     <string name="statistic">Statistic</string>
     <string name="money_stay">Money stay:</string>
