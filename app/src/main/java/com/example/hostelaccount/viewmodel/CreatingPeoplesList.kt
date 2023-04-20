@@ -1,15 +1,15 @@
 package com.example.hostelaccount.viewmodel
 
-import android.content.Context
 import androidx.lifecycle.MutableLiveData
-import com.example.hostelaccount.db.local.DbManager
 import com.example.hostelaccount.db.local.PeopleItemModel
 import com.example.hostelaccount.model.Resident
 import com.example.hostelaccount.model.RoomModel
-class CreatingRoomsArray() {
+class CreatingPeoplesList {
+
+
 
     // функция для создания массива комнат с разспределёнными людьми
-     fun createRoomList(peopleList: List<PeopleItemModel>): ArrayList<RoomModel> {
+    fun createRoomList(peopleList: List<PeopleItemModel>): ArrayList<RoomModel> {
         // создаем пустые ArrayList для хранения RoomModel объектов
         val roomList = ArrayList<RoomModel>()
 
@@ -49,5 +49,21 @@ class CreatingRoomsArray() {
         return roomList
     }
 
+    fun createDelayList(peopleList: List<PeopleItemModel>) : List<PeopleItemModel> {
+        val delayList = mutableListOf<PeopleItemModel>()
+        val delayUsList = mutableListOf<PeopleItemModel>()
+        val procDate = ProcessingDate()
+        peopleList.forEach{
+           if (procDate.calculateDaysDifference(it.liveTo) < 0) delayList.add(it)
+        }
+        delayList.forEach{
+            if (!it.usPeople) delayUsList.add(it)
+        }
+        return delayUsList
+    }
+
+    fun getCountResidents(list: List<PeopleItemModel>): String {
+        return list.count().toString()
+    }
 
 }

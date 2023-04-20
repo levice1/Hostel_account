@@ -13,7 +13,7 @@ import com.example.hostelaccount.databinding.RecViewRoomListLayoutBinding
 import com.example.hostelaccount.model.RoomModel
 import com.example.hostelaccount.model.PeopleIdViewModel
 import com.example.hostelaccount.model.Resident
-import com.example.hostelaccount.view.FragmentManageHelper
+import com.example.hostelaccount.viewmodel.FragmentManageHelper
 import com.example.hostelaccount.view.peoples.AddNewPeopleFragment
 import com.example.hostelaccount.view.peoples.ListRoomsFragment
 import com.example.hostelaccount.viewmodel.ProcessingDate

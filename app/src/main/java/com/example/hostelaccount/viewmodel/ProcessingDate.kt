@@ -15,8 +15,8 @@ open class ProcessingDate {
     }
 
 
-    fun calculateDaysDifference(dateString: String): Int? {
-        if (dateString == "--.--.--" || dateString == "") return null
+    fun calculateDaysDifference(dateString: String): Int {
+        if (dateString == "--.--.--" || dateString == "") return 31
         val dateFormat = SimpleDateFormat("dd.MM.yy", Locale.getDefault())
         val currentDate = Date()
         val date = dateFormat.parse(dateString)

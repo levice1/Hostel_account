@@ -4,7 +4,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import com.example.hostelaccount.R
 import com.example.hostelaccount.databinding.ActivityPeoplesBinding
-import com.example.hostelaccount.view.FragmentManageHelper
+import com.example.hostelaccount.viewmodel.FragmentManageHelper
 import com.example.hostelaccount.viewmodel.InitMenuChoise
 
 class PeoplesActivity : AppCompatActivity() {

@@ -13,7 +13,7 @@ import com.example.hostelaccount.databinding.FragmentAddNewPeopleBinding
 import com.example.hostelaccount.db.local.DbManager
 import com.example.hostelaccount.db.local.PeopleItemModel
 import com.example.hostelaccount.model.PeopleIdViewModel
-import com.example.hostelaccount.view.FragmentManageHelper
+import com.example.hostelaccount.viewmodel.FragmentManageHelper
 import com.example.hostelaccount.viewmodel.ValidationInputData
 import kotlinx.coroutines.DelicateCoroutinesApi
 import kotlinx.coroutines.GlobalScope

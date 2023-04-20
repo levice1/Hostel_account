@@ -8,7 +8,7 @@ import com.example.hostelaccount.R
 import com.example.hostelaccount.databinding.RecViewAccountingListLayoutBinding
 import com.example.hostelaccount.db.local.AccountingItemModel
 import com.example.hostelaccount.model.AccountingViewModel
-import com.example.hostelaccount.view.FragmentManageHelper
+import com.example.hostelaccount.viewmodel.FragmentManageHelper
 import com.example.hostelaccount.view.accounting.AccountingAddNewEntryFragment
 import com.example.hostelaccount.view.accounting.AccountingListFragment
 

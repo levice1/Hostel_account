@@ -1,4 +1,4 @@
-package com.example.hostelaccount.view
+package com.example.hostelaccount.viewmodel
 
 import androidx.fragment.app.Fragment
 

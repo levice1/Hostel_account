@@ -14,8 +14,8 @@ import com.example.hostelaccount.databinding.FragmentListRoomsBinding
 import com.example.hostelaccount.db.local.DbManager
 import com.example.hostelaccount.model.RoomModel
 import com.example.hostelaccount.model.PeopleIdViewModel
-import com.example.hostelaccount.view.FragmentManageHelper
-import com.example.hostelaccount.viewmodel.CreatingRoomsArray
+import com.example.hostelaccount.viewmodel.FragmentManageHelper
+import com.example.hostelaccount.viewmodel.CreatingPeoplesList
 
 class ListRoomsFragment : Fragment() {
 
@@ -40,7 +40,7 @@ class ListRoomsFragment : Fragment() {
             .getAll()
             .asLiveData()
             .observe(viewLifecycleOwner){
-                val roomsArray = CreatingRoomsArray().createRoomList(it) // получение массива комнат
+                val roomsArray = CreatingPeoplesList().createRoomList(it) // получение массива комнат
                 initRecyclerView(roomsArray)// передача в адаптер
             }
         // инициализация кнопки добавления нового человека

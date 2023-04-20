@@ -14,7 +14,7 @@ import com.example.hostelaccount.databinding.FragmentAccountingListBinding
 import com.example.hostelaccount.db.local.AccountingItemModel
 import com.example.hostelaccount.db.local.DbManager
 import com.example.hostelaccount.model.AccountingViewModel
-import com.example.hostelaccount.view.FragmentManageHelper
+import com.example.hostelaccount.viewmodel.FragmentManageHelper
 
 class AccountingListFragment : Fragment() {
     private lateinit var binding: FragmentAccountingListBinding

@@ -13,7 +13,7 @@ import com.example.hostelaccount.databinding.FragmentAccountingAddNewEntryBindin
 import com.example.hostelaccount.db.local.AccountingItemModel
 import com.example.hostelaccount.db.local.DbManager
 import com.example.hostelaccount.model.AccountingViewModel
-import com.example.hostelaccount.view.FragmentManageHelper
+import com.example.hostelaccount.viewmodel.FragmentManageHelper
 import com.example.hostelaccount.viewmodel.ProcessingDate
 import com.example.hostelaccount.viewmodel.ValidationInputData
 import kotlinx.coroutines.*
