@@ -1,5 +1,6 @@
 package com.example.hostelaccount.adapter
 
+import android.service.autofill.FieldClassification
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
@@ -27,7 +28,7 @@ class NotificationListAdapter : RecyclerView.Adapter<NotificationListAdapter.Vie
         holder.binding.txtRoomNum.text = peoplesList[position].roomNumber.toString()
         holder.binding.txtManName.text = peoplesList[position].guestName
         holder.binding.txtDateTo.text = peoplesList[position].liveTo
-        holder.binding.txtDelayDays.text = ProcessingDate().calculateDaysDifference(peoplesList[position].liveTo)!!.toString()
+        holder.binding.txtDelayDays.text = Math.abs(ProcessingDate().calculateDaysDifference(peoplesList[position].liveTo)!!).toString()
     }
 
     fun setList(list: List<PeopleItemModel>) {

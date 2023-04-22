@@ -6,108 +6,95 @@
     android:layout_height="match_parent"
     android:background="@drawable/backgroung_gradient_main">
 
-    <androidx.cardview.widget.CardView
+    <LinearLayout
         android:id="@+id/moneyNow"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_margin="25dp"
-        app:cardBackgroundColor="#4AFDFDFD"
-        app:cardCornerRadius="16dp"
+        android:background="@drawable/background_same_transparent"
+        android:orientation="vertical"
+        android:padding="10dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/livePeoples">
 
+        <TextView
+            android:id="@+id/txtMoneyStay"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:fontFamily="@font/montserrat_alternates_extralight"
+            android:text="@string/money_stay"
+            android:textColor="#EAEAEA"
+            android:textSize="18sp" />
+
         <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_margin="25dp"
-            android:orientation="vertical">
+            android:id="@+id/countMoney"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:orientation="horizontal">
 
             <TextView
-                android:id="@+id/txtMoneyStay"
+                android:id="@+id/infSum"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
+                android:layout_weight="1"
                 android:fontFamily="@font/montserrat_alternates_extralight"
-                android:text="@string/money_stay"
-                android:textColor="#EAEAEA"
-                android:textSize="18sp" />
+                android:text="@string/rand_sum"
+                android:textColor="#FFFFFF"
+                android:textSize="24sp" />
 
-            <LinearLayout
-                android:id="@+id/countMoney"
+            <TextView
+                android:id="@+id/txtValuta"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:id="@+id/infSum"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:fontFamily="@font/montserrat_alternates_extralight"
-                    android:text="@string/rand_sum"
-                    android:textColor="#FFFFFF"
-                    android:textSize="24sp" />
-
-                <TextView
-                    android:id="@+id/txtValuta"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:fontFamily="@font/montserrat_alternates_extralight"
-                    android:text="@string/currency"
-                    android:textColor="#FFFFFF"
-                    android:textSize="24sp" />
-            </LinearLayout>
-
+                android:layout_weight="1"
+                android:fontFamily="@font/montserrat_alternates_extralight"
+                android:text="@string/currency"
+                android:textColor="#FFFFFF"
+                android:textSize="24sp" />
         </LinearLayout>
 
-    </androidx.cardview.widget.CardView>
+    </LinearLayout>
 
-    <androidx.cardview.widget.CardView
+    <LinearLayout
         android:id="@+id/recViewNotifications"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_margin="25dp"
         android:layout_marginTop="24dp"
-        app:cardBackgroundColor="#4AFDFDFD"
-        app:cardCornerRadius="16dp"
+        android:background="@drawable/background_same_transparent"
+        android:orientation="vertical"
         app:layout_constraintEnd_toEndOf="@+id/moneyNow"
         app:layout_constraintStart_toStartOf="@+id/moneyNow"
         app:layout_constraintTop_toBottomOf="@+id/moneyNow">
 
-        <LinearLayout
+        <TextView
+            android:id="@+id/txtNotificationsLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="10dp"
+            android:fontFamily="@font/montserrat_alternates_extralight"
+            android:text="@string/notifications"
+            android:textColor="#EAEAEA"
+            android:textSize="18sp" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recViewNotificationList"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="vertical">
+            android:layout_margin="10dp"
+            app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:itemCount="3"
+            tools:listitem="@layout/rec_view_notification_list_layout" />
 
-            <TextView
-                android:id="@+id/txtNotificationsLabel"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:layout_marginTop="10dp"
-                android:fontFamily="@font/montserrat_alternates_extralight"
-                android:text="@string/notifications"
-                android:textColor="#EAEAEA"
-                android:textSize="18sp" />
-
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/recViewNotificationList"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_margin="10dp"
-                app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.0"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                tools:itemCount="3"
-                tools:listitem="@layout/rec_view_notification_list_layout" />
-        </LinearLayout>
-
-    </androidx.cardview.widget.CardView>
+    </LinearLayout>
 
 
 
@@ -122,63 +109,56 @@
         app:menu="@menu/bottom_menu"
         tools:ignore="VisualLintBottomNav" />
 
-    <androidx.cardview.widget.CardView
+    <LinearLayout
         android:id="@+id/livePeoples"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_margin="25dp"
-        app:cardBackgroundColor="#4AFDFDFD"
-        app:cardCornerRadius="16dp"
+        android:background="@drawable/background_same_transparent"
+        android:orientation="vertical"
+        android:padding="10dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
+        <TextView
+            android:id="@+id/txtLivePeoples"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:fontFamily="@font/montserrat_alternates_extralight"
+            android:text="@string/peoples_live"
+            android:textColor="#EAEAEA"
+            android:textSize="18sp" />
+
         <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_margin="25dp"
-            android:orientation="vertical">
+            android:id="@+id/countPeoples"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:orientation="horizontal">
 
             <TextView
-                android:id="@+id/txtLivePeoples"
+                android:id="@+id/infNowLive"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
+                android:layout_weight="1"
                 android:fontFamily="@font/montserrat_alternates_extralight"
-                android:text="@string/peoples_live"
-                android:textColor="#EAEAEA"
-                android:textSize="18sp" />
+                android:text="@string/rand_peoples_count"
+                android:textColor="#FFFFFF"
+                android:textSize="24sp" />
 
-            <LinearLayout
-                android:id="@+id/countPeoples"
+            <TextView
+                android:id="@+id/infMaxLive"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:id="@+id/infNowLive"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:fontFamily="@font/montserrat_alternates_extralight"
-                    android:text="@string/rand_peoples_count"
-                    android:textColor="#FFFFFF"
-                    android:textSize="24sp" />
-
-                <TextView
-                    android:id="@+id/infMaxLive"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:fontFamily="@font/montserrat_alternates_extralight"
-                    android:text="@string/max_peoples_count"
-                    android:textColor="#FFFFFF"
-                    android:textSize="24sp" />
-            </LinearLayout>
-
+                android:layout_weight="1"
+                android:fontFamily="@font/montserrat_alternates_extralight"
+                android:text="@string/max_peoples_count"
+                android:textColor="#FFFFFF"
+                android:textSize="24sp" />
         </LinearLayout>
 
-    </androidx.cardview.widget.CardView>
+    </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
