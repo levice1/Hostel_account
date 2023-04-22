@@ -2,6 +2,10 @@
 <resources>
     <string name="app_name">Hostel accounting</string>
     <string name="rooms">Комнаты</string>
+    <string name="room">Комната:</string>
+    <string name="delay">Задержка:</string>
+    <string name="days">дней</string>
+    <string name="notifications">Уведомления</string>
     <string name="accounting">Бухгалтерия</string>
     <string name="statistic">Статистика</string>
     <string name="money_stay">Денег в кассе:</string>
