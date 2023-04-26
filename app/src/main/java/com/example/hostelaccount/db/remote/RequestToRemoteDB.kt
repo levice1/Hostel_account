@@ -11,7 +11,7 @@ import java.net.URL
 
 class RequestToRemoteDB(item: PeopleItemModel) {
 
-
+    private val url = UrlToBackend().url
     private val json = "{\"id\":\"${item.id}\",\"roomNumber\":\"${item.roomNumber}\",\"guestName\":\"${item.guestName}\",\"liveFrom\":\"${item.liveFrom}\",\"liveTo\":\"${item.liveTo}\",\"usPeople\":\"${item.usPeople}\",\"addInfo\":\"${item.addInfo}\"}"
 
     @OptIn(DelicateCoroutinesApi::class)
