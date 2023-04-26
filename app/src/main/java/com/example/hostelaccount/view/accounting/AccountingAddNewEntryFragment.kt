@@ -96,7 +96,7 @@ class AccountingAddNewEntryFragment : Fragment() {
                     GlobalScope.launch {
                         // создание переменной с введёнными данными
                         val accountingItem = AccountingItemModel( id, date, reason, sum.toInt(), profit )
-                        db.accountingDao().insertAll(accountingItem)
+                        db.accountingDao().insertItem(accountingItem)
                         Log.d("TestMsg", "Coroutine - insert accounting")
                     }
                         // запуск первого фрагмента после сохранения

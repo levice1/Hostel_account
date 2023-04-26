@@ -93,7 +93,7 @@ class AddNewPeopleFragment : Fragment() {
                    val peopleItem = PeopleItemModel(id, roomNum.toInt(), name, dateFrom, dateTo, usMan, addInfo)
                     // запуск нового потока для асинхронного сохранения данных в БД
                     GlobalScope.launch{
-                        db.peopleDao().insertAll(peopleItem) // сохранение
+                        db.peopleDao().insertItem(peopleItem) // сохранение
                         Log.d("TestMsg", "Coroutine - insert people")
                     }
                     // запуск первого фрагмента после сохранения
