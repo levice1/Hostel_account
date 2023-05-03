@@ -12,12 +12,16 @@ import com.example.hostelaccount.R
 import com.example.hostelaccount.databinding.FragmentAddNewPeopleBinding
 import com.example.hostelaccount.db.local.DbManager
 import com.example.hostelaccount.db.local.PeopleItemModel
+import com.example.hostelaccount.db.remote.BackendConstants
+import com.example.hostelaccount.db.remote.RequestToRemoteDB
 import com.example.hostelaccount.model.PeopleIdViewModel
 import com.example.hostelaccount.viewmodel.FragmentManageHelper
 import com.example.hostelaccount.viewmodel.ValidationInputData
 import kotlinx.coroutines.DelicateCoroutinesApi
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 class AddNewPeopleFragment : Fragment() {
     private lateinit var binding: FragmentAddNewPeopleBinding
@@ -44,7 +48,7 @@ class AddNewPeopleFragment : Fragment() {
         //  ЕСЛИ БЫЛИ ПЕРЕДАНЫ ДАННЫЕ ИЗ ДРУГОГО ФРАГМЕНТА, ТО ЗАПОЛНЯЕТ ПОЛЯ АВТОМАТИЧЕСКИ
         if (inputData != null) {
             fillFields(inputData)
-            initDeleteBtn(db,inputData.id!!)
+            initDeleteBtn(db,inputData)
         }
         // слушатель нажатий на кнопку сохранить
         initSaveBtnListener(inputData, db)
@@ -94,8 +98,12 @@ class AddNewPeopleFragment : Fragment() {
                     // запуск нового потока для асинхронного сохранения данных в БД
                     GlobalScope.launch{
                         db.peopleDao().insertItem(peopleItem) // сохранение
-                        Log.d("TestMsg", "Coroutine - insert people")
                     }
+                    // запуск нового потока для асинхронного сохранения данных в удалённую БД
+                    GlobalScope.launch {
+                        RequestToRemoteDB(peopleItem, BackendConstants().insert).insert()
+                    }.start()
+
                     // запуск первого фрагмента после сохранения
                     FragmentManageHelper(parentFragmentManager).initFragment(R.id.fragmentLayoutPeoples, ListRoomsFragment.newInstance())
                 }
@@ -118,12 +126,14 @@ class AddNewPeopleFragment : Fragment() {
     // инициализация кнопки удалить, и слушателя нажатий
     // когда слушатель срабатывает - отправляет команду в ДАО БД на удаление, и передаёт id удаляемого
     @OptIn(DelicateCoroutinesApi::class)
-    private fun initDeleteBtn(db: DbManager, id: Int) {
+    private fun initDeleteBtn(db: DbManager, item: PeopleItemModel) {
         binding.btnDelete.visibility = View.VISIBLE
         binding.btnDelete.setOnClickListener {
             GlobalScope.launch {
-                db.peopleDao().deleteById(id)
-                Log.d("TestMsg", "Coroutine - delete people")
+                db.peopleDao().deleteById(item.id!!)
+            }
+            GlobalScope.launch {
+                RequestToRemoteDB(item, BackendConstants().delete).insert()
             }
             FragmentManageHelper(parentFragmentManager).initFragment(R.id.fragmentLayoutPeoples, ListRoomsFragment.newInstance())
         }
