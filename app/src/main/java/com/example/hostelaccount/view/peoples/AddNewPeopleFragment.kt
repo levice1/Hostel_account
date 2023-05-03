@@ -1,7 +1,6 @@
 package com.example.hostelaccount.view.peoples
 
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -18,10 +17,8 @@ import com.example.hostelaccount.model.PeopleIdViewModel
 import com.example.hostelaccount.viewmodel.FragmentManageHelper
 import com.example.hostelaccount.viewmodel.ValidationInputData
 import kotlinx.coroutines.DelicateCoroutinesApi
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 
 class AddNewPeopleFragment : Fragment() {
     private lateinit var binding: FragmentAddNewPeopleBinding
@@ -97,32 +94,16 @@ class AddNewPeopleFragment : Fragment() {
                    val peopleItem = PeopleItemModel(id, roomNum.toInt(), name, dateFrom, dateTo, usMan, addInfo)
                     // запуск нового потока для асинхронного сохранения данных в БД
                     GlobalScope.launch{
-                        db.peopleDao().insertItem(peopleItem) // сохранение
-                    }
-                    // запуск нового потока для асинхронного сохранения данных в удалённую БД
-                    GlobalScope.launch {
+                        val insertedItemId = db.peopleDao().insertItem(peopleItem) // сохранение
+                        peopleItem.id = insertedItemId[0].toInt()
                         RequestToRemoteDB(peopleItem, BackendConstants().insert).insert()
-                    }.start()
-
+                    }
                     // запуск первого фрагмента после сохранения
                     FragmentManageHelper(parentFragmentManager).initFragment(R.id.fragmentLayoutPeoples, ListRoomsFragment.newInstance())
                 }
             }
         }
     }
-
-
-    // функция для заполнения полей переданными данными
-    private fun fillFields(people: PeopleItemModel){
-        binding.txtNameNewMan.setText(people.guestName)
-        binding.txtRoomNumNewMan.setText(people.roomNumber.toString())
-        binding.txtPlDateFrom.setText(people.liveFrom)
-        binding.txtPlDateTo.setText(people.liveTo)
-        binding.txtEdAddInfo.setText(people.addInfo)
-        binding.switchUsMan.isChecked = people.usPeople
-    }
-
-
     // инициализация кнопки удалить, и слушателя нажатий
     // когда слушатель срабатывает - отправляет команду в ДАО БД на удаление, и передаёт id удаляемого
     @OptIn(DelicateCoroutinesApi::class)
@@ -137,5 +118,14 @@ class AddNewPeopleFragment : Fragment() {
             }
             FragmentManageHelper(parentFragmentManager).initFragment(R.id.fragmentLayoutPeoples, ListRoomsFragment.newInstance())
         }
+    }
+    // функция для заполнения полей переданными данными
+    private fun fillFields(people: PeopleItemModel){
+        binding.txtNameNewMan.setText(people.guestName)
+        binding.txtRoomNumNewMan.setText(people.roomNumber.toString())
+        binding.txtPlDateFrom.setText(people.liveFrom)
+        binding.txtPlDateTo.setText(people.liveTo)
+        binding.txtEdAddInfo.setText(people.addInfo)
+        binding.switchUsMan.isChecked = people.usPeople
     }
 }

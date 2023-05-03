@@ -26,6 +26,4 @@ class RequestToRemoteDB(item: PeopleItemModel, process: String) {
             throw RuntimeException("HTTP POST request failed with error code: $responseCode")
         }
     }
-
-    fun delete(){}
 }
