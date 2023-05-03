@@ -14,3 +14,4 @@
 .cxx
 local.properties
 /app/src/main/java/com/example/hostelaccount/db/remote/UrlToBackend.kt
+/app/src/main/java/com/example/hostelaccount/db/remote/BackendConstants.kt
