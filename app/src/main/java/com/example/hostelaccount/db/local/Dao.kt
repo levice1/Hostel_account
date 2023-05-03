@@ -26,7 +26,7 @@ interface AccountingDao {
     fun getAll(): Flow<List<AccountingItemModel>>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insertItem(vararg accountingItemModel: AccountingItemModel)
+    suspend fun insertItem(vararg accountingItemModel: AccountingItemModel) : List<Long>
 
     @Query("DELETE FROM Accounting WHERE id = :id")
     suspend fun deleteById(id: Int)

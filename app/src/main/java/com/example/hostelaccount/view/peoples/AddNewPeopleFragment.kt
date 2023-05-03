@@ -94,9 +94,9 @@ class AddNewPeopleFragment : Fragment() {
                    val peopleItem = PeopleItemModel(id, roomNum.toInt(), name, dateFrom, dateTo, usMan, addInfo)
                     // запуск нового потока для асинхронного сохранения данных в БД
                     GlobalScope.launch{
-                        val insertedItemId = db.peopleDao().insertItem(peopleItem) // сохранение
-                        peopleItem.id = insertedItemId[0].toInt()
-                        RequestToRemoteDB(peopleItem, BackendConstants().insert).insert()
+                        val insertedItemId = db.peopleDao().insertItem(peopleItem) // сохранение to local
+                        peopleItem.id = insertedItemId[0].toInt()// change id to AutIncr generated
+                        RequestToRemoteDB(BackendConstants().insertPeople).insertToPeople(peopleItem)// save to remote
                     }
                     // запуск первого фрагмента после сохранения
                     FragmentManageHelper(parentFragmentManager).initFragment(R.id.fragmentLayoutPeoples, ListRoomsFragment.newInstance())
@@ -112,9 +112,7 @@ class AddNewPeopleFragment : Fragment() {
         binding.btnDelete.setOnClickListener {
             GlobalScope.launch {
                 db.peopleDao().deleteById(item.id!!)
-            }
-            GlobalScope.launch {
-                RequestToRemoteDB(item, BackendConstants().delete).insert()
+                RequestToRemoteDB(BackendConstants().deletePeople).insertToPeople(item)
             }
             FragmentManageHelper(parentFragmentManager).initFragment(R.id.fragmentLayoutPeoples, ListRoomsFragment.newInstance())
         }

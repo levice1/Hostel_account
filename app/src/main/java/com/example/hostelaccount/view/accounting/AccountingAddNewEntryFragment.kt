@@ -1,7 +1,6 @@
 package com.example.hostelaccount.view.accounting
 
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -12,6 +11,8 @@ import com.example.hostelaccount.R
 import com.example.hostelaccount.databinding.FragmentAccountingAddNewEntryBinding
 import com.example.hostelaccount.db.local.AccountingItemModel
 import com.example.hostelaccount.db.local.DbManager
+import com.example.hostelaccount.db.remote.BackendConstants
+import com.example.hostelaccount.db.remote.RequestToRemoteDB
 import com.example.hostelaccount.model.AccountingViewModel
 import com.example.hostelaccount.viewmodel.FragmentManageHelper
 import com.example.hostelaccount.viewmodel.ProcessingDate
@@ -65,7 +66,7 @@ class AccountingAddNewEntryFragment : Fragment() {
             binding.btnDelete.setOnClickListener {
                 GlobalScope.launch {
                     db.accountingDao().deleteById(inputData.id!!)
-                    Log.d("TestMsg", "Coroutine - delete accounting")
+                    RequestToRemoteDB(BackendConstants().deleteAcc).insertToAccounting(inputData)
                 }
                 FragmentManageHelper(parentFragmentManager)
                     .initFragment(
@@ -92,12 +93,13 @@ class AccountingAddNewEntryFragment : Fragment() {
                 !validationInputData.validateDateStr(date) -> showToast(R.string.error_date_required)
                 !validationInputData.validateIntNum(sum) -> showToast(R.string.error_sum_required)
                 else -> {
+                    // создание переменной с введёнными данными
+                    val accountingItem = AccountingItemModel( id, date, reason, sum.toInt(), profit )
                     // запуск корутины для асинхронного сохранения данных в БД
                     GlobalScope.launch {
-                        // создание переменной с введёнными данными
-                        val accountingItem = AccountingItemModel( id, date, reason, sum.toInt(), profit )
-                        db.accountingDao().insertItem(accountingItem)
-                        Log.d("TestMsg", "Coroutine - insert accounting")
+                        val insertedItemId = db.accountingDao().insertItem(accountingItem)
+                        accountingItem.id = insertedItemId[0].toInt()
+                        RequestToRemoteDB(BackendConstants().insertAcc).insertToAccounting(accountingItem)
                     }
                         // запуск первого фрагмента после сохранения
                         FragmentManageHelper(parentFragmentManager)
