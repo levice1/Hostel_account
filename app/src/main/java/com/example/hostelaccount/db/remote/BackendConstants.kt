@@ -6,4 +6,5 @@ class BackendConstants {
      val deletePeople = "deleteP"
      val insertAcc = "insertA"
      val deleteAcc = "deleteA"
+     val deleteAcc1 = "deleteA"
 }
