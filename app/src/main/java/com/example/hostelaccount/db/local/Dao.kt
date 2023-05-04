@@ -14,7 +14,7 @@ interface PeopleDao {
     fun getAll(): Flow<List<PeopleItemModel>>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insertAll(vararg peopleItemModels: PeopleItemModel)
+    suspend fun insertItem(vararg peopleItemModels: PeopleItemModel) : List<Long>
 
     @Query("DELETE FROM Peoples WHERE id = :id")
     suspend fun deleteById(id: Int)
@@ -26,7 +26,7 @@ interface AccountingDao {
     fun getAll(): Flow<List<AccountingItemModel>>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insertAll(vararg accountingItemModel: AccountingItemModel)
+    suspend fun insertItem(vararg accountingItemModel: AccountingItemModel) : List<Long>
 
     @Query("DELETE FROM Accounting WHERE id = :id")
     suspend fun deleteById(id: Int)

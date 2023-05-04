@@ -18,8 +18,6 @@ import com.example.hostelaccount.viewmodel.FragmentManageHelper
 
 class AccountingListFragment : Fragment() {
     private lateinit var binding: FragmentAccountingListBinding
-
-    private lateinit var adapter: AccountingListAdapter
     private lateinit var recyclerView: RecyclerView
 
 
@@ -32,13 +30,17 @@ class AccountingListFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        // получение всех данных из БД и передача их в адаптер RecView
+        val viewModel = ViewModelProvider(requireActivity())[AccountingViewModel::class.java]
+        val adapter = AccountingListAdapter(viewModel)
+        // инициализация RecView
+        initRecyclerView(adapter)
+        // получение всех данных из БД и обновление адаптера RecView
         DbManager.getInstance(requireActivity())
             .accountingDao()
             .getAll()
             .asLiveData()
             .observe(viewLifecycleOwner){
-                initRecyclerView(it) // передача в адаптер
+                updateRecView(it, adapter) // передача в адаптер
             }
         initAddButton() // инициализация кнопки добавления новой записи
     }
@@ -48,15 +50,22 @@ class AccountingListFragment : Fragment() {
         fun newInstance() = AccountingListFragment()
     }
 
-    private fun initRecyclerView(list:List<AccountingItemModel>) { // функция инициализации адаптера
+
+    // функция инициализации RecView
+    private fun initRecyclerView(adapter: AccountingListAdapter) { // функция инициализации адаптера
         recyclerView = binding.recViewAccountingList
-        val viewModel = ViewModelProvider(requireActivity())[AccountingViewModel::class.java]
-        adapter = AccountingListAdapter(viewModel)
         recyclerView.adapter = adapter
+    }
+
+
+    // функция обновления адаптера RecView
+    private fun updateRecView(list:List<AccountingItemModel>, adapter: AccountingListAdapter){
         adapter.setList(list)
     }
 
-    private fun initAddButton(){ // функция инициализации кнопки добавления новой записи
+
+    // функция инициализации кнопки добавления новой записи
+    private fun initAddButton(){
         binding.btnAddNewEntry.setOnClickListener {
             FragmentManageHelper(parentFragmentManager)
                 .initFragment(R.id.fragmentLayoutAccounting, AccountingAddNewEntryFragment.newInstance())

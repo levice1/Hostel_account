@@ -15,10 +15,12 @@ class ValidationInputData : ProcessingDate() {
         }
     }
 
+
     fun validateNameStr(str: String):Boolean {
         val name = str.trim()
         return name.isNotEmpty()
     }
+
 
     fun validateIntNum(str: String): Boolean {
         val roomNum = str.trim().toIntOrNull()
