@@ -21,9 +21,7 @@ class ListRoomsFragment : Fragment() {
 
     private lateinit var binding: FragmentListRoomsBinding
 
-    private lateinit var adapter: RoomListAdapter
     private lateinit var recyclerView: RecyclerView
-
 
 
     override fun onCreateView(
@@ -33,15 +31,21 @@ class ListRoomsFragment : Fragment() {
         return binding.root
     }
 
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        val viewModel = ViewModelProvider(requireActivity())[PeopleIdViewModel::class.java]
+        val adapter = RoomListAdapter(viewModel)
+        // инициализация RecView
+        initRecyclerView(adapter)
+        // получение всех данных из БД и обновление адаптера RecView
         DbManager.getInstance(requireActivity())
             .peopleDao()
             .getAll()
             .asLiveData()
             .observe(viewLifecycleOwner){
                 val roomsArray = CreatingPeoplesList().createRoomList(it) // получение массива комнат
-                initRecyclerView(roomsArray)// передача в адаптер
+                updateRecView(roomsArray, adapter)// передача в адаптер
             }
         // инициализация кнопки добавления нового человека
         initAddButton()
@@ -53,13 +57,17 @@ class ListRoomsFragment : Fragment() {
         fun newInstance() = ListRoomsFragment()
     }
 
-    // функция инициализации адаптера
-    // Принимает массив комнат с уже распределёнными людьми
-    private fun initRecyclerView(list:ArrayList<RoomModel>) {
+
+    // функция инициализации RecView
+    private fun initRecyclerView(adapter: RoomListAdapter) {
         recyclerView = binding.recViewRoomsList
-        val viewModel = ViewModelProvider(requireActivity())[PeopleIdViewModel::class.java]
-        adapter = RoomListAdapter(viewModel)
         recyclerView.adapter = adapter
+    }
+
+
+    // функция обновления адаптера RecView
+    // Принимает массив комнат с уже распределёнными людьми
+    private fun updateRecView(list:ArrayList<RoomModel>, adapter: RoomListAdapter){
         adapter.setList(list)
     }
 

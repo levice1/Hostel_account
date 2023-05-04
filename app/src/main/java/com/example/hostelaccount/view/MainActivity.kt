@@ -2,20 +2,16 @@ package com.example.hostelaccount.view
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.View
 import androidx.lifecycle.LifecycleOwner
-import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.asLiveData
 import androidx.recyclerview.widget.RecyclerView
 import com.example.hostelaccount.R
 import com.example.hostelaccount.adapter.NotificationListAdapter
-import com.example.hostelaccount.adapter.RoomListAdapter
 import com.example.hostelaccount.databinding.ActivityMainBinding
 import com.example.hostelaccount.db.local.DbManager
 import com.example.hostelaccount.db.local.PeopleItemModel
-import com.example.hostelaccount.model.PeopleIdViewModel
-import com.example.hostelaccount.model.PeoplesViewModel
 import com.example.hostelaccount.viewmodel.CalculatingMoney
-import com.example.hostelaccount.viewmodel.CalculatingPeople
 import com.example.hostelaccount.viewmodel.CreatingPeoplesList
 import com.example.hostelaccount.viewmodel.InitMenuChoise
 
@@ -23,10 +19,10 @@ import com.example.hostelaccount.viewmodel.InitMenuChoise
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
 
-    private lateinit var adapter: NotificationListAdapter
     private lateinit var recyclerView: RecyclerView
 
-    private lateinit var peoplesVM: PeoplesViewModel
+    private val adapter = NotificationListAdapter()
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -36,9 +32,9 @@ class MainActivity : AppCompatActivity() {
         // выделить выбранный пункт меню
     }
 
+
     override fun onResume() {
         super.onResume()
-
         // Запрос в БД, таблицу Peoples
         DbManager.getInstance(this)
             .peopleDao()
@@ -48,9 +44,13 @@ class MainActivity : AppCompatActivity() {
                 // подсчёт количества людей ныне проживающих
                 binding.infNowLive.text = CreatingPeoplesList().getCountResidents(it)
                 // отбор просроченых жильцов и вывод уведомлений
-                initNotificRecView(CreatingPeoplesList().createDelayList(it))
+                val delaysPeople = CreatingPeoplesList().createDelayList(it)
+                if (delaysPeople.isNotEmpty()){
+                    binding.recViewNotifications.visibility = View.VISIBLE
+                    initNotificRecView()
+                    updateRecView(delaysPeople)
+                }
             }
-
         // подсчет суммы денег в кассе
         CalculatingMoney(this)
             .getSum()
@@ -70,15 +70,20 @@ class MainActivity : AppCompatActivity() {
 
 
     // на главном активити нажатие назад закрывает все активити и завершает работу приложения
+    @Deprecated("Deprecated in Java")
     override fun onBackPressed() {
         super.onBackPressed()
         finishAffinity()
     }
 
-    fun initNotificRecView(list: List<PeopleItemModel>){
+
+    private fun initNotificRecView(){
         recyclerView = binding.recViewNotificationList
-        adapter = NotificationListAdapter()
         recyclerView.adapter = adapter
+    }
+
+
+    private fun updateRecView(list: List<PeopleItemModel>){
         adapter.setList(list)
     }
 }

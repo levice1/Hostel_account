@@ -41,8 +41,4 @@ if ($mysql->errno) {
 $mysql -> close();
 
 }
-
-
-
-
 ?>

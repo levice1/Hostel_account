@@ -25,8 +25,3 @@ open class ProcessingDate {
         return differenceInDays.toInt()
     }
 }
-
-
-
-
-

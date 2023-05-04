@@ -26,7 +26,8 @@ class AccountingAddNewEntryFragment : Fragment() {
 
     private lateinit var viewModel: AccountingViewModel
 
-    private val validationInputData = ValidationInputData()
+    private val validInpData = ValidationInputData()
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -35,17 +36,7 @@ class AccountingAddNewEntryFragment : Fragment() {
         return binding.root
     }
 
-    override fun onStop() {
-        super.onStop()
-        viewModel.clearData()
-    }
 
-    // Функция для отображения короткого сообщения
-    private fun showToast(msg: Int) {
-        Toast.makeText(requireContext(), msg, Toast.LENGTH_LONG).show()
-    }
-
-    @OptIn(DelicateCoroutinesApi::class)
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         // определение viewModel для приёма данных от фрагмента
@@ -54,32 +45,63 @@ class AccountingAddNewEntryFragment : Fragment() {
         val db = DbManager.getInstance(requireActivity())
         //  определение объекта viewModel и получение данных
         val inputData = viewModel.getData()
-
         //  ЕСЛИ БЫЛИ ПЕРЕДАНЫ ДАННЫЕ ИЗ ДРУГОГО ФРАГМЕНТА, ТО ЗАПОЛНЯЕТ ПОЛЯ АВТОМАТИЧЕСКИ
         if (inputData != null) {
-            binding.btnDelete.visibility = View.VISIBLE
-            binding.txtPlSum.setText(inputData.sum.toString())
-            binding.txtPlDate.setText(inputData.date)
-            binding.txtPlWhoOrWhat.setText(inputData.reason)
-            binding.switchPlusOrMinus.isChecked = inputData.profit
+            fillInputFeelds(inputData)
             // и запускает слушатель на кнопку удаления
-            binding.btnDelete.setOnClickListener {
-                GlobalScope.launch {
-                    db.accountingDao().deleteById(inputData.id!!)
-                    RequestToRemoteDB(BackendConstants().deleteAcc).insertToAccounting(inputData)
-                }
-                FragmentManageHelper(parentFragmentManager)
-                    .initFragment(
-                        R.id.fragmentLayoutAccounting,
-                        AccountingListFragment.newInstance()
-                    )
+            initDelBtn(inputData, db)
+            } else {
+                // если не было переданных данных
+                // Установка текущей даты для удобства
+                binding.txtPlDate.setText(ProcessingDate().getCurrentDate())
             }
-        } else {
-            // Установка текущей даты для удобства
-            binding.txtPlDate.setText(ProcessingDate().getCurrentDate())
-        }
-
         // слушатель нажатий на кнопку сохранить
+        initSaveBtn(inputData, db)
+    }
+
+
+    override fun onStop() {
+        super.onStop()
+        viewModel.clearData()
+    }
+
+
+    companion object {
+        @JvmStatic
+        fun newInstance() = AccountingAddNewEntryFragment()
+    }
+
+
+    // функция заполнения полей если данный пришли
+    private fun fillInputFeelds(inputData: AccountingItemModel){
+        binding.btnDelete.visibility = View.VISIBLE
+        binding.txtPlSum.setText(inputData.sum.toString())
+        binding.txtPlDate.setText(inputData.date)
+        binding.txtPlWhoOrWhat.setText(inputData.reason)
+        binding.switchPlusOrMinus.isChecked = inputData.profit
+    }
+
+
+    // функция инициализации слушателя нажатий на кнопку удалить
+    @OptIn(DelicateCoroutinesApi::class)
+    fun initDelBtn(inputData: AccountingItemModel, db: DbManager){
+        binding.btnDelete.setOnClickListener {
+            GlobalScope.launch {
+                db.accountingDao().deleteById(inputData.id!!)
+                RequestToRemoteDB(BackendConstants().deleteAcc).insertToAccounting(inputData)
+            }
+            FragmentManageHelper(parentFragmentManager)
+                .initFragment(
+                    R.id.fragmentLayoutAccounting,
+                    AccountingListFragment.newInstance()
+                )
+        }
+    }
+
+
+    // функция инициализации слушателя нажатий на кнопку сохранить
+    @OptIn(DelicateCoroutinesApi::class)
+    fun initSaveBtn(inputData: AccountingItemModel?, db: DbManager){
         binding.btnSave.setOnClickListener {
             // ЕСЛИ БЫЛИ ПЕРЕДАНЫ ДАННЫЕ, ТО ID ПРИСВАЕВАЕТ ТОТ ЧТО БЫЛ ПЕРЕДАН. ЕСЛИ НЕТ ТО NULL
             val id = inputData?.id
@@ -89,31 +111,37 @@ class AccountingAddNewEntryFragment : Fragment() {
             val profit = binding.switchPlusOrMinus.isChecked
 
             when {
-                !validationInputData.validateNameStr(reason) -> showToast(R.string.error_reason_required)
-                !validationInputData.validateDateStr(date) -> showToast(R.string.error_date_required)
-                !validationInputData.validateIntNum(sum) -> showToast(R.string.error_sum_required)
+                !validInpData.validateNameStr(reason) -> showToast(R.string.error_reason_required)
+                !validInpData.validateDateStr(date) -> showToast(R.string.error_date_required)
+                !validInpData.validateIntNum(sum) -> showToast(R.string.error_sum_required)
                 else -> {
+                    // если данные прошли валидацию
                     // создание переменной с введёнными данными
                     val accountingItem = AccountingItemModel( id, date, reason, sum.toInt(), profit )
                     // запуск корутины для асинхронного сохранения данных в БД
                     GlobalScope.launch {
+                        // внесение в локальную БД и возврат присвоенного ID записи
                         val insertedItemId = db.accountingDao().insertItem(accountingItem)
+                        // присвоение полученного ID в обьект accountingItem
                         accountingItem.id = insertedItemId[0].toInt()
+                        // внесение в сетевую БД
                         RequestToRemoteDB(BackendConstants().insertAcc).insertToAccounting(accountingItem)
                     }
-                        // запуск первого фрагмента после сохранения
-                        FragmentManageHelper(parentFragmentManager)
-                            .initFragment(
-                                R.id.fragmentLayoutAccounting,
-                                AccountingListFragment.newInstance()
-                            )
+                    // запуск первого фрагмента после сохранения
+                    FragmentManageHelper(parentFragmentManager)
+                        .initFragment(
+                            R.id.fragmentLayoutAccounting,
+                            AccountingListFragment.newInstance()
+                        )
                 }
             }
         }
     }
-    companion object {
-        @JvmStatic
-        fun newInstance() = AccountingAddNewEntryFragment()
+
+
+    // Функция для отображения короткого сообщения
+    private fun showToast(msg: Int) {
+        Toast.makeText(requireContext(), msg, Toast.LENGTH_LONG).show()
     }
 }
 

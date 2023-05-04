@@ -22,6 +22,8 @@ class InitMenuChoise(val context: Context) {
             }
         }
     }
+
+
     private fun startPeoplesActivity(): Boolean{
         val intent = Intent(context, PeoplesActivity::class.java)
         intent.flags = Intent.FLAG_ACTIVITY_REORDER_TO_FRONT
@@ -29,12 +31,14 @@ class InitMenuChoise(val context: Context) {
         return true
     }
 
+
     private fun startAccountingActivity(): Boolean{
         val intent = Intent(context, AccountingActivity::class.java)
         intent.flags = Intent.FLAG_ACTIVITY_REORDER_TO_FRONT
         startActivity(context, intent, null)
         return true
     }
+
 
     fun startMainActivity(): Boolean{
         val intent = Intent(context, MainActivity::class.java)
