@@ -46,15 +46,11 @@ class CreatingPeoplesList {
     // функция для создания списка людей с истёкшим периодом оплаты
     fun createDelayList(peopleList: List<PeopleItemModel>) : List<PeopleItemModel> {
         val delayList = mutableListOf<PeopleItemModel>()
-        val delayUsList = mutableListOf<PeopleItemModel>()
         val procDate = ProcessingDate()
         peopleList.forEach{
-           if (procDate.calculateDaysDifference(it.liveTo) < 0) delayList.add(it)
+           if (procDate.calculateDaysDifference(it.liveTo) < 0 && !it.usPeople) delayList.add(it)
         }
-        delayList.forEach{
-            if (!it.usPeople) delayUsList.add(it)
-        }
-        return delayUsList
+        return delayList
     }
 
 
