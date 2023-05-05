@@ -106,7 +106,7 @@ class AccountingAddNewEntryFragment : Fragment() {
             // ЕСЛИ БЫЛИ ПЕРЕДАНЫ ДАННЫЕ, ТО ID ПРИСВАЕВАЕТ ТОТ ЧТО БЫЛ ПЕРЕДАН. ЕСЛИ НЕТ ТО NULL
             val id = inputData?.id
             val date = binding.txtPlDate.text.toString()
-            val reason = binding.txtPlWhoOrWhat.text.toString().replaceFirstChar { it.uppercase() }
+            val reason = binding.txtPlWhoOrWhat.text.toString().replaceFirstChar { it.uppercase() }.replace("ʼ","").replace("'","")
             val sum = binding.txtPlSum.text.toString()
             val profit = binding.switchPlusOrMinus.isChecked
 
