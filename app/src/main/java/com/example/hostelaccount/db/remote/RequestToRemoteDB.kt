@@ -8,7 +8,6 @@ import java.net.URL
 
 
 class RequestToRemoteDB(private val process: String) {
-
     private val url = BackendConstants().url
 
 
