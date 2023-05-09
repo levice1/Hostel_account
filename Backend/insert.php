@@ -18,19 +18,24 @@ switch($process){
 
     case 'insertP':
         $id = $data['id'];
+
         $roomNumber = $data['roomNumber'];
+
         $guestName = $data['guestName'];
+        $guestName = trim($guestName);
+
         $liveFrom = $data['liveFrom'];
+
         $liveTo = $data['liveTo'];
+
         $usPeople = $data['usPeople'];
-    
-        if($usPeople == 'true') { 
+        if($usPeople == 'true') {
             $usPeople = 1; }
             else { $usPeople = 0;}
-    
+
         $addInfo = $data['addInfo'];
 
-        $sql = "INSERT INTO hostel_peoples (id, roomNumber, guestName, liveFrom, liveTo, usPeople, addInfo) 
+        $sql = "INSERT INTO hostel_peoples (id, roomNumber, guestName, liveFrom, liveTo, usPeople, addInfo)
             VALUES ($id, $roomNumber, '$guestName', '$liveFrom', '$liveTo', '$usPeople', '$addInfo')
             ON DUPLICATE KEY UPDATE
             roomNumber = VALUES(roomNumber),
@@ -51,15 +56,20 @@ switch($process){
     case 'insertA':
 
         $id = $data['id'];
+
         $date = $data['date'];
+
         $reason = $data['reason'];
+        $reason = trim($reason);
+
         $sum = $data['sum'];
+
         $profit = $data['profit'];
         if($profit == 'true'){
             $profit = 1;
         } else { $profit = 0; }
 
-        $sql = "INSERT INTO hostel_acc (id, date, reason, sum, profit) 
+        $sql = "INSERT INTO hostel_acc (id, date, reason, sum, profit)
             VALUES ($id, '$date', '$reason', '$sum', '$profit')
             ON DUPLICATE KEY UPDATE
             date = VALUES(date),
