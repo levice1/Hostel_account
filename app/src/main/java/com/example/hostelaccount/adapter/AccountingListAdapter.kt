@@ -56,6 +56,7 @@ class AccountingListAdapter(private val viewModel: AccountingViewModel): Recycle
     }
 
     fun setList(list: List<AccountingItemModel>) {
+        accountingList.clear()
         accountingList.addAll(list)
         notifyDataSetChanged()
     }
