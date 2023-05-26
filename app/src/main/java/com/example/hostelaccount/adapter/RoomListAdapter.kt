@@ -164,6 +164,7 @@ class RoomListAdapter(private val viewModel: PeopleIdViewModel): RecyclerView.Ad
 
 
     fun setList(list: ArrayList<RoomModel>) {
+        roomsList.clear()
         roomsList.addAll(list)
         notifyDataSetChanged()
     }
