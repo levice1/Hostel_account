@@ -1,10 +1,9 @@
 package com.example.hostelaccount.viewmodel.Peoples
 
-import android.content.Context
+import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.hostelaccount.data.data_sourse.DbManager
 import com.example.hostelaccount.data.data_sourse.PeopleItemModel
 import com.example.hostelaccount.data.repository.PeopleRepositoryImpl
 import com.example.hostelaccount.model.Resident
@@ -15,33 +14,32 @@ import kotlinx.coroutines.flow.onEach
 
 
 
-class PeoplesViewModel() : ViewModel() {
+class PeoplesViewModel : ViewModel() {
 
     private var residentData: PeopleItemModel? = null
 
-    private val _peoplesListLD: MutableLiveData<List<PeopleItemModel>> = MutableLiveData()
-
-    lateinit var _repository: PeopleRepositoryImpl
+    private lateinit var _repository: PeopleRepositoryImpl
 
 
     fun init (repository: PeopleRepositoryImpl) {
         _repository = repository
-        getAllPeoples()
     }
-    private fun getAllPeoples() {
+    private fun getAllPeoples(): MutableLiveData<List<PeopleItemModel>> {
+        val allPeoplesLD = MutableLiveData<List<PeopleItemModel>>()
         // получение всех данных из БД и обновление адаптера RecView
         _repository.getPeoples().onEach {
-                _peoplesListLD.value = it
+                allPeoplesLD.value = it
             }.launchIn(viewModelScope)
+        return allPeoplesLD
     }
 
     fun getRoomsList(): MutableLiveData<List<RoomModel>> {
         val roomList = MutableLiveData<List<RoomModel>>()
-        roomList.value = _peoplesListLD.value?.let { CreatingPeoplesList().createRoomList(it) }
+        _repository.getPeoples().onEach {
+            roomList.postValue(CreatingPeoplesList().createRoomList(it))
+        }.launchIn(viewModelScope)
         return roomList
     }
-
-
 
 
     // так как CreatingRoomArray не возвращает в каждом резиденте номер комнаты, мы формируем обьект PeopleItemModel здесь.
