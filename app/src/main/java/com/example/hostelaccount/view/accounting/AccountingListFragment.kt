@@ -9,12 +9,12 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.asLiveData
 import androidx.recyclerview.widget.RecyclerView
 import com.example.hostelaccount.R
-import com.example.hostelaccount.adapter.AccountingListAdapter
+import com.example.hostelaccount.view.util.adapter.AccountingListAdapter
 import com.example.hostelaccount.databinding.FragmentAccountingListBinding
-import com.example.hostelaccount.db.local.AccountingItemModel
-import com.example.hostelaccount.db.local.DbManager
-import com.example.hostelaccount.model.AccountingViewModel
-import com.example.hostelaccount.viewmodel.FragmentManageHelper
+import com.example.hostelaccount.data.data_sourse.AccountingItemModel
+import com.example.hostelaccount.data.data_sourse.DbManager
+import com.example.hostelaccount.viewmodel.Accounting.AccountingViewModel
+import com.example.hostelaccount.viewmodel.util.FragmentManageHelper
 
 class AccountingListFragment : Fragment() {
     private lateinit var binding: FragmentAccountingListBinding

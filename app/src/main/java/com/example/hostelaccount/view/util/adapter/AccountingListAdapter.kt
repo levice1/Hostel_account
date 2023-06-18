@@ -1,4 +1,4 @@
-package com.example.hostelaccount.adapter
+package com.example.hostelaccount.view.util.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -6,9 +6,9 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.RecyclerView
 import com.example.hostelaccount.R
 import com.example.hostelaccount.databinding.RecViewAccountingListLayoutBinding
-import com.example.hostelaccount.db.local.AccountingItemModel
-import com.example.hostelaccount.model.AccountingViewModel
-import com.example.hostelaccount.viewmodel.FragmentManageHelper
+import com.example.hostelaccount.data.data_sourse.AccountingItemModel
+import com.example.hostelaccount.viewmodel.Accounting.AccountingViewModel
+import com.example.hostelaccount.viewmodel.util.FragmentManageHelper
 import com.example.hostelaccount.view.accounting.AccountingAddNewEntryFragment
 import com.example.hostelaccount.view.accounting.AccountingListFragment
 

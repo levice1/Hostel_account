@@ -9,14 +9,14 @@ import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
 import com.example.hostelaccount.R
 import com.example.hostelaccount.databinding.FragmentAccountingAddNewEntryBinding
-import com.example.hostelaccount.db.local.AccountingItemModel
-import com.example.hostelaccount.db.local.DbManager
-import com.example.hostelaccount.db.remote.BackendConstants
-import com.example.hostelaccount.db.remote.RequestToRemoteDB
-import com.example.hostelaccount.model.AccountingViewModel
-import com.example.hostelaccount.viewmodel.FragmentManageHelper
-import com.example.hostelaccount.viewmodel.ProcessingDate
-import com.example.hostelaccount.viewmodel.ValidationInputData
+import com.example.hostelaccount.data.data_sourse.AccountingItemModel
+import com.example.hostelaccount.data.data_sourse.DbManager
+import com.example.hostelaccount.data.remote.BackendConstants
+import com.example.hostelaccount.data.remote.InsertLocalDBToRemoteDB
+import com.example.hostelaccount.viewmodel.Accounting.AccountingViewModel
+import com.example.hostelaccount.viewmodel.util.FragmentManageHelper
+import com.example.hostelaccount.viewmodel.util.ProcessingDate
+import com.example.hostelaccount.viewmodel.util.ValidationInputData
 import kotlinx.coroutines.*
 
 
@@ -88,7 +88,7 @@ class AccountingAddNewEntryFragment : Fragment() {
         binding.btnDelete.setOnClickListener {
             GlobalScope.launch {
                 db.accountingDao().deleteById(inputData.id!!)
-                RequestToRemoteDB(BackendConstants().deleteAcc).insertToAccounting(inputData)
+                InsertLocalDBToRemoteDB(BackendConstants().deleteAcc).insertToAccounting(inputData)
             }
             FragmentManageHelper(parentFragmentManager)
                 .initFragment(
@@ -125,7 +125,7 @@ class AccountingAddNewEntryFragment : Fragment() {
                         // присвоение полученного ID в обьект accountingItem
                         accountingItem.id = insertedItemId[0].toInt()
                         // внесение в сетевую БД
-                        RequestToRemoteDB(BackendConstants().insertAcc).insertToAccounting(accountingItem)
+                        InsertLocalDBToRemoteDB(BackendConstants().insertAcc).insertToAccounting(accountingItem)
                     }
                     // запуск первого фрагмента после сохранения
                     FragmentManageHelper(parentFragmentManager)

@@ -1,7 +1,7 @@
-package com.example.hostelaccount.model
+package com.example.hostelaccount.viewmodel.Accounting
 
 import androidx.lifecycle.ViewModel
-import com.example.hostelaccount.db.local.AccountingItemModel
+import com.example.hostelaccount.data.data_sourse.AccountingItemModel
 
 
 // КЛАСС ДЛЯ ViewModel С МЕТОДАМИ ЗАПИСИ И ПОЛУЧЕНИЯ ДАННЫХ

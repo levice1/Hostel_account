@@ -9,13 +9,13 @@ import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
 import com.example.hostelaccount.R
 import com.example.hostelaccount.databinding.FragmentAddNewPeopleBinding
-import com.example.hostelaccount.db.local.DbManager
-import com.example.hostelaccount.db.local.PeopleItemModel
-import com.example.hostelaccount.db.remote.BackendConstants
-import com.example.hostelaccount.db.remote.RequestToRemoteDB
-import com.example.hostelaccount.model.PeopleIdViewModel
-import com.example.hostelaccount.viewmodel.FragmentManageHelper
-import com.example.hostelaccount.viewmodel.ValidationInputData
+import com.example.hostelaccount.data.data_sourse.DbManager
+import com.example.hostelaccount.data.data_sourse.PeopleItemModel
+import com.example.hostelaccount.data.remote.BackendConstants
+import com.example.hostelaccount.data.remote.InsertLocalDBToRemoteDB
+import com.example.hostelaccount.viewmodel.Peoples.PeoplesViewModel
+import com.example.hostelaccount.viewmodel.util.FragmentManageHelper
+import com.example.hostelaccount.viewmodel.util.ValidationInputData
 import kotlinx.coroutines.DelicateCoroutinesApi
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
@@ -23,7 +23,7 @@ import kotlinx.coroutines.launch
 class AddNewPeopleFragment : Fragment() {
     private lateinit var binding: FragmentAddNewPeopleBinding
 
-    private lateinit var viewModel: PeopleIdViewModel
+    private lateinit var viewModel: PeoplesViewModel
 
 
     override fun onCreateView(
@@ -37,9 +37,9 @@ class AddNewPeopleFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         // определение viewModel для приёма данных от фрагмента
-        viewModel = ViewModelProvider(requireActivity())[PeopleIdViewModel::class.java]
+        viewModel = ViewModelProvider(requireActivity())[PeoplesViewModel::class.java]
         //  определение объекта viewModel и получение данных
-        val inputData = viewModel.getData()
+        val inputData = viewModel.getSavedResident()
         // определение переменной БД
         val db = DbManager.getInstance(requireActivity())
         //  ЕСЛИ БЫЛИ ПЕРЕДАНЫ ДАННЫЕ ИЗ ДРУГОГО ФРАГМЕНТА, ТО ЗАПОЛНЯЕТ ПОЛЯ АВТОМАТИЧЕСКИ
@@ -52,10 +52,6 @@ class AddNewPeopleFragment : Fragment() {
     }
 
 
-    override fun onStop() {
-        super.onStop()
-        viewModel.clearData()
-    }
 
     companion object {
         @JvmStatic
@@ -96,7 +92,7 @@ class AddNewPeopleFragment : Fragment() {
                     GlobalScope.launch{
                         val insertedItemId = db.peopleDao().insertItem(peopleItem) // сохранение to local
                         peopleItem.id = insertedItemId[0].toInt()// change id to AutIncr generated
-                        RequestToRemoteDB(BackendConstants().insertPeople).insertToPeople(peopleItem)// save to remote
+                        InsertLocalDBToRemoteDB(BackendConstants().insertPeople).insertToPeople(peopleItem)// save to remote
                     }
                     // запуск первого фрагмента после сохранения
                     FragmentManageHelper(parentFragmentManager).initFragment(R.id.fragmentLayoutPeoples, ListRoomsFragment.newInstance())
@@ -112,7 +108,7 @@ class AddNewPeopleFragment : Fragment() {
         binding.btnDelete.setOnClickListener {
             GlobalScope.launch {
                 db.peopleDao().deleteById(item.id!!)
-                RequestToRemoteDB(BackendConstants().deletePeople).insertToPeople(item)
+                InsertLocalDBToRemoteDB(BackendConstants().deletePeople).insertToPeople(item)
             }
             FragmentManageHelper(parentFragmentManager).initFragment(R.id.fragmentLayoutPeoples, ListRoomsFragment.newInstance())
         }

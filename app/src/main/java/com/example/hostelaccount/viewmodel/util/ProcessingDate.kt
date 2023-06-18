@@ -1,4 +1,4 @@
-package com.example.hostelaccount.viewmodel
+package com.example.hostelaccount.viewmodel.util
 
 import android.annotation.SuppressLint
 import android.icu.text.SimpleDateFormat

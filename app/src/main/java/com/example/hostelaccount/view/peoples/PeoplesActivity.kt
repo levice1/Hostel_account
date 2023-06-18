@@ -4,8 +4,8 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import com.example.hostelaccount.R
 import com.example.hostelaccount.databinding.ActivityPeoplesBinding
-import com.example.hostelaccount.viewmodel.FragmentManageHelper
-import com.example.hostelaccount.viewmodel.InitMenuChoise
+import com.example.hostelaccount.viewmodel.util.FragmentManageHelper
+import com.example.hostelaccount.view.util.InitMenuChoise
 
 class PeoplesActivity : AppCompatActivity() {
     private lateinit var binding: ActivityPeoplesBinding
@@ -13,7 +13,7 @@ class PeoplesActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityPeoplesBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        InitMenuChoise(this).initMenuChiose(binding.bottomNavigation)
+        InitMenuChoise(this).init(binding.bottomNavigation)
         FragmentManageHelper(supportFragmentManager)
             .initFragment(R.id.fragmentLayoutPeoples , ListRoomsFragment.newInstance())
     }

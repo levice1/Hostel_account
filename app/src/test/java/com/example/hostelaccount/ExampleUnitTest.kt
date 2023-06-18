@@ -1,6 +1,6 @@
 package com.example.hostelaccount
 
-import com.example.hostelaccount.viewmodel.ProcessingDate
+import com.example.hostelaccount.viewmodel.util.ProcessingDate
 import org.junit.Test
 
 import org.junit.Assert.*

@@ -1,8 +1,9 @@
-package com.example.hostelaccount.viewmodel
+package com.example.hostelaccount.viewmodel.Peoples.util
 
-import com.example.hostelaccount.db.local.PeopleItemModel
+import com.example.hostelaccount.data.data_sourse.PeopleItemModel
 import com.example.hostelaccount.model.Resident
 import com.example.hostelaccount.model.RoomModel
+import com.example.hostelaccount.viewmodel.util.ProcessingDate
 
 
 class CreatingPeoplesList {

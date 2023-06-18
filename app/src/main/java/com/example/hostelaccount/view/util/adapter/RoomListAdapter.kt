@@ -1,4 +1,4 @@
-package com.example.hostelaccount.adapter
+package com.example.hostelaccount.view.util.adapter
 
 
 import android.content.Context
@@ -11,14 +11,14 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.hostelaccount.R
 import com.example.hostelaccount.databinding.RecViewRoomListLayoutBinding
 import com.example.hostelaccount.model.RoomModel
-import com.example.hostelaccount.model.PeopleIdViewModel
+import com.example.hostelaccount.viewmodel.Peoples.PeoplesViewModel
 import com.example.hostelaccount.model.Resident
-import com.example.hostelaccount.viewmodel.FragmentManageHelper
+import com.example.hostelaccount.viewmodel.util.FragmentManageHelper
 import com.example.hostelaccount.view.peoples.AddNewPeopleFragment
 import com.example.hostelaccount.view.peoples.ListRoomsFragment
-import com.example.hostelaccount.viewmodel.ProcessingDate
+import com.example.hostelaccount.viewmodel.util.ProcessingDate
 
-class RoomListAdapter(private val viewModel: PeopleIdViewModel): RecyclerView.Adapter<RoomListAdapter.ViewHolder>() {
+class RoomListAdapter(private val viewModel: PeoplesViewModel): RecyclerView.Adapter<RoomListAdapter.ViewHolder>() {
     inner class ViewHolder (val binding: RecViewRoomListLayoutBinding) : RecyclerView.ViewHolder(binding.root)
 
     private var roomsList = ArrayList<RoomModel>()
@@ -143,7 +143,7 @@ class RoomListAdapter(private val viewModel: PeopleIdViewModel): RecyclerView.Ad
 
 
     private fun startFragForEditing(holder: ViewHolder, roomNum: Int, resident: Resident){
-        viewModel.setData(resident, roomNum)
+        viewModel.saveResidentForRecView(resident, roomNum)
         // и запускает новый фрагмент
         FragmentManageHelper((holder.itemView.context as AppCompatActivity).supportFragmentManager)
             .replaceFragment(
@@ -163,7 +163,7 @@ class RoomListAdapter(private val viewModel: PeopleIdViewModel): RecyclerView.Ad
     }
 
 
-    fun setList(list: ArrayList<RoomModel>) {
+    fun setList(list: List<RoomModel>) {
         roomsList.clear()
         roomsList.addAll(list)
         notifyDataSetChanged()

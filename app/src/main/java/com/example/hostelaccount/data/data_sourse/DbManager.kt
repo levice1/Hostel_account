@@ -1,4 +1,4 @@
-package com.example.hostelaccount.db.local
+package com.example.hostelaccount.data.data_sourse
 
 import android.content.Context
 import androidx.room.Database

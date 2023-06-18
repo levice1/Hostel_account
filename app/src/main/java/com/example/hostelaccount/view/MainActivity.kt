@@ -7,13 +7,13 @@ import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.asLiveData
 import androidx.recyclerview.widget.RecyclerView
 import com.example.hostelaccount.R
-import com.example.hostelaccount.adapter.NotificationListAdapter
+import com.example.hostelaccount.view.util.adapter.NotificationListAdapter
 import com.example.hostelaccount.databinding.ActivityMainBinding
-import com.example.hostelaccount.db.local.DbManager
-import com.example.hostelaccount.db.local.PeopleItemModel
-import com.example.hostelaccount.viewmodel.CalculatingMoney
-import com.example.hostelaccount.viewmodel.CreatingPeoplesList
-import com.example.hostelaccount.viewmodel.InitMenuChoise
+import com.example.hostelaccount.data.data_sourse.DbManager
+import com.example.hostelaccount.data.data_sourse.PeopleItemModel
+import com.example.hostelaccount.view.util.InitMenuChoise
+import com.example.hostelaccount.viewmodel.util.CalculatingMoney
+import com.example.hostelaccount.viewmodel.Peoples.util.CreatingPeoplesList
 
 
 class MainActivity : AppCompatActivity() {
@@ -28,7 +28,7 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        InitMenuChoise(this).initMenuChiose(binding.bottomNavigation)
+        InitMenuChoise(this).init(binding.bottomNavigation)
         // выделить выбранный пункт меню
     }
 

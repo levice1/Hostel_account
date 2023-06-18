@@ -1,13 +1,13 @@
-package com.example.hostelaccount.db.remote
+package com.example.hostelaccount.data.remote
 
-import com.example.hostelaccount.db.local.AccountingItemModel
-import com.example.hostelaccount.db.local.PeopleItemModel
+import com.example.hostelaccount.data.data_sourse.AccountingItemModel
+import com.example.hostelaccount.data.data_sourse.PeopleItemModel
 import java.io.OutputStreamWriter
 import java.net.HttpURLConnection
 import java.net.URL
 
 
-class RequestToRemoteDB(private val process: String) {
+class InsertLocalDBToRemoteDB(private val process: String) {
     private val url = BackendConstants().url
 
 

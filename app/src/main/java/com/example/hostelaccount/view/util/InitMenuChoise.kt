@@ -1,4 +1,4 @@
-package com.example.hostelaccount.viewmodel
+package com.example.hostelaccount.view.util
 
 import android.content.Context
 import android.content.Intent
@@ -11,7 +11,7 @@ import com.google.android.material.bottomnavigation.BottomNavigationView
 
 class InitMenuChoise(val context: Context) {
 
-    fun initMenuChiose(navi: BottomNavigationView) {
+    fun init(navi: BottomNavigationView) {
         navi.setOnItemSelectedListener { menuItem ->
 
             when (menuItem.itemId) {

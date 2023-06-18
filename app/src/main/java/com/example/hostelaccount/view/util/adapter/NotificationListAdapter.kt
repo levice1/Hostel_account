@@ -1,12 +1,12 @@
-package com.example.hostelaccount.adapter
+package com.example.hostelaccount.view.util.adapter
 
 import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.hostelaccount.databinding.RecViewNotificationListLayoutBinding
-import com.example.hostelaccount.db.local.PeopleItemModel
-import com.example.hostelaccount.viewmodel.ProcessingDate
+import com.example.hostelaccount.data.data_sourse.PeopleItemModel
+import com.example.hostelaccount.viewmodel.util.ProcessingDate
 
 
 class NotificationListAdapter : RecyclerView.Adapter<NotificationListAdapter.ViewHolder>() {

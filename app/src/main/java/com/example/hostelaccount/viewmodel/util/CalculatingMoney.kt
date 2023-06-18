@@ -1,12 +1,12 @@
-package com.example.hostelaccount.viewmodel
+package com.example.hostelaccount.viewmodel.util
 
 import android.content.Context
 import androidx.lifecycle.asLiveData
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import com.example.hostelaccount.db.local.AccountingItemModel
-import com.example.hostelaccount.db.local.DbManager
+import com.example.hostelaccount.data.data_sourse.AccountingItemModel
+import com.example.hostelaccount.data.data_sourse.DbManager
 
 class CalculatingMoney(val context: Context) {
 
