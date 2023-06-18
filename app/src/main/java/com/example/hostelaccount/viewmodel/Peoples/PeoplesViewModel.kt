@@ -1,17 +1,17 @@
 package com.example.hostelaccount.viewmodel.Peoples
 
-import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.hostelaccount.data.data_sourse.PeopleItemModel
+import com.example.hostelaccount.data.remote.BackendConstants
+import com.example.hostelaccount.data.remote.InsertLocalDBToRemoteDB
 import com.example.hostelaccount.data.repository.PeopleRepositoryImpl
 import com.example.hostelaccount.model.Resident
 import com.example.hostelaccount.model.RoomModel
 import com.example.hostelaccount.viewmodel.Peoples.util.CreatingPeoplesList
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
-
 
 
 class PeoplesViewModel : ViewModel() {
@@ -24,7 +24,7 @@ class PeoplesViewModel : ViewModel() {
     fun init (repository: PeopleRepositoryImpl) {
         _repository = repository
     }
-    private fun getAllPeoples(): MutableLiveData<List<PeopleItemModel>> {
+    private fun getAllResidents(): MutableLiveData<List<PeopleItemModel>> {
         val allPeoplesLD = MutableLiveData<List<PeopleItemModel>>()
         // получение всех данных из БД и обновление адаптера RecView
         _repository.getPeoples().onEach {
@@ -39,6 +39,18 @@ class PeoplesViewModel : ViewModel() {
             roomList.postValue(CreatingPeoplesList().createRoomList(it))
         }.launchIn(viewModelScope)
         return roomList
+    }
+
+    suspend fun saveResident(resident: PeopleItemModel) {
+        val insertedItemId = _repository.insertItem(resident) // сохранение to local
+        resident.id = insertedItemId[0].toInt()// change id to AutIncr generated
+        //InsertLocalDBToRemoteDB(BackendConstants().insertPeople).insertToPeople(resident)// save to remote
+    }
+
+
+    suspend fun deleteResident(resident: PeopleItemModel){
+            _repository.deleteById(resident.id!!)
+        //InsertLocalDBToRemoteDB(BackendConstants().deletePeople).insertToPeople(resident)
     }
 
 

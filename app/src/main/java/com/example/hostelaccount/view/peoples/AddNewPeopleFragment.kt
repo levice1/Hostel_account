@@ -11,16 +11,16 @@ import com.example.hostelaccount.R
 import com.example.hostelaccount.databinding.FragmentAddNewPeopleBinding
 import com.example.hostelaccount.data.data_sourse.DbManager
 import com.example.hostelaccount.data.data_sourse.PeopleItemModel
-import com.example.hostelaccount.data.remote.BackendConstants
-import com.example.hostelaccount.data.remote.InsertLocalDBToRemoteDB
 import com.example.hostelaccount.viewmodel.Peoples.PeoplesViewModel
 import com.example.hostelaccount.viewmodel.util.FragmentManageHelper
 import com.example.hostelaccount.viewmodel.util.ValidationInputData
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.DelicateCoroutinesApi
-import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 class AddNewPeopleFragment : Fragment() {
+
     private lateinit var binding: FragmentAddNewPeopleBinding
 
     private lateinit var viewModel: PeoplesViewModel
@@ -39,25 +39,23 @@ class AddNewPeopleFragment : Fragment() {
         // определение viewModel для приёма данных от фрагмента
         viewModel = ViewModelProvider(requireActivity())[PeoplesViewModel::class.java]
         //  определение объекта viewModel и получение данных
-        val inputData = viewModel.getSavedResident()
+        val savedResident = viewModel.getSavedResident()
         // определение переменной БД
         val db = DbManager.getInstance(requireActivity())
         //  ЕСЛИ БЫЛИ ПЕРЕДАНЫ ДАННЫЕ ИЗ ДРУГОГО ФРАГМЕНТА, ТО ЗАПОЛНЯЕТ ПОЛЯ АВТОМАТИЧЕСКИ
-        if (inputData != null) {
-            fillFields(inputData)
-            initDeleteBtn(db,inputData)
+        if (savedResident != null) {
+            fillFields(savedResident)
+            initDeleteBtn(savedResident)
         }
         // слушатель нажатий на кнопку сохранить
-        initSaveBtnListener(inputData, db)
+        initSaveBtnListener(savedResident, db)
     }
-
 
 
     companion object {
         @JvmStatic
         fun newInstance() = AddNewPeopleFragment()
     }
-
 
 
     // Функция для отображения короткого сообщения
@@ -87,12 +85,10 @@ class AddNewPeopleFragment : Fragment() {
                 !validInptData.validateIntNum(roomNum) -> showToast(R.string.error_roomnum_required)
                 else -> {
                     // создание переменной с введёнными данными
-                   val peopleItem = PeopleItemModel(id, roomNum.toInt(), name, dateFrom, dateTo, usMan, addInfo)
+                   val residentItem = PeopleItemModel(id, roomNum.toInt(), name, dateFrom, dateTo, usMan, addInfo)
                     // запуск нового потока для асинхронного сохранения данных в БД
-                    GlobalScope.launch{
-                        val insertedItemId = db.peopleDao().insertItem(peopleItem) // сохранение to local
-                        peopleItem.id = insertedItemId[0].toInt()// change id to AutIncr generated
-                        InsertLocalDBToRemoteDB(BackendConstants().insertPeople).insertToPeople(peopleItem)// save to remote
+                    CoroutineScope(Dispatchers.IO).launch {
+                        viewModel.saveResident(residentItem)
                     }
                     // запуск первого фрагмента после сохранения
                     FragmentManageHelper(parentFragmentManager).initFragment(R.id.fragmentLayoutPeoples, ListRoomsFragment.newInstance())
@@ -100,26 +96,26 @@ class AddNewPeopleFragment : Fragment() {
             }
         }
     }
+
+
     // инициализация кнопки удалить, и слушателя нажатий
-    // когда слушатель срабатывает - отправляет команду в ДАО БД на удаление, и передаёт id удаляемого
-    @OptIn(DelicateCoroutinesApi::class)
-    private fun initDeleteBtn(db: DbManager, item: PeopleItemModel) {
+    // когда слушатель срабатывает - отправляет команду в viewModel на удаление, и передаёт id удаляемого
+    private fun initDeleteBtn(resident: PeopleItemModel) {
         binding.btnDelete.visibility = View.VISIBLE
         binding.btnDelete.setOnClickListener {
-            GlobalScope.launch {
-                db.peopleDao().deleteById(item.id!!)
-                InsertLocalDBToRemoteDB(BackendConstants().deletePeople).insertToPeople(item)
+            CoroutineScope(Dispatchers.IO).launch {
+                viewModel.deleteResident(resident)
             }
             FragmentManageHelper(parentFragmentManager).initFragment(R.id.fragmentLayoutPeoples, ListRoomsFragment.newInstance())
         }
     }
     // функция для заполнения полей переданными данными
-    private fun fillFields(people: PeopleItemModel){
-        binding.txtNameNewMan.setText(people.guestName)
-        binding.txtRoomNumNewMan.setText(people.roomNumber.toString())
-        binding.txtPlDateFrom.setText(people.liveFrom)
-        binding.txtPlDateTo.setText(people.liveTo)
-        binding.txtEdAddInfo.setText(people.addInfo)
-        binding.switchUsMan.isChecked = people.usPeople
+    private fun fillFields(resident: PeopleItemModel){
+        binding.txtNameNewMan.setText(resident.guestName)
+        binding.txtRoomNumNewMan.setText(resident.roomNumber.toString())
+        binding.txtPlDateFrom.setText(resident.liveFrom)
+        binding.txtPlDateTo.setText(resident.liveTo)
+        binding.txtEdAddInfo.setText(resident.addInfo)
+        binding.switchUsMan.isChecked = resident.usPeople
     }
 }
