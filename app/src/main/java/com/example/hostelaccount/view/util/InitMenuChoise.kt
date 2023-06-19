@@ -4,7 +4,7 @@ import android.content.Context
 import android.content.Intent
 import androidx.core.content.ContextCompat.startActivity
 import com.example.hostelaccount.R
-import com.example.hostelaccount.view.MainActivity
+import com.example.hostelaccount.view.statistic.StatisticActivity
 import com.example.hostelaccount.view.accounting.AccountingActivity
 import com.example.hostelaccount.view.peoples.PeoplesActivity
 import com.google.android.material.bottomnavigation.BottomNavigationView
@@ -41,7 +41,7 @@ class InitMenuChoise(val context: Context) {
 
 
     fun startMainActivity(): Boolean{
-        val intent = Intent(context, MainActivity::class.java)
+        val intent = Intent(context, StatisticActivity::class.java)
         intent.flags = Intent.FLAG_ACTIVITY_REORDER_TO_FRONT
         startActivity(context, intent, null)
         return true

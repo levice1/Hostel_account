@@ -4,9 +4,9 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.hostelaccount.data.data_sourse.PeopleItemModel
-import com.example.hostelaccount.data.repository.PeopleRepositoryImpl
 import com.example.hostelaccount.model.Resident
 import com.example.hostelaccount.model.RoomModel
+import com.example.hostelaccount.viewmodel.peoples.repository.PeopleRepository
 import com.example.hostelaccount.viewmodel.peoples.util.CreatingRoomList
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
@@ -16,21 +16,12 @@ class PeoplesViewModel : ViewModel() {
 
     private var tempResident: PeopleItemModel? = null
 
-    private lateinit var _repository: PeopleRepositoryImpl
+    private lateinit var _repository: PeopleRepository
 
 
-    fun init(repository: PeopleRepositoryImpl) {
+    fun init(repository: PeopleRepository) {
         _repository = repository
     }
-//    Can be used later!
-//    private fun getAllResidents(): MutableLiveData<List<PeopleItemModel>> {
-//        val allPeoplesLD = MutableLiveData<List<PeopleItemModel>>()
-//        // получение всех данных из БД и обновление адаптера RecView
-//        _repository.getPeoples().onEach {
-//            allPeoplesLD.value = it
-//        }.launchIn(viewModelScope)
-//        return allPeoplesLD
-//    }
 
     fun getRoomsList(): MutableLiveData<List<RoomModel>> {
         val roomList = MutableLiveData<List<RoomModel>>()

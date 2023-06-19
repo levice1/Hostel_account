@@ -4,7 +4,6 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.hostelaccount.data.data_sourse.AccountingItemModel
-import com.example.hostelaccount.data.repository.AccountingRepositoryImpl
 import com.example.hostelaccount.viewmodel.accounting.repository.AccountingRepository
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
@@ -15,7 +14,7 @@ class AccountingViewModel : ViewModel() {
 
     private lateinit var _repository: AccountingRepository
 
-    fun init(repository: AccountingRepositoryImpl) {
+    fun init(repository: AccountingRepository) {
         _repository = repository
     }
 

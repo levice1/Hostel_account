@@ -1,4 +1,4 @@
-package com.example.hostelaccount.view.util
+package com.example.hostelaccount.view.statistic.util
 
 import android.annotation.SuppressLint
 import android.view.LayoutInflater

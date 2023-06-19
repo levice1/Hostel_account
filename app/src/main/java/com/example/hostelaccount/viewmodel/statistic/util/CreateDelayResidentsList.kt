@@ -1,6 +1,7 @@
-package com.example.hostelaccount.viewmodel.util
+package com.example.hostelaccount.viewmodel.statistic.util
 
 import com.example.hostelaccount.data.data_sourse.PeopleItemModel
+import com.example.hostelaccount.viewmodel.util.ProcessingDate
 
 class CreateDelayResidentsList {
     operator fun invoke(peopleList: List<PeopleItemModel>): List<PeopleItemModel> {
