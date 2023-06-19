@@ -28,6 +28,7 @@ class AccountingActivity : AppCompatActivity() {
     }
 
     // на Peoples и Accounting активити, нажатие назад переходит на главное активити (Statistic)
+    @Deprecated("Deprecated in Java")
     override fun onBackPressed() {
         val currentFragment = supportFragmentManager.findFragmentById(R.id.fragmentLayoutAccounting)
         if (currentFragment is AccountingAddNewEntryFragment) {

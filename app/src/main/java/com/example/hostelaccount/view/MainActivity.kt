@@ -7,13 +7,14 @@ import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.asLiveData
 import androidx.recyclerview.widget.RecyclerView
 import com.example.hostelaccount.R
-import com.example.hostelaccount.view.util.adapter.NotificationListAdapter
+import com.example.hostelaccount.view.util.NotificationListAdapter
 import com.example.hostelaccount.databinding.ActivityMainBinding
 import com.example.hostelaccount.data.data_sourse.DbManager
 import com.example.hostelaccount.data.data_sourse.PeopleItemModel
 import com.example.hostelaccount.view.util.InitMenuChoise
+import com.example.hostelaccount.viewmodel.util.CreateDelayResidentsList
 import com.example.hostelaccount.viewmodel.util.CalculatingMoney
-import com.example.hostelaccount.viewmodel.Peoples.util.CreatingPeoplesList
+import com.example.hostelaccount.viewmodel.util.GetResidentsCount
 
 
 class MainActivity : AppCompatActivity() {
@@ -42,9 +43,9 @@ class MainActivity : AppCompatActivity() {
             .asLiveData()
             .observe(this as LifecycleOwner){
                 // подсчёт количества людей ныне проживающих
-                binding.infNowLive.text = CreatingPeoplesList().getCountResidents(it)
+                binding.infNowLive.text = GetResidentsCount().invoke(it)
                 // отбор просроченых жильцов и вывод уведомлений
-                val delaysPeople = CreatingPeoplesList().createDelayList(it)
+                val delaysPeople = CreateDelayResidentsList().invoke(it)
                 if (delaysPeople.isNotEmpty()){
                     binding.recViewNotifications.visibility = View.VISIBLE
                     initNotificRecView()

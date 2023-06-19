@@ -1,7 +1,6 @@
 package com.example.hostelaccount.view.peoples
 
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -10,10 +9,10 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.RecyclerView
 import com.example.hostelaccount.R
 import com.example.hostelaccount.data.repository.PeopleRepositoryImpl
-import com.example.hostelaccount.view.util.adapter.RoomListAdapter
+import com.example.hostelaccount.view.peoples.util.RoomListAdapter
 import com.example.hostelaccount.databinding.FragmentListRoomsBinding
 import com.example.hostelaccount.model.RoomModel
-import com.example.hostelaccount.viewmodel.Peoples.PeoplesViewModel
+import com.example.hostelaccount.viewmodel.peoples.PeoplesViewModel
 import com.example.hostelaccount.viewmodel.util.FragmentManageHelper
 
 class ListRoomsFragment : Fragment() {

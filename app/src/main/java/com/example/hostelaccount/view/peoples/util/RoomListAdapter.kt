@@ -1,6 +1,7 @@
-package com.example.hostelaccount.view.util.adapter
+package com.example.hostelaccount.view.peoples.util
 
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
@@ -11,7 +12,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.hostelaccount.R
 import com.example.hostelaccount.databinding.RecViewRoomListLayoutBinding
 import com.example.hostelaccount.model.RoomModel
-import com.example.hostelaccount.viewmodel.Peoples.PeoplesViewModel
+import com.example.hostelaccount.viewmodel.peoples.PeoplesViewModel
 import com.example.hostelaccount.model.Resident
 import com.example.hostelaccount.viewmodel.util.FragmentManageHelper
 import com.example.hostelaccount.view.peoples.AddNewPeopleFragment
@@ -58,7 +59,7 @@ class RoomListAdapter(private val viewModel: PeoplesViewModel): RecyclerView.Ada
             // если человек наш, оставляет цвет его поля прозрачным
             holder.binding.bed1.setBackgroundResource(R.drawable.background_elements_same_transparent)
         }
-        holder.binding.bed1.setOnClickListener(){
+        holder.binding.bed1.setOnClickListener{
             startFragForEditing(holder,roomsList[position].roomNum ,roomsList[position].people[0])
         }
 
@@ -80,7 +81,7 @@ class RoomListAdapter(private val viewModel: PeoplesViewModel): RecyclerView.Ada
             if(roomsList[position].people[1].id == 0){
                 holder.binding.bed2.visibility = View.GONE
             }
-            holder.binding.bed2.setOnClickListener() {
+            holder.binding.bed2.setOnClickListener {
                 startFragForEditing(
                     holder,
                     roomsList[position].roomNum,
@@ -106,7 +107,7 @@ class RoomListAdapter(private val viewModel: PeoplesViewModel): RecyclerView.Ada
         if(roomsList[position].people[2].id == 0 && roomsList[position].people[2].name == ""){
             holder.binding.bed3.visibility = View.GONE
         }
-            holder.binding.bed3.setOnClickListener() {
+            holder.binding.bed3.setOnClickListener {
                 startFragForEditing(
                     holder,
                     roomsList[position].roomNum,
@@ -132,7 +133,7 @@ class RoomListAdapter(private val viewModel: PeoplesViewModel): RecyclerView.Ada
             if(roomsList[position].people[3].id == 0 && roomsList[position].people[3].name == ""){
             holder.binding.bed4.visibility = View.GONE
             }
-            holder.binding.bed4.setOnClickListener() {
+            holder.binding.bed4.setOnClickListener {
                 startFragForEditing(
                     holder,
                     roomsList[position].roomNum,
@@ -143,7 +144,7 @@ class RoomListAdapter(private val viewModel: PeoplesViewModel): RecyclerView.Ada
 
 
     private fun startFragForEditing(holder: ViewHolder, roomNum: Int, resident: Resident){
-        viewModel.saveResidentForRecView(resident, roomNum)
+        viewModel.saveTempResident(resident, roomNum)
         // и запускает новый фрагмент
         FragmentManageHelper((holder.itemView.context as AppCompatActivity).supportFragmentManager)
             .replaceFragment(
@@ -163,13 +164,14 @@ class RoomListAdapter(private val viewModel: PeoplesViewModel): RecyclerView.Ada
     }
 
 
+    @SuppressLint("NotifyDataSetChanged")
     fun setList(list: List<RoomModel>) {
         roomsList.clear()
         roomsList.addAll(list)
         notifyDataSetChanged()
     }
 
-    fun repareVisibility(holder: ViewHolder){
+    private fun repareVisibility(holder: ViewHolder){
         // сброс видимости полей перед присваиванием новых значений
         // исправление бага с пропаданием некоторых полей в элементах
         // и бага с некорректным цветов в зависимости от даты

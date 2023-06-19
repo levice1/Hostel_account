@@ -9,13 +9,11 @@ import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
 import com.example.hostelaccount.R
 import com.example.hostelaccount.databinding.FragmentAddNewPeopleBinding
-import com.example.hostelaccount.data.data_sourse.DbManager
 import com.example.hostelaccount.data.data_sourse.PeopleItemModel
-import com.example.hostelaccount.viewmodel.Peoples.PeoplesViewModel
+import com.example.hostelaccount.viewmodel.peoples.PeoplesViewModel
 import com.example.hostelaccount.viewmodel.util.FragmentManageHelper
 import com.example.hostelaccount.viewmodel.util.ValidationInputData
 import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.DelicateCoroutinesApi
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
@@ -39,16 +37,14 @@ class AddNewPeopleFragment : Fragment() {
         // определение viewModel для приёма данных от фрагмента
         viewModel = ViewModelProvider(requireActivity())[PeoplesViewModel::class.java]
         //  определение объекта viewModel и получение данных
-        val savedResident = viewModel.getSavedResident()
-        // определение переменной БД
-        val db = DbManager.getInstance(requireActivity())
+        val savedResident = viewModel.getTempResident()
         //  ЕСЛИ БЫЛИ ПЕРЕДАНЫ ДАННЫЕ ИЗ ДРУГОГО ФРАГМЕНТА, ТО ЗАПОЛНЯЕТ ПОЛЯ АВТОМАТИЧЕСКИ
         if (savedResident != null) {
             fillFields(savedResident)
             initDeleteBtn(savedResident)
         }
         // слушатель нажатий на кнопку сохранить
-        initSaveBtnListener(savedResident, db)
+        initSaveBtnListener(savedResident)
     }
 
 
@@ -65,8 +61,7 @@ class AddNewPeopleFragment : Fragment() {
 
 
     // инициализация кнопки сохранить
-    @OptIn(DelicateCoroutinesApi::class)
-    private fun initSaveBtnListener(inputData: PeopleItemModel?, db: DbManager) {
+    private fun initSaveBtnListener(inputData: PeopleItemModel?) {
         val validInptData = ValidationInputData()
         binding.btnSave.setOnClickListener {
             // ЕСЛИ БЫЛИ ПЕРЕДАНЫ ДАННЫЕ, ТО ID ПРИСВАЕВАЕТ ТОТ ЧТО БЫЛ ПЕРЕДАН. ЕСЛИ НЕТ ТО NULL

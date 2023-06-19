@@ -4,7 +4,7 @@ import android.content.Context
 import com.example.hostelaccount.data.data_sourse.DbManager
 import com.example.hostelaccount.data.data_sourse.PeopleDao
 import com.example.hostelaccount.data.data_sourse.PeopleItemModel
-import com.example.hostelaccount.viewmodel.Peoples.repository.PeopleRepository
+import com.example.hostelaccount.viewmodel.peoples.repository.PeopleRepository
 import kotlinx.coroutines.flow.Flow
 
 class PeopleRepositoryImpl(context: Context): PeopleRepository {

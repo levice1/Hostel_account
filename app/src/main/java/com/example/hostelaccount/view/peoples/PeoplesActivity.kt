@@ -30,6 +30,7 @@ class PeoplesActivity : AppCompatActivity() {
     // на Peoples и Accounting активити, нажатие назад переходит на:
     // если включен фрагмент добавления - переход на фграмент списка.
     // если включен фрагмент списка - переход на фграмент списка главное активити (Statistic).
+    @Deprecated("Deprecated in Java")
     override fun onBackPressed() {
         val currentFragment = supportFragmentManager.findFragmentById(R.id.fragmentLayoutPeoples)
         if (currentFragment is AddNewPeopleFragment) {

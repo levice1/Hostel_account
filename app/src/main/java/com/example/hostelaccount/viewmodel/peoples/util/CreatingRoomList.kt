@@ -1,14 +1,13 @@
-package com.example.hostelaccount.viewmodel.Peoples.util
+package com.example.hostelaccount.viewmodel.peoples.util
 
 import com.example.hostelaccount.data.data_sourse.PeopleItemModel
 import com.example.hostelaccount.model.Resident
 import com.example.hostelaccount.model.RoomModel
-import com.example.hostelaccount.viewmodel.util.ProcessingDate
 
 
-class CreatingPeoplesList {
+class CreatingRoomList {
     // функция для создания массива комнат с разспределёнными людьми
-    fun createRoomList(peopleList: List<PeopleItemModel>): ArrayList<RoomModel> {
+     operator fun invoke(peopleList: List<PeopleItemModel>): ArrayList<RoomModel> {
         val roomList = ArrayList<RoomModel>()
         val peopleMap = mutableMapOf<Int, MutableList<PeopleItemModel>>()
         for (people in peopleList) {
@@ -42,22 +41,4 @@ class CreatingPeoplesList {
         }
         return roomList
     }
-
-
-    // функция для создания списка людей с истёкшим периодом оплаты
-    fun createDelayList(peopleList: List<PeopleItemModel>) : List<PeopleItemModel> {
-        val delayList = mutableListOf<PeopleItemModel>()
-        val procDate = ProcessingDate()
-        peopleList.forEach{
-           if (procDate.calculateDaysDifference(it.liveTo) < 0 && !it.usPeople) delayList.add(it)
-        }
-        return delayList
-    }
-
-
-    // функция подсчёта количества проживающих людей
-    fun getCountResidents(list: List<PeopleItemModel>): String {
-        return list.count().toString()
-    }
-
 }

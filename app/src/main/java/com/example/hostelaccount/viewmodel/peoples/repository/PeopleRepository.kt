@@ -1,4 +1,4 @@
-package com.example.hostelaccount.viewmodel.Peoples.repository
+package com.example.hostelaccount.viewmodel.peoples.repository
 
 import com.example.hostelaccount.data.data_sourse.PeopleItemModel
 import kotlinx.coroutines.flow.Flow

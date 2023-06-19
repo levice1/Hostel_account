@@ -6,14 +6,13 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.asLiveData
 import androidx.recyclerview.widget.RecyclerView
 import com.example.hostelaccount.R
-import com.example.hostelaccount.view.util.adapter.AccountingListAdapter
+import com.example.hostelaccount.view.accounting.util.AccountingListAdapter
 import com.example.hostelaccount.databinding.FragmentAccountingListBinding
 import com.example.hostelaccount.data.data_sourse.AccountingItemModel
-import com.example.hostelaccount.data.data_sourse.DbManager
-import com.example.hostelaccount.viewmodel.Accounting.AccountingViewModel
+import com.example.hostelaccount.data.repository.AccountingRepositoryImpl
+import com.example.hostelaccount.viewmodel.accounting.AccountingViewModel
 import com.example.hostelaccount.viewmodel.util.FragmentManageHelper
 
 class AccountingListFragment : Fragment() {
@@ -28,22 +27,29 @@ class AccountingListFragment : Fragment() {
         return binding.root
     }
 
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
         val viewModel = ViewModelProvider(requireActivity())[AccountingViewModel::class.java]
+
+        val repositoryImpl = AccountingRepositoryImpl(this.requireContext())
+
+        viewModel.init(repositoryImpl)
+
         val adapter = AccountingListAdapter(viewModel)
+
         // инициализация RecView
         initRecyclerView(adapter)
-        // получение всех данных из БД и обновление адаптера RecView
-        DbManager.getInstance(requireActivity())
-            .accountingDao()
-            .getAll()
-            .asLiveData()
-            .observe(viewLifecycleOwner){
-                updateRecView(it, adapter) // передача в адаптер
+
+        viewModel.getAccountingItems().observe(viewLifecycleOwner) { itemsList ->
+            if (itemsList != null) {
+                updateRecView(itemsList, adapter)// передача в адаптер
             }
+        }
         initAddButton() // инициализация кнопки добавления новой записи
     }
+
 
     companion object {
         @JvmStatic

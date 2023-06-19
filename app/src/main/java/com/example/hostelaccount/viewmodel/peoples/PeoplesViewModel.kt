@@ -1,42 +1,41 @@
-package com.example.hostelaccount.viewmodel.Peoples
+package com.example.hostelaccount.viewmodel.peoples
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.hostelaccount.data.data_sourse.PeopleItemModel
-import com.example.hostelaccount.data.remote.BackendConstants
-import com.example.hostelaccount.data.remote.InsertLocalDBToRemoteDB
 import com.example.hostelaccount.data.repository.PeopleRepositoryImpl
 import com.example.hostelaccount.model.Resident
 import com.example.hostelaccount.model.RoomModel
-import com.example.hostelaccount.viewmodel.Peoples.util.CreatingPeoplesList
+import com.example.hostelaccount.viewmodel.peoples.util.CreatingRoomList
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 
 
 class PeoplesViewModel : ViewModel() {
 
-    private var residentData: PeopleItemModel? = null
+    private var tempResident: PeopleItemModel? = null
 
     private lateinit var _repository: PeopleRepositoryImpl
 
 
-    fun init (repository: PeopleRepositoryImpl) {
+    fun init(repository: PeopleRepositoryImpl) {
         _repository = repository
     }
-    private fun getAllResidents(): MutableLiveData<List<PeopleItemModel>> {
-        val allPeoplesLD = MutableLiveData<List<PeopleItemModel>>()
-        // получение всех данных из БД и обновление адаптера RecView
-        _repository.getPeoples().onEach {
-                allPeoplesLD.value = it
-            }.launchIn(viewModelScope)
-        return allPeoplesLD
-    }
+//    Can be used later!
+//    private fun getAllResidents(): MutableLiveData<List<PeopleItemModel>> {
+//        val allPeoplesLD = MutableLiveData<List<PeopleItemModel>>()
+//        // получение всех данных из БД и обновление адаптера RecView
+//        _repository.getPeoples().onEach {
+//            allPeoplesLD.value = it
+//        }.launchIn(viewModelScope)
+//        return allPeoplesLD
+//    }
 
     fun getRoomsList(): MutableLiveData<List<RoomModel>> {
         val roomList = MutableLiveData<List<RoomModel>>()
         _repository.getPeoples().onEach {
-            roomList.postValue(CreatingPeoplesList().createRoomList(it))
+            roomList.postValue(CreatingRoomList().invoke(it))
         }.launchIn(viewModelScope)
         return roomList
     }
@@ -48,17 +47,19 @@ class PeoplesViewModel : ViewModel() {
     }
 
 
-    suspend fun deleteResident(resident: PeopleItemModel){
+    suspend fun deleteResident(resident: PeopleItemModel) {
+        if (resident.id != null) {
             _repository.deleteById(resident.id!!)
-        //InsertLocalDBToRemoteDB(BackendConstants().deletePeople).insertToPeople(resident)
+            //InsertLocalDBToRemoteDB(BackendConstants().deletePeople).insertToPeople(resident)
+        }
     }
 
 
     // так как CreatingRoomArray не возвращает в каждом резиденте номер комнаты, мы формируем обьект PeopleItemModel здесь.
     // Это сделано для передачи человека со всеми данными, из фрагмента списка комнат в фрагмент редактирования, при нажатии на него.
-    fun saveResidentForRecView(resident: Resident?, roomNum: Int?) {
+    fun saveTempResident(resident: Resident?, roomNum: Int?) {
         if (resident != null && roomNum != null) {
-            residentData = PeopleItemModel(
+            tempResident = PeopleItemModel(
                 resident.id,
                 roomNum,
                 resident.name,
@@ -70,9 +71,9 @@ class PeoplesViewModel : ViewModel() {
         }
     }
 
-    fun getSavedResident(): PeopleItemModel? {
-        val tempResidentData = residentData
-        residentData = null
+    fun getTempResident(): PeopleItemModel? {
+        val tempResidentData = tempResident
+        tempResident = null
         return tempResidentData
     }
 

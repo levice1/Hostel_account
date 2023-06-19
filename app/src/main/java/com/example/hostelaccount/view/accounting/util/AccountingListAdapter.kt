@@ -1,5 +1,6 @@
-package com.example.hostelaccount.view.util.adapter
+package com.example.hostelaccount.view.accounting.util
 
+import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
@@ -7,7 +8,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.hostelaccount.R
 import com.example.hostelaccount.databinding.RecViewAccountingListLayoutBinding
 import com.example.hostelaccount.data.data_sourse.AccountingItemModel
-import com.example.hostelaccount.viewmodel.Accounting.AccountingViewModel
+import com.example.hostelaccount.viewmodel.accounting.AccountingViewModel
 import com.example.hostelaccount.viewmodel.util.FragmentManageHelper
 import com.example.hostelaccount.view.accounting.AccountingAddNewEntryFragment
 import com.example.hostelaccount.view.accounting.AccountingListFragment
@@ -42,8 +43,8 @@ class AccountingListAdapter(private val viewModel: AccountingViewModel): Recycle
 
         // слушатель нажатий на каждый елемент
         holder.itemView.setOnClickListener {
-            // при нажатии устанавлявает данные у viewModel
-            viewModel.setData(accountingList[position])
+            // save to viewModel temporary variable
+                viewModel.saveTempItem(accountingList[position])
             // и запускает новый фрагмент
             val fragmentManager = (holder.itemView.context as AppCompatActivity).supportFragmentManager
             FragmentManageHelper(fragmentManager)
@@ -55,6 +56,7 @@ class AccountingListAdapter(private val viewModel: AccountingViewModel): Recycle
         }
     }
 
+    @SuppressLint("NotifyDataSetChanged")
     fun setList(list: List<AccountingItemModel>) {
         accountingList.clear()
         accountingList.addAll(list)
