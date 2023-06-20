@@ -12,6 +12,7 @@ import com.example.hostelaccount.viewmodel.accounting.AccountingViewModel
 import com.example.hostelaccount.viewmodel.util.FragmentManageHelper
 import com.example.hostelaccount.view.accounting.AccountingAddNewEntryFragment
 import com.example.hostelaccount.view.accounting.AccountingListFragment
+import com.example.hostelaccount.viewmodel.accounting.AccountingEvent
 
 
 class AccountingListAdapter(private val viewModel: AccountingViewModel): RecyclerView.Adapter<AccountingListAdapter.ViewHolder>() {
@@ -44,7 +45,7 @@ class AccountingListAdapter(private val viewModel: AccountingViewModel): Recycle
         // слушатель нажатий на каждый елемент
         holder.itemView.setOnClickListener {
             // save to viewModel temporary variable
-                viewModel.saveTempItem(accountingList[position])
+                viewModel.onEvent(AccountingEvent.SaveTempItem(accountingList[position]))
             // и запускает новый фрагмент
             val fragmentManager = (holder.itemView.context as AppCompatActivity).supportFragmentManager
             FragmentManageHelper(fragmentManager)

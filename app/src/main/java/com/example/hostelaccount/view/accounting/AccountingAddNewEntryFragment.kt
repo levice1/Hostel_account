@@ -1,6 +1,7 @@
 package com.example.hostelaccount.view.accounting
 
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -10,17 +11,17 @@ import androidx.lifecycle.ViewModelProvider
 import com.example.hostelaccount.R
 import com.example.hostelaccount.databinding.FragmentAccountingAddNewEntryBinding
 import com.example.hostelaccount.data.data_sourse.AccountingItemModel
+import com.example.hostelaccount.viewmodel.accounting.AccountingEvent
 import com.example.hostelaccount.viewmodel.accounting.AccountingViewModel
 import com.example.hostelaccount.viewmodel.util.FragmentManageHelper
 import com.example.hostelaccount.viewmodel.util.ProcessingDate
 import com.example.hostelaccount.viewmodel.util.ValidationInputData
-import kotlinx.coroutines.*
-
 
 class AccountingAddNewEntryFragment : Fragment() {
     private lateinit var binding: FragmentAccountingAddNewEntryBinding
     private lateinit var viewModel: AccountingViewModel
     private val validationInputData = ValidationInputData()
+    private var inputData: AccountingItemModel? = null
 
 
     override fun onCreateView(
@@ -34,22 +35,29 @@ class AccountingAddNewEntryFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        // определение viewModel для приёма данных от фрагмента
         viewModel = ViewModelProvider(requireActivity())[AccountingViewModel::class.java]
-        //  определение объекта viewModel и получение данных
-        val inputData = viewModel.getTempItem()
-        //  ЕСЛИ БЫЛИ ПЕРЕДАНЫ ДАННЫЕ ИЗ ДРУГОГО ФРАГМЕНТА, ТО ЗАПОЛНЯЕТ ПОЛЯ АВТОМАТИЧЕСКИ
-        if (inputData != null) {
-            fillInputFeelds(inputData)
+        // Observer for viewModel state
+        viewModel.state.observe(viewLifecycleOwner){
+            if (it.tempAccountingItem != null) {
+            inputData = it.tempAccountingItem
+            //  ЕСЛИ БЫЛИ ПЕРЕДАНЫ ДАННЫЕ ИЗ ДРУГОГО ФРАГМЕНТА, ТО ЗАПОЛНЯЕТ ПОЛЯ АВТОМАТИЧЕСКИ
+            fillInputFeelds(inputData!!)
             // и запускает слушатель на кнопку удаления
-            initDelBtn(inputData)
-        } else {
-            // если не было переданных данных
-            // Установка текущей даты для удобства
-            binding.txtPlDate.setText(ProcessingDate().getCurrentDate())
+            initDelBtn(inputData!!)
+            } else {
+                // если не было переданных данных
+                // Установка текущей даты для удобства
+                binding.txtPlDate.setText(ProcessingDate().getCurrentDate())
+            }
         }
         // слушатель нажатий на кнопку сохранить
         initSaveBtn(inputData)
+    }
+
+    override fun onResume() {
+        super.onResume()
+        // run event in viewModel
+        viewModel.onEvent(AccountingEvent.GetTempItem)
     }
 
 
@@ -72,9 +80,7 @@ class AccountingAddNewEntryFragment : Fragment() {
     // функция инициализации слушателя нажатий на кнопку удалить
     private fun initDelBtn(item: AccountingItemModel) {
         binding.btnDelete.setOnClickListener {
-            CoroutineScope(Dispatchers.IO).launch {
-                viewModel.deleteAccountingItem(item)
-            }
+            viewModel.onEvent(AccountingEvent.DeleteItem(item))
             FragmentManageHelper(parentFragmentManager)
                 .initFragment(
                     R.id.fragmentLayoutAccounting,
@@ -104,9 +110,7 @@ class AccountingAddNewEntryFragment : Fragment() {
                     // создание переменной с введёнными данными
                     val accountingItem = AccountingItemModel(id, date, reason, sum.toInt(), profit)
                     // запуск корутины для асинхронного сохранения данных в БД
-                    CoroutineScope(Dispatchers.IO).launch {
-                        viewModel.saveAccountingItem(accountingItem)
-                    }
+                    viewModel.onEvent(AccountingEvent.SaveItem(accountingItem))
                     // запуск первого фрагмента после сохранения
                     FragmentManageHelper(parentFragmentManager)
                         .initFragment(

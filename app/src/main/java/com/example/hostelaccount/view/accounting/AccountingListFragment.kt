@@ -12,12 +12,14 @@ import com.example.hostelaccount.view.accounting.util.AccountingListAdapter
 import com.example.hostelaccount.databinding.FragmentAccountingListBinding
 import com.example.hostelaccount.data.data_sourse.AccountingItemModel
 import com.example.hostelaccount.data.repository.AccountingRepositoryImpl
+import com.example.hostelaccount.viewmodel.accounting.AccountingEvent
 import com.example.hostelaccount.viewmodel.accounting.AccountingViewModel
 import com.example.hostelaccount.viewmodel.util.FragmentManageHelper
 
 class AccountingListFragment : Fragment() {
     private lateinit var binding: FragmentAccountingListBinding
     private lateinit var recyclerView: RecyclerView
+    private lateinit var viewModel: AccountingViewModel
 
 
     override fun onCreateView(
@@ -31,7 +33,7 @@ class AccountingListFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val viewModel = ViewModelProvider(requireActivity())[AccountingViewModel::class.java]
+        viewModel = ViewModelProvider(requireActivity())[AccountingViewModel::class.java]
 
         val repositoryImpl = AccountingRepositoryImpl(this.requireContext())
 
@@ -42,12 +44,17 @@ class AccountingListFragment : Fragment() {
         // инициализация RecView
         initRecyclerView(adapter)
 
-        viewModel.getAccountingItems().observe(viewLifecycleOwner) { itemsList ->
-            if (itemsList != null) {
-                updateRecView(itemsList, adapter)// передача в адаптер
+        viewModel.state.observe(viewLifecycleOwner) {
+            if (it.listAccountingItems != null) {
+                updateRecView(it.listAccountingItems, adapter)// передача в адаптер
             }
         }
         initAddButton() // инициализация кнопки добавления новой записи
+    }
+
+    override fun onResume() {
+        super.onResume()
+        viewModel.onEvent(AccountingEvent.GetAccountingItems)
     }
 
 
