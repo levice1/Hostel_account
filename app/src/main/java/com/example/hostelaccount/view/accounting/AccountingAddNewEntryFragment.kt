@@ -1,7 +1,6 @@
 package com.example.hostelaccount.view.accounting
 
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -42,8 +41,6 @@ class AccountingAddNewEntryFragment : Fragment() {
         // Observer for viewModel state
         viewModel.state.observe(viewLifecycleOwner) {
             if (it.tempAccountingItem != null) {
-                Log.d("TestMsg", "it.tempAccountingItem != null")
-                Log.d("TestMsg", "it.tempAccountingItem = ${it.tempAccountingItem}")
                 tempSavedItem = it.tempAccountingItem
                 fillInputFeelds(tempSavedItem!!)
                 initDelBtn(tempSavedItem!!)
@@ -53,15 +50,8 @@ class AccountingAddNewEntryFragment : Fragment() {
                 binding.txtPlDate.setText(ProcessingDate().getCurrentDate())
             }
         }
-
         // слушатель нажатий на кнопку сохранить
         initSaveBtn()
-    }
-
-    override fun onResume() {
-        super.onResume()
-        // run event in viewModel
-        viewModel.onEvent(AccountingEvent.GetTempItem)
     }
 
 
@@ -71,7 +61,7 @@ class AccountingAddNewEntryFragment : Fragment() {
     }
 
 
-    // fill feelds if its changing
+    // fill feelds if its editing
     private fun fillInputFeelds(inputData: AccountingItemModel) {
         binding.btnDelete.visibility = View.VISIBLE
         binding.txtPlSum.setText(inputData.sum.toString())
@@ -85,9 +75,9 @@ class AccountingAddNewEntryFragment : Fragment() {
         binding.btnDelete.setOnClickListener {
             viewModel.onEvent(AccountingEvent.DeleteItem(item))
             FragmentManageHelper(parentFragmentManager).initFragment(
-                    R.id.fragmentLayoutAccounting,
-                    AccountingListFragment.newInstance()
-                )
+                R.id.fragmentLayoutAccounting,
+                AccountingListFragment.newInstance()
+            )
         }
     }
 
@@ -108,22 +98,20 @@ class AccountingAddNewEntryFragment : Fragment() {
                 !validationInputData.validateIntNum(sum) -> showToast(R.string.error_sum_required)
                 else -> {
                     // if data is validated
-                    Log.d("TestMsg", id.toString())
                     val accountingItem = AccountingItemModel(id, date, reason, sum.toInt(), profit)
                     // and send to viewModel
                     viewModel.onEvent(AccountingEvent.SaveItem(accountingItem))
                     // run previous fragment
                     FragmentManageHelper(parentFragmentManager).initFragment(
-                            R.id.fragmentLayoutAccounting,
-                            AccountingListFragment.newInstance()
-                        )
+                        R.id.fragmentLayoutAccounting,
+                        AccountingListFragment.newInstance()
+                    )
                 }
             }
         }
     }
 
 
-    // Функция для отображения короткого сообщения
     private fun showToast(msg: Int) {
         Toast.makeText(requireContext(), msg, Toast.LENGTH_LONG).show()
     }

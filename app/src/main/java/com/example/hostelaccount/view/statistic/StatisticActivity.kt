@@ -47,18 +47,18 @@ class StatisticActivity : AppCompatActivity() {
         )
 
         // подсчёт количества людей ныне проживающих
-        viewModel.getResidentsCount().observe(this){
+        viewModel.state.residentsCount?.observe(this){
             binding.infNowLive.text = it.toString()
             Log.d("TestMsg", it.toString())
         }
 
         // подсчёт суммы денег в кассе
-        viewModel.getAccountingAmount().observe(this){
+        viewModel.state.accountingAmount?.observe(this){
             binding.infSum.text = it.toString()
         }
 
         // отбор просроченых жильцов и вывод уведомлений
-        viewModel.getDelayResidents().observe(this) {
+        viewModel.state.delayResidentsList?.observe(this) {
             if (it.isNotEmpty()) {
                 binding.recViewNotifications.visibility = View.VISIBLE
                 initNotificRecView()

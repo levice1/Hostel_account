@@ -1,5 +1,6 @@
 package com.example.hostelaccount.viewmodel.peoples
 
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -21,7 +22,7 @@ class PeoplesViewModel : ViewModel() {
     private lateinit var _repository: PeopleRepository
 
     private val _state: MutableLiveData<PeoplesStateModel> = MutableLiveData()
-    val state: MutableLiveData<PeoplesStateModel> = _state
+    val state: LiveData<PeoplesStateModel> = _state
 
 
     fun init(repository: PeopleRepository) {

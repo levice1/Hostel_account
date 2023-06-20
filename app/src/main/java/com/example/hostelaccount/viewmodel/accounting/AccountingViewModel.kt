@@ -1,5 +1,6 @@
 package com.example.hostelaccount.viewmodel.accounting
 
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -19,7 +20,8 @@ class AccountingViewModel : ViewModel() {
     private lateinit var _repository: AccountingRepository
 
     private val _state: MutableLiveData<AccountingStateModel> = MutableLiveData()
-    val state: MutableLiveData<AccountingStateModel> = _state
+    val state: LiveData<AccountingStateModel> = _state
+
 
     fun init(repository: AccountingRepository) {
         _repository = repository
@@ -47,14 +49,12 @@ class AccountingViewModel : ViewModel() {
     }
 
 
-
-
-
     private fun getAccountingItems() {
         _repository.getAllEntries().onEach {
             _state.value = AccountingStateModel(null, it)
         }.launchIn(viewModelScope)
     }
+
 
      private fun saveAccountingItem(item: AccountingItemModel) {
         CoroutineScope(Dispatchers.IO).launch {
@@ -64,6 +64,7 @@ class AccountingViewModel : ViewModel() {
             //InsertLocalDBToRemoteDB(BackendConstants().insertAcc).insertToAccounting(item)
         }
     }
+
 
     private fun deleteAccountingItem(item: AccountingItemModel) {
         CoroutineScope(Dispatchers.IO).launch {
@@ -78,6 +79,7 @@ class AccountingViewModel : ViewModel() {
     private fun saveTempItem(tempItem: AccountingItemModel) {
         tempAccountingItem = tempItem
     }
+
 
     private fun getTempItem() {
         _state.value = AccountingStateModel(tempAccountingItem, null)

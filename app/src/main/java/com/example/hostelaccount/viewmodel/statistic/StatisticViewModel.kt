@@ -8,6 +8,7 @@ import com.example.hostelaccount.viewmodel.accounting.repository.AccountingRepos
 import com.example.hostelaccount.viewmodel.peoples.repository.PeopleRepository
 import com.example.hostelaccount.viewmodel.statistic.util.CalculatingAccountingAmount
 import com.example.hostelaccount.viewmodel.statistic.util.CreateDelayResidentsList
+import com.example.hostelaccount.viewmodel.statistic.util.StatisticStateModel
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 
@@ -16,38 +17,43 @@ class StatisticViewModel : ViewModel() {
     private lateinit var _repositoryPeople: PeopleRepository
     private lateinit var _repositoryAccounting: AccountingRepository
 
+    val state = StatisticStateModel(null, null, null)
+
     fun init(
         repositoryPeoples: PeopleRepository,
         repositoryAccounting: AccountingRepository
     ) {
         _repositoryPeople = repositoryPeoples
         _repositoryAccounting = repositoryAccounting
+        getResidentsCount()
+        getDelayResidents()
+        getAccountingAmount()
     }
 
 
-    fun getResidentsCount() : MutableLiveData<Int> {
+    private fun getResidentsCount() {
         val residentsCountLD = MutableLiveData<Int>()
             _repositoryPeople.getPeoples().onEach {
                 residentsCountLD.value = it.count()
             }.launchIn(viewModelScope)
-        return residentsCountLD
+        state.residentsCount = residentsCountLD
     }
 
 
-    fun getDelayResidents(): MutableLiveData<List<PeopleItemModel>> {
+    private fun getDelayResidents() {
         val delayResidentsLD = MutableLiveData<List<PeopleItemModel>>()
         _repositoryPeople.getPeoples().onEach {
             delayResidentsLD.value = CreateDelayResidentsList().invoke(it)
         }.launchIn(viewModelScope)
-        return delayResidentsLD
+        state.delayResidentsList = delayResidentsLD
     }
 
 
-    fun getAccountingAmount(): MutableLiveData<Int> {
+    private fun getAccountingAmount() {
         val accountingAmountLD = MutableLiveData<Int>()
             _repositoryAccounting.getAllEntries().onEach {
                 accountingAmountLD.value = CalculatingAccountingAmount().invoke(it)
             }.launchIn(viewModelScope)
-        return accountingAmountLD
+        state.accountingAmount = accountingAmountLD
     }
 }
