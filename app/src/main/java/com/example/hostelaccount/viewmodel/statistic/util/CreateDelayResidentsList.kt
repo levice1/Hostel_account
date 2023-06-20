@@ -1,14 +1,14 @@
 package com.example.hostelaccount.viewmodel.statistic.util
 
 import com.example.hostelaccount.data.data_sourse.PeopleItemModel
-import com.example.hostelaccount.viewmodel.util.ProcessingDate
+import com.example.hostelaccount.viewmodel.util.GetDateTime
 
 class CreateDelayResidentsList {
     operator fun invoke(peopleList: List<PeopleItemModel>): List<PeopleItemModel> {
         val delayList = mutableListOf<PeopleItemModel>()
-        val procDate = ProcessingDate()
+        val getDateTime = GetDateTime()
         peopleList.forEach {
-            if (procDate.calculateDaysDifference(it.liveTo) < 0 && !it.usPeople) delayList.add(it)
+            if (getDateTime.calculateDaysDifference(it.liveTo) < 0 && !it.usPeople) delayList.add(it)
         }
         return delayList
     }

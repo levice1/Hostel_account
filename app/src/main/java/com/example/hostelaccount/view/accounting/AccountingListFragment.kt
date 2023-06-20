@@ -32,24 +32,17 @@ class AccountingListFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
         viewModel = ViewModelProvider(requireActivity())[AccountingViewModel::class.java]
-
         val repositoryImpl = AccountingRepositoryImpl(this.requireContext())
-
         viewModel.init(repositoryImpl)
-
         val adapter = AccountingListAdapter(viewModel)
-
-        // инициализация RecView
         initRecyclerView(adapter)
-
         viewModel.state.observe(viewLifecycleOwner) {
             if (it.listAccountingItems != null) {
-                updateRecView(it.listAccountingItems, adapter)// передача в адаптер
+                updateRecView(it.listAccountingItems, adapter)
             }
         }
-        initAddButton() // инициализация кнопки добавления новой записи
+        initAddButton()
     }
 
     override fun onResume() {
@@ -64,20 +57,17 @@ class AccountingListFragment : Fragment() {
     }
 
 
-    // функция инициализации RecView
-    private fun initRecyclerView(adapter: AccountingListAdapter) { // функция инициализации адаптера
+    private fun initRecyclerView(adapter: AccountingListAdapter) {
         recyclerView = binding.recViewAccountingList
         recyclerView.adapter = adapter
     }
 
 
-    // функция обновления адаптера RecView
     private fun updateRecView(list:List<AccountingItemModel>, adapter: AccountingListAdapter){
         adapter.setList(list)
     }
 
 
-    // функция инициализации кнопки добавления новой записи
     private fun initAddButton(){
         binding.btnAddNewEntry.setOnClickListener {
             FragmentManageHelper(parentFragmentManager)

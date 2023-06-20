@@ -15,7 +15,6 @@ class PeopleRepositoryImpl(context: Context): PeopleRepository {
         dao = DbManager.getInstance(context).peopleDao()
     }
 
-
     override fun getPeoples(): Flow<List<PeopleItemModel>> {
         return dao.getAll()
     }

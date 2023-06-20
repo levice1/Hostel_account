@@ -7,12 +7,3 @@ data class RoomModel(
     var people: List<PeopleItemModel>
 
 )
-//data class Resident(
-//    var name: String,
-//    var id: Int,
-//    var liveFrom: String,
-//    var liveTo: String,
-//    var usMan: Boolean,
-//    var additionalInfo: String,
-//    var roomNum: Int
-//)

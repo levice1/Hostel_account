@@ -5,6 +5,8 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.hostelaccount.data.data_sourse.PeopleItemModel
+import com.example.hostelaccount.data.remote.BackendConstants
+import com.example.hostelaccount.data.remote.InsertLocalDBToRemoteDB
 import com.example.hostelaccount.viewmodel.peoples.repository.PeopleRepository
 import com.example.hostelaccount.viewmodel.peoples.util.CreatingRoomList
 import com.example.hostelaccount.viewmodel.peoples.util.PeoplesStateModel
@@ -46,6 +48,7 @@ class PeoplesViewModel : ViewModel() {
             is PeoplesEvent.SaveTempResident -> {
                 saveTempResident(event.tempResident)
             }
+
             is PeoplesEvent.GetTempResident -> {
                 getTempResident()
             }
@@ -60,9 +63,12 @@ class PeoplesViewModel : ViewModel() {
 
     private fun saveResident(resident: PeopleItemModel) {
         CoroutineScope(Dispatchers.IO).launch {
-            val insertedItemId = _repository.insertItem(resident) // сохранение to local
-            resident.id = insertedItemId[0].toInt()// change id to AutIncr generated
-            //InsertLocalDBToRemoteDB(BackendConstants().insertPeople).insertToPeople(resident)// save to remote
+            // save to local db
+            val insertedItemId = _repository.insertItem(resident)
+            // change id to AutIncrement generated
+            resident.id = insertedItemId[0].toInt()
+            // save to remote db
+            InsertLocalDBToRemoteDB(BackendConstants().insertPeople).insertToPeople(resident)
         }
     }
 
@@ -70,18 +76,19 @@ class PeoplesViewModel : ViewModel() {
     private fun deleteResident(resident: PeopleItemModel) {
         CoroutineScope(Dispatchers.IO).launch {
             if (resident.id != null) {
+                // del from local db
                 _repository.deleteById(resident.id!!)
-                //InsertLocalDBToRemoteDB(BackendConstants().deletePeople).insertToPeople(resident)
+                // del from remote db
+                InsertLocalDBToRemoteDB(BackendConstants().deletePeople).insertToPeople(resident)
             }
         }
     }
 
 
-    // так как CreatingRoomArray не возвращает в каждом резиденте номер комнаты, мы формируем обьект PeopleItemModel здесь.
-    // Это сделано для передачи человека со всеми данными, из фрагмента списка комнат в фрагмент редактирования, при нажатии на него.
     private fun saveTempResident(resident: PeopleItemModel) {
-            tempResident = resident
+        tempResident = resident
     }
+
 
     private fun getTempResident() {
         _state.value = PeoplesStateModel(tempResident, null)

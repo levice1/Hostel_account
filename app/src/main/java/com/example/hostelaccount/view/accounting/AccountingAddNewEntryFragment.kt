@@ -13,7 +13,7 @@ import com.example.hostelaccount.data.data_sourse.AccountingItemModel
 import com.example.hostelaccount.viewmodel.accounting.AccountingEvent
 import com.example.hostelaccount.viewmodel.accounting.AccountingViewModel
 import com.example.hostelaccount.viewmodel.util.FragmentManageHelper
-import com.example.hostelaccount.viewmodel.util.ProcessingDate
+import com.example.hostelaccount.viewmodel.util.GetDateTime
 import com.example.hostelaccount.viewmodel.util.ValidationInputData
 
 class AccountingAddNewEntryFragment : Fragment() {
@@ -42,15 +42,14 @@ class AccountingAddNewEntryFragment : Fragment() {
         viewModel.state.observe(viewLifecycleOwner) {
             if (it.tempAccountingItem != null) {
                 tempSavedItem = it.tempAccountingItem
-                fillInputFeelds(tempSavedItem!!)
+                fillInputFields(tempSavedItem!!)
                 initDelBtn(tempSavedItem!!)
             } else {
-                // если не было переданных данных
-                // Установка текущей даты для удобства
-                binding.txtPlDate.setText(ProcessingDate().getCurrentDate())
+                // if there was no data transmitted
+                // Set the current date for convenience
+                binding.txtPlDate.setText(GetDateTime().getCurrentDate())
             }
         }
-        // слушатель нажатий на кнопку сохранить
         initSaveBtn()
     }
 
@@ -61,8 +60,8 @@ class AccountingAddNewEntryFragment : Fragment() {
     }
 
 
-    // fill feelds if its editing
-    private fun fillInputFeelds(inputData: AccountingItemModel) {
+    // fill fields if its editing
+    private fun fillInputFields(inputData: AccountingItemModel) {
         binding.btnDelete.visibility = View.VISIBLE
         binding.txtPlSum.setText(inputData.sum.toString())
         binding.txtPlDate.setText(inputData.date)
@@ -84,7 +83,6 @@ class AccountingAddNewEntryFragment : Fragment() {
 
     private fun initSaveBtn() {
         binding.btnSave.setOnClickListener {
-            // ЕСЛИ БЫЛИ ПЕРЕДАНЫ ДАННЫЕ, ТО ID ПРИСВАЕВАЕТ ТОТ ЧТО БЫЛ ПЕРЕДАН. ЕСЛИ НЕТ ТО NULL
             val id = tempSavedItem?.id
             val date = binding.txtPlDate.text.toString()
             val reason = binding.txtPlWhoOrWhat.text.toString().replaceFirstChar { it.uppercase() }

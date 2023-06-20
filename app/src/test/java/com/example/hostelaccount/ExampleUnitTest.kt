@@ -1,6 +1,6 @@
 package com.example.hostelaccount
 
-import com.example.hostelaccount.viewmodel.util.ProcessingDate
+import com.example.hostelaccount.viewmodel.util.GetDateTime
 import org.junit.Test
 
 import org.junit.Assert.*
@@ -17,7 +17,7 @@ class ExampleUnitTest {
     }
 @Test
     fun test_calculating_different_days(){
-        val daysDiff = ProcessingDate().calculateDaysDifference("01.05.23")
+        val daysDiff = GetDateTime().calculateDaysDifference("01.05.23")
         assertEquals(17,daysDiff)
     }
 }

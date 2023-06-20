@@ -12,7 +12,7 @@ import com.example.hostelaccount.data.data_sourse.PeopleItemModel
 import com.example.hostelaccount.data.repository.AccountingRepositoryImpl
 import com.example.hostelaccount.data.repository.PeopleRepositoryImpl
 import com.example.hostelaccount.view.statistic.util.NotificationListAdapter
-import com.example.hostelaccount.view.util.InitMenuChoise
+import com.example.hostelaccount.view.util.InitMenuChoice
 import com.example.hostelaccount.viewmodel.statistic.StatisticViewModel
 
 
@@ -32,7 +32,7 @@ class StatisticActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        InitMenuChoise(this).init(binding.bottomNavigation)
+        InitMenuChoice(this).init(binding.bottomNavigation)
         viewModel = ViewModelProvider(this)[StatisticViewModel::class.java]
         repositoryPeople = PeopleRepositoryImpl(this@StatisticActivity)
         repositoryAccounting = AccountingRepositoryImpl(this@StatisticActivity)
@@ -46,22 +46,22 @@ class StatisticActivity : AppCompatActivity() {
             repositoryAccounting
         )
 
-        // подсчёт количества людей ныне проживающих
+        // counting the number of people currently living
         viewModel.state.residentsCount?.observe(this){
             binding.infNowLive.text = it.toString()
             Log.d("TestMsg", it.toString())
         }
 
-        // подсчёт суммы денег в кассе
+        // counting the amount of money in the cash register
         viewModel.state.accountingAmount?.observe(this){
             binding.infSum.text = it.toString()
         }
 
-        // отбор просроченых жильцов и вывод уведомлений
+        // selecting overdue tenants and displaying notifications
         viewModel.state.delayResidentsList?.observe(this) {
             if (it.isNotEmpty()) {
                 binding.recViewNotifications.visibility = View.VISIBLE
-                initNotificRecView()
+                initNotificationRecView()
                 updateRecView(it)
             }
         }
@@ -69,7 +69,7 @@ class StatisticActivity : AppCompatActivity() {
 
 
 
-    // делает пункт меню активным когда фокус перемещается на это активити
+    // makes a menu item active when the focus is moved to that menu item
     override fun onWindowFocusChanged(hasFocus: Boolean) {
         super.onWindowFocusChanged(hasFocus)
         if (hasFocus) {
@@ -78,7 +78,7 @@ class StatisticActivity : AppCompatActivity() {
     }
 
 
-    // на главном активити нажатие назад закрывает все активити и завершает работу приложения
+    // on the main activity, pressing backwards closes all activities and terminates the application
     @Suppress("DEPRECATION")
     @Deprecated("Deprecated in Java")
     override fun onBackPressed() {
@@ -87,7 +87,7 @@ class StatisticActivity : AppCompatActivity() {
     }
 
 
-    private fun initNotificRecView(){
+    private fun initNotificationRecView(){
         recyclerView = binding.recViewNotificationList
         recyclerView.adapter = adapter
     }

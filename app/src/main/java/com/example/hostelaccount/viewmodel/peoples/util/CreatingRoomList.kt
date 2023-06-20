@@ -5,8 +5,8 @@ import com.example.hostelaccount.model.RoomModel
 
 
 class CreatingRoomList {
-    // функция для создания массива комнат с разспределёнными людьми
-     operator fun invoke(peopleList: List<PeopleItemModel>): ArrayList<RoomModel> {
+    // function for creating an array of rooms with separated people
+    operator fun invoke(peopleList: List<PeopleItemModel>): ArrayList<RoomModel> {
         val roomList = ArrayList<RoomModel>()
         val peopleMap = mutableMapOf<Int, MutableList<PeopleItemModel>>()
         for (people in peopleList) {
@@ -34,7 +34,7 @@ class CreatingRoomList {
                     )
                     room.people += (resident)
                 } else {
-                    room.people += (PeopleItemModel(0,0, "", "", "", false, ""))
+                    room.people += (PeopleItemModel(0, 0, "", "", "", false, ""))
                 }
             }
             roomList.add(room)

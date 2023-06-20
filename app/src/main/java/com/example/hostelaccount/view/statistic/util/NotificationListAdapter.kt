@@ -6,16 +6,25 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.hostelaccount.databinding.RecViewNotificationListLayoutBinding
 import com.example.hostelaccount.data.data_sourse.PeopleItemModel
-import com.example.hostelaccount.viewmodel.util.ProcessingDate
+import com.example.hostelaccount.viewmodel.util.GetDateTime
+import kotlin.math.abs
 
 
 class NotificationListAdapter : RecyclerView.Adapter<NotificationListAdapter.ViewHolder>() {
-    inner class ViewHolder ( val binding: RecViewNotificationListLayoutBinding) : RecyclerView.ViewHolder(binding.root)
+    inner class ViewHolder(val binding: RecViewNotificationListLayoutBinding) :
+        RecyclerView.ViewHolder(binding.root)
+
     private var peoplesList = ArrayList<PeopleItemModel>()
 
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        return ViewHolder(RecViewNotificationListLayoutBinding.inflate(LayoutInflater.from(parent.context),parent,false))
+        return ViewHolder(
+            RecViewNotificationListLayoutBinding.inflate(
+                LayoutInflater.from(parent.context),
+                parent,
+                false
+            )
+        )
     }
 
 
@@ -28,7 +37,8 @@ class NotificationListAdapter : RecyclerView.Adapter<NotificationListAdapter.Vie
         holder.binding.txtRoomNum.text = peoplesList[position].roomNumber.toString()
         holder.binding.txtManName.text = peoplesList[position].guestName
         holder.binding.txtDateTo.text = peoplesList[position].liveTo
-        holder.binding.txtDelayDays.text = Math.abs(ProcessingDate().calculateDaysDifference(peoplesList[position].liveTo)).toString()
+        holder.binding.txtDelayDays.text =
+            abs(GetDateTime().calculateDaysDifference(peoplesList[position].liveTo)).toString()
     }
 
 

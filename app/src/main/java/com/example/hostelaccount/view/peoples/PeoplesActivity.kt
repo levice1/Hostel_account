@@ -5,21 +5,22 @@ import android.os.Bundle
 import com.example.hostelaccount.R
 import com.example.hostelaccount.databinding.ActivityPeoplesBinding
 import com.example.hostelaccount.viewmodel.util.FragmentManageHelper
-import com.example.hostelaccount.view.util.InitMenuChoise
+import com.example.hostelaccount.view.util.InitMenuChoice
 
+@Suppress("DEPRECATION")
 class PeoplesActivity : AppCompatActivity() {
     private lateinit var binding: ActivityPeoplesBinding
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityPeoplesBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        InitMenuChoise(this).init(binding.bottomNavigation)
+        InitMenuChoice(this).init(binding.bottomNavigation)
         FragmentManageHelper(supportFragmentManager)
-            .initFragment(R.id.fragmentLayoutPeoples , ListRoomsFragment.newInstance())
+            .initFragment(R.id.fragmentLayoutPeoples, ListRoomsFragment.newInstance())
     }
 
 
-    // делает пункт меню активным когда фокус перемещается на это активити
+    // makes a menu item active when the focus is moved to that menu item
     override fun onWindowFocusChanged(hasFocus: Boolean) {
         super.onWindowFocusChanged(hasFocus)
         if (hasFocus) {
@@ -27,19 +28,17 @@ class PeoplesActivity : AppCompatActivity() {
         }
     }
 
-    // на Peoples и Accounting активити, нажатие назад переходит на:
-    // если включен фрагмент добавления - переход на фграмент списка.
-    // если включен фрагмент списка - переход на фграмент списка главное активити (Statistic).
+
     @Deprecated("Deprecated in Java")
     override fun onBackPressed() {
         val currentFragment = supportFragmentManager.findFragmentById(R.id.fragmentLayoutPeoples)
         if (currentFragment is AddNewPeopleFragment) {
-            // Показать фрагмент списка
+            // show a fragment of the list
             FragmentManageHelper(supportFragmentManager)
-                .initFragment(R.id.fragmentLayoutPeoples ,ListRoomsFragment.newInstance())
+                .initFragment(R.id.fragmentLayoutPeoples, ListRoomsFragment.newInstance())
         } else if (currentFragment is ListRoomsFragment) {
-            // перейти на главное активити (Statistic)
-            InitMenuChoise(this).startMainActivity()
+            // go to the main activity (Statistic)
+            InitMenuChoice(this).startMainActivity()
             super.onBackPressed()
         }
     }

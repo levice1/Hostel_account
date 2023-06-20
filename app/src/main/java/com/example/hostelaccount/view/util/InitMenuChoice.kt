@@ -9,7 +9,7 @@ import com.example.hostelaccount.view.accounting.AccountingActivity
 import com.example.hostelaccount.view.peoples.PeoplesActivity
 import com.google.android.material.bottomnavigation.BottomNavigationView
 
-class InitMenuChoise(val context: Context) {
+class InitMenuChoice(val context: Context) {
 
     fun init(navi: BottomNavigationView) {
         navi.setOnItemSelectedListener { menuItem ->

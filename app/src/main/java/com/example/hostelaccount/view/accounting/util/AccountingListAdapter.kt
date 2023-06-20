@@ -15,14 +15,22 @@ import com.example.hostelaccount.view.accounting.AccountingListFragment
 import com.example.hostelaccount.viewmodel.accounting.AccountingEvent
 
 
-class AccountingListAdapter(private val viewModel: AccountingViewModel): RecyclerView.Adapter<AccountingListAdapter.ViewHolder>() {
-    inner class ViewHolder ( val binding: RecViewAccountingListLayoutBinding) : RecyclerView.ViewHolder(binding.root)
+class AccountingListAdapter(private val viewModel: AccountingViewModel) :
+    RecyclerView.Adapter<AccountingListAdapter.ViewHolder>() {
+    inner class ViewHolder(val binding: RecViewAccountingListLayoutBinding) :
+        RecyclerView.ViewHolder(binding.root)
 
-   private var accountingList = ArrayList<AccountingItemModel>()
+    private var accountingList = ArrayList<AccountingItemModel>()
 
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        return ViewHolder(RecViewAccountingListLayoutBinding.inflate(LayoutInflater.from(parent.context),parent,false))
+        return ViewHolder(
+            RecViewAccountingListLayoutBinding.inflate(
+                LayoutInflater.from(parent.context),
+                parent,
+                false
+            )
+        )
     }
 
     override fun getItemCount(): Int {
@@ -36,18 +44,24 @@ class AccountingListAdapter(private val viewModel: AccountingViewModel): Recycle
         holder.binding.txtSumItem.text = accountingList[position].sum.toString()
 
         if (accountingList[position].profit) holder.binding.mainLinLayout
-            .setBackgroundColor((holder.itemView.context as AppCompatActivity)
-                .getColor(R.color.profit_plus))
-        else { holder.binding.mainLinLayout
-            .setBackgroundColor((holder.itemView.context as AppCompatActivity)
-                .getColor(R.color.profit_minus)) }
+            .setBackgroundColor(
+                (holder.itemView.context as AppCompatActivity)
+                    .getColor(R.color.profit_plus)
+            )
+        else {
+            holder.binding.mainLinLayout
+                .setBackgroundColor(
+                    (holder.itemView.context as AppCompatActivity)
+                        .getColor(R.color.profit_minus)
+                )
+        }
 
-        // слушатель нажатий на каждый елемент
         holder.itemView.setOnClickListener {
             // save to viewModel temporary variable
-                viewModel.onEvent(AccountingEvent.SaveTempItem(accountingList[position]))
-            // и запускает новый фрагмент
-            val fragmentManager = (holder.itemView.context as AppCompatActivity).supportFragmentManager
+            viewModel.onEvent(AccountingEvent.SaveTempItem(accountingList[position]))
+            // run new fragment
+            val fragmentManager =
+                (holder.itemView.context as AppCompatActivity).supportFragmentManager
             FragmentManageHelper(fragmentManager)
                 .replaceFragment(
                     R.id.fragmentLayoutAccounting,

@@ -29,7 +29,8 @@ class ListRoomsFragment : Fragment() {
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle? ): View {
+        savedInstanceState: Bundle?
+    ): View {
         binding = FragmentListRoomsBinding.inflate(layoutInflater)
         return binding.root
     }
@@ -49,8 +50,8 @@ class ListRoomsFragment : Fragment() {
 
         viewModel.state.observe(viewLifecycleOwner) {
             if (it.listRooms != null) {
-                    updateRecView(it.listRooms, adapter)// передача в адаптер
-                }
+                updateRecView(it.listRooms, adapter)
+            }
         }
         initAddNewPeopleButton()
     }
@@ -62,22 +63,18 @@ class ListRoomsFragment : Fragment() {
     }
 
 
-    // функция инициализации RecView
     private fun initRecyclerView(adapter: RoomListAdapter) {
         recyclerView = binding.recViewRoomsList
         recyclerView.adapter = adapter
     }
 
 
-    // функция обновления адаптера RecView
-    // Принимает массив комнат с уже распределёнными людьми
-    private fun updateRecView(list:List<RoomModel>, adapter: RoomListAdapter){
+    private fun updateRecView(list: List<RoomModel>, adapter: RoomListAdapter) {
         adapter.setList(list)
     }
 
 
-    // функция инициализации кнопки добавления нового человека
-    private fun initAddNewPeopleButton(){
+    private fun initAddNewPeopleButton() {
         binding.btnAddNewGuest.setOnClickListener {
             FragmentManageHelper(parentFragmentManager)
                 .initFragment(R.id.fragmentLayoutPeoples, AddNewPeopleFragment.newInstance())

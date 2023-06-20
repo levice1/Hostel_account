@@ -2,7 +2,7 @@ package com.example.hostelaccount.viewmodel.util
 
 import java.text.ParseException
 
-class ValidationInputData : ProcessingDate() {
+class ValidationInputData : GetDateTime() {
 
     fun validateDateStr(str: String): Boolean {
         val  dF = dateFormat
