@@ -10,13 +10,14 @@ import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.RecyclerView
 import com.example.hostelaccount.R
+import com.example.hostelaccount.data.data_sourse.PeopleItemModel
 import com.example.hostelaccount.databinding.RecViewRoomListLayoutBinding
 import com.example.hostelaccount.model.RoomModel
 import com.example.hostelaccount.viewmodel.peoples.PeoplesViewModel
-import com.example.hostelaccount.model.Resident
 import com.example.hostelaccount.viewmodel.util.FragmentManageHelper
 import com.example.hostelaccount.view.peoples.AddNewPeopleFragment
 import com.example.hostelaccount.view.peoples.ListRoomsFragment
+import com.example.hostelaccount.viewmodel.peoples.PeoplesEvent
 import com.example.hostelaccount.viewmodel.util.ProcessingDate
 
 class RoomListAdapter(private val viewModel: PeoplesViewModel): RecyclerView.Adapter<RoomListAdapter.ViewHolder>() {
@@ -47,11 +48,11 @@ class RoomListAdapter(private val viewModel: PeoplesViewModel): RecyclerView.Ada
 
         // --------------------------------------------------------------------------------------- //
         // BED 1
-        holder.binding.txtManOnBed1.text = roomsList[position].people[0].name
+        holder.binding.txtManOnBed1.text = roomsList[position].people[0].guestName
         holder.binding.txtFromBed1.text = roomsList[position].people[0].liveFrom
         holder.binding.txtToBed1.text = roomsList[position].people[0].liveTo
             // проверка на то, наш человек или нет. Если нет - закрашивает его поле в другой цвет
-        if (!roomsList[position].people[0].usMan){
+        if (!roomsList[position].people[0].usPeople){
             holder.binding.bed1.setBackgroundResource(R.drawable.background_element_not_us_people)
             // установка цвета даты в зависимости от количества дней, до окончания срока аренды
             setTextColorBasedOnDate(roomsList[position].people[0].liveTo,holder.binding.txtToBed1,holder.itemView.context)
@@ -60,16 +61,16 @@ class RoomListAdapter(private val viewModel: PeoplesViewModel): RecyclerView.Ada
             holder.binding.bed1.setBackgroundResource(R.drawable.background_elements_same_transparent)
         }
         holder.binding.bed1.setOnClickListener{
-            startFragForEditing(holder,roomsList[position].roomNum ,roomsList[position].people[0])
+            startFragForEditing(holder, roomsList[position].people[0])
         }
 
         // --------------------------------------------------------------------------------------- //
         // BED 2
-            holder.binding.txtManOnBed2.text = roomsList[position].people[1].name
+            holder.binding.txtManOnBed2.text = roomsList[position].people[1].guestName
             holder.binding.txtFromBed2.text = roomsList[position].people[1].liveFrom
             holder.binding.txtToBed2.text = roomsList[position].people[1].liveTo
             // проверка на то, наш человек или нет. Если нет - закрашивает его поле в другой цвет
-            if (!roomsList[position].people[1].usMan) {
+            if (!roomsList[position].people[1].usPeople) {
                 holder.binding.bed2.setBackgroundResource(R.drawable.background_element_not_us_people)
                 // установка цвета даты в зависимости от количества дней, до окончания срока аренды
                 setTextColorBasedOnDate(roomsList[position].people[1].liveTo,holder.binding.txtToBed2,holder.itemView.context)
@@ -84,18 +85,17 @@ class RoomListAdapter(private val viewModel: PeoplesViewModel): RecyclerView.Ada
             holder.binding.bed2.setOnClickListener {
                 startFragForEditing(
                     holder,
-                    roomsList[position].roomNum,
                     roomsList[position].people[1]
                 )
             }
 
         // --------------------------------------------------------------------------------------- //
         // BED 3
-            holder.binding.txtManOnBed3.text = roomsList[position].people[2].name
+            holder.binding.txtManOnBed3.text = roomsList[position].people[2].guestName
             holder.binding.txtFromBed3.text = roomsList[position].people[2].liveFrom
             holder.binding.txtToBed3.text = roomsList[position].people[2].liveTo
             // проверка на то, наш человек или нет. Если нет - закрашивает его поле в другой цвет
-            if (!roomsList[position].people[2].usMan) {
+            if (!roomsList[position].people[2].usPeople) {
                 holder.binding.bed3.setBackgroundResource(R.drawable.background_element_not_us_people)
                 // установка цвета даты в зависимости от количества дней, до окончания срока аренды
                 setTextColorBasedOnDate(roomsList[position].people[2].liveTo,holder.binding.txtToBed3,holder.itemView.context)
@@ -104,24 +104,23 @@ class RoomListAdapter(private val viewModel: PeoplesViewModel): RecyclerView.Ada
                 holder.binding.bed3.setBackgroundResource(R.drawable.background_elements_same_transparent)
             }
             // проверка на то, если ли данные на этой кровати. Если нет - скрывает поле.
-        if(roomsList[position].people[2].id == 0 && roomsList[position].people[2].name == ""){
+        if(roomsList[position].people[2].id == 0 && roomsList[position].people[2].guestName == ""){
             holder.binding.bed3.visibility = View.GONE
         }
             holder.binding.bed3.setOnClickListener {
                 startFragForEditing(
                     holder,
-                    roomsList[position].roomNum,
                     roomsList[position].people[2]
                 )
             }
 
         // --------------------------------------------------------------------------------------- //
         // BED 4
-            holder.binding.txtManOnBed4.text = roomsList[position].people[3].name
+            holder.binding.txtManOnBed4.text = roomsList[position].people[3].guestName
             holder.binding.txtFromBed4.text = roomsList[position].people[3].liveFrom
             holder.binding.txtToBed4.text = roomsList[position].people[3].liveTo
             // проверка на то, наш человек или нет. Если нет - закрашивает его поле в другой цвет
-            if (!roomsList[position].people[3].usMan && roomsList[position].people[3].name != "") {
+            if (!roomsList[position].people[3].usPeople && roomsList[position].people[3].guestName != "") {
                 holder.binding.bed4.setBackgroundResource(R.drawable.background_element_not_us_people)
                 // установка цвета даты в зависимости от количества дней, до окончания срока аренды
                 setTextColorBasedOnDate(roomsList[position].people[3].liveTo,holder.binding.txtToBed4,holder.itemView.context)
@@ -130,21 +129,20 @@ class RoomListAdapter(private val viewModel: PeoplesViewModel): RecyclerView.Ada
                 holder.binding.bed4.setBackgroundResource(R.drawable.background_elements_same_transparent)
             }
             // проверка на то, если ли данные на этой кровати. Если нет - скрывает поле.
-            if(roomsList[position].people[3].id == 0 && roomsList[position].people[3].name == ""){
+            if(roomsList[position].people[3].id == 0 && roomsList[position].people[3].guestName == ""){
             holder.binding.bed4.visibility = View.GONE
             }
             holder.binding.bed4.setOnClickListener {
                 startFragForEditing(
                     holder,
-                    roomsList[position].roomNum,
                     roomsList[position].people[3]
                 )
             }
     }
 
 
-    private fun startFragForEditing(holder: ViewHolder, roomNum: Int, resident: Resident){
-        viewModel.saveTempResident(resident, roomNum)
+    private fun startFragForEditing(holder: ViewHolder, resident: PeopleItemModel){
+        viewModel.onEvent(PeoplesEvent.SaveTempResident(resident))
         // и запускает новый фрагмент
         FragmentManageHelper((holder.itemView.context as AppCompatActivity).supportFragmentManager)
             .replaceFragment(

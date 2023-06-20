@@ -21,7 +21,7 @@ class AccountingAddNewEntryFragment : Fragment() {
     private lateinit var binding: FragmentAccountingAddNewEntryBinding
     private lateinit var viewModel: AccountingViewModel
     private val validationInputData = ValidationInputData()
-    private var inputData: AccountingItemModel? = null
+    private var tempSavedItem: AccountingItemModel? = null
 
 
     override fun onCreateView(
@@ -36,22 +36,26 @@ class AccountingAddNewEntryFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         viewModel = ViewModelProvider(requireActivity())[AccountingViewModel::class.java]
+
+        viewModel.onEvent(AccountingEvent.GetTempItem)
+
         // Observer for viewModel state
-        viewModel.state.observe(viewLifecycleOwner){
+        viewModel.state.observe(viewLifecycleOwner) {
             if (it.tempAccountingItem != null) {
-            inputData = it.tempAccountingItem
-            //  ЕСЛИ БЫЛИ ПЕРЕДАНЫ ДАННЫЕ ИЗ ДРУГОГО ФРАГМЕНТА, ТО ЗАПОЛНЯЕТ ПОЛЯ АВТОМАТИЧЕСКИ
-            fillInputFeelds(inputData!!)
-            // и запускает слушатель на кнопку удаления
-            initDelBtn(inputData!!)
+                Log.d("TestMsg", "it.tempAccountingItem != null")
+                Log.d("TestMsg", "it.tempAccountingItem = ${it.tempAccountingItem}")
+                tempSavedItem = it.tempAccountingItem
+                fillInputFeelds(tempSavedItem!!)
+                initDelBtn(tempSavedItem!!)
             } else {
                 // если не было переданных данных
                 // Установка текущей даты для удобства
                 binding.txtPlDate.setText(ProcessingDate().getCurrentDate())
             }
         }
+
         // слушатель нажатий на кнопку сохранить
-        initSaveBtn(inputData)
+        initSaveBtn()
     }
 
     override fun onResume() {
@@ -67,7 +71,7 @@ class AccountingAddNewEntryFragment : Fragment() {
     }
 
 
-    // функция заполнения полей если данный пришли
+    // fill feelds if its changing
     private fun fillInputFeelds(inputData: AccountingItemModel) {
         binding.btnDelete.visibility = View.VISIBLE
         binding.txtPlSum.setText(inputData.sum.toString())
@@ -77,12 +81,10 @@ class AccountingAddNewEntryFragment : Fragment() {
     }
 
 
-    // функция инициализации слушателя нажатий на кнопку удалить
     private fun initDelBtn(item: AccountingItemModel) {
         binding.btnDelete.setOnClickListener {
             viewModel.onEvent(AccountingEvent.DeleteItem(item))
-            FragmentManageHelper(parentFragmentManager)
-                .initFragment(
+            FragmentManageHelper(parentFragmentManager).initFragment(
                     R.id.fragmentLayoutAccounting,
                     AccountingListFragment.newInstance()
                 )
@@ -90,11 +92,10 @@ class AccountingAddNewEntryFragment : Fragment() {
     }
 
 
-    // функция инициализации слушателя нажатий на кнопку сохранить
-    private fun initSaveBtn(inputData: AccountingItemModel?) {
+    private fun initSaveBtn() {
         binding.btnSave.setOnClickListener {
             // ЕСЛИ БЫЛИ ПЕРЕДАНЫ ДАННЫЕ, ТО ID ПРИСВАЕВАЕТ ТОТ ЧТО БЫЛ ПЕРЕДАН. ЕСЛИ НЕТ ТО NULL
-            val id = inputData?.id
+            val id = tempSavedItem?.id
             val date = binding.txtPlDate.text.toString()
             val reason = binding.txtPlWhoOrWhat.text.toString().replaceFirstChar { it.uppercase() }
                 .replace("ʼ", "").replace("'", "").trim()
@@ -106,14 +107,13 @@ class AccountingAddNewEntryFragment : Fragment() {
                 !validationInputData.validateDateStr(date) -> showToast(R.string.error_date_required)
                 !validationInputData.validateIntNum(sum) -> showToast(R.string.error_sum_required)
                 else -> {
-                    // если данные прошли валидацию
-                    // создание переменной с введёнными данными
+                    // if data is validated
+                    Log.d("TestMsg", id.toString())
                     val accountingItem = AccountingItemModel(id, date, reason, sum.toInt(), profit)
-                    // запуск корутины для асинхронного сохранения данных в БД
+                    // and send to viewModel
                     viewModel.onEvent(AccountingEvent.SaveItem(accountingItem))
-                    // запуск первого фрагмента после сохранения
-                    FragmentManageHelper(parentFragmentManager)
-                        .initFragment(
+                    // run previous fragment
+                    FragmentManageHelper(parentFragmentManager).initFragment(
                             R.id.fragmentLayoutAccounting,
                             AccountingListFragment.newInstance()
                         )

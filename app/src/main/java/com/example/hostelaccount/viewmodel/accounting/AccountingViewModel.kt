@@ -80,9 +80,8 @@ class AccountingViewModel : ViewModel() {
     }
 
     private fun getTempItem() {
-        val accountingItemForReturn = tempAccountingItem
+        _state.value = AccountingStateModel(tempAccountingItem, null)
         tempAccountingItem = null
-        _state.value = AccountingStateModel(accountingItemForReturn, null)
     }
 
 }

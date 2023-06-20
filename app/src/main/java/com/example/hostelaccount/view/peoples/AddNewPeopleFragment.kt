@@ -10,18 +10,18 @@ import androidx.lifecycle.ViewModelProvider
 import com.example.hostelaccount.R
 import com.example.hostelaccount.databinding.FragmentAddNewPeopleBinding
 import com.example.hostelaccount.data.data_sourse.PeopleItemModel
+import com.example.hostelaccount.viewmodel.peoples.PeoplesEvent
 import com.example.hostelaccount.viewmodel.peoples.PeoplesViewModel
 import com.example.hostelaccount.viewmodel.util.FragmentManageHelper
 import com.example.hostelaccount.viewmodel.util.ValidationInputData
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
 
 class AddNewPeopleFragment : Fragment() {
 
     private lateinit var binding: FragmentAddNewPeopleBinding
 
     private lateinit var viewModel: PeoplesViewModel
+
+    private var tempSavedResident: PeopleItemModel? = null
 
 
     override fun onCreateView(
@@ -37,14 +37,17 @@ class AddNewPeopleFragment : Fragment() {
         // определение viewModel для приёма данных от фрагмента
         viewModel = ViewModelProvider(requireActivity())[PeoplesViewModel::class.java]
         //  определение объекта viewModel и получение данных
-        val savedResident = viewModel.getTempResident()
+        viewModel.onEvent(PeoplesEvent.GetTempResident)
         //  ЕСЛИ БЫЛИ ПЕРЕДАНЫ ДАННЫЕ ИЗ ДРУГОГО ФРАГМЕНТА, ТО ЗАПОЛНЯЕТ ПОЛЯ АВТОМАТИЧЕСКИ
-        if (savedResident != null) {
-            fillFields(savedResident)
-            initDeleteBtn(savedResident)
+        viewModel.state.observe(viewLifecycleOwner){
+            if (it.tempResidentItem != null) {
+                tempSavedResident = it.tempResidentItem
+                fillFields(tempSavedResident!!)
+                initDeleteBtn(it.tempResidentItem)
+            }
         }
         // слушатель нажатий на кнопку сохранить
-        initSaveBtnListener(savedResident)
+        initSaveBtnListener()
     }
 
 
@@ -61,11 +64,11 @@ class AddNewPeopleFragment : Fragment() {
 
 
     // инициализация кнопки сохранить
-    private fun initSaveBtnListener(inputData: PeopleItemModel?) {
+    private fun initSaveBtnListener() {
         val validInptData = ValidationInputData()
         binding.btnSave.setOnClickListener {
             // ЕСЛИ БЫЛИ ПЕРЕДАНЫ ДАННЫЕ, ТО ID ПРИСВАЕВАЕТ ТОТ ЧТО БЫЛ ПЕРЕДАН. ЕСЛИ НЕТ ТО NULL
-            val id: Int? = inputData?.id
+            val id: Int? = tempSavedResident?.id
             val name = binding.txtNameNewMan.text.toString().trim()
             val roomNum = binding.txtRoomNumNewMan.text.toString().trim()
             val dateFrom = binding.txtPlDateFrom.text.toString().trim()
@@ -82,9 +85,7 @@ class AddNewPeopleFragment : Fragment() {
                     // создание переменной с введёнными данными
                    val residentItem = PeopleItemModel(id, roomNum.toInt(), name, dateFrom, dateTo, usMan, addInfo)
                     // запуск нового потока для асинхронного сохранения данных в БД
-                    CoroutineScope(Dispatchers.IO).launch {
-                        viewModel.saveResident(residentItem)
-                    }
+                        viewModel.onEvent(PeoplesEvent.SaveResident(residentItem))
                     // запуск первого фрагмента после сохранения
                     FragmentManageHelper(parentFragmentManager).initFragment(R.id.fragmentLayoutPeoples, ListRoomsFragment.newInstance())
                 }
@@ -98,9 +99,7 @@ class AddNewPeopleFragment : Fragment() {
     private fun initDeleteBtn(resident: PeopleItemModel) {
         binding.btnDelete.visibility = View.VISIBLE
         binding.btnDelete.setOnClickListener {
-            CoroutineScope(Dispatchers.IO).launch {
-                viewModel.deleteResident(resident)
-            }
+                viewModel.onEvent(PeoplesEvent.DeleteResident(resident))
             FragmentManageHelper(parentFragmentManager).initFragment(R.id.fragmentLayoutPeoples, ListRoomsFragment.newInstance())
         }
     }

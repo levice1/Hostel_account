@@ -12,6 +12,7 @@ import com.example.hostelaccount.data.repository.PeopleRepositoryImpl
 import com.example.hostelaccount.view.peoples.util.RoomListAdapter
 import com.example.hostelaccount.databinding.FragmentListRoomsBinding
 import com.example.hostelaccount.model.RoomModel
+import com.example.hostelaccount.viewmodel.peoples.PeoplesEvent
 import com.example.hostelaccount.viewmodel.peoples.PeoplesViewModel
 import com.example.hostelaccount.viewmodel.util.FragmentManageHelper
 
@@ -44,21 +45,14 @@ class ListRoomsFragment : Fragment() {
         initRecyclerView(adapter)
         viewModel.init(repository)
 
-        viewModel.getRoomsList().observe(viewLifecycleOwner) { roomList ->
-            if (roomList != null) {
-                    updateRecView(roomList, adapter)// передача в адаптер
+        viewModel.onEvent(PeoplesEvent.GetRoomsList)
+
+        viewModel.state.observe(viewLifecycleOwner) {
+            if (it.listRooms != null) {
+                    updateRecView(it.listRooms, adapter)// передача в адаптер
                 }
         }
         initAddNewPeopleButton()
-    }
-
-    override fun onStart() {
-        super.onStart()
-        viewModel.getRoomsList().observe(viewLifecycleOwner) { roomList ->
-            if (roomList != null) {
-                updateRecView(roomList, adapter)// передача в адаптер
-            }
-        }
     }
 
 

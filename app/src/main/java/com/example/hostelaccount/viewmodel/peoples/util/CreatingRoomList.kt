@@ -1,7 +1,6 @@
 package com.example.hostelaccount.viewmodel.peoples.util
 
 import com.example.hostelaccount.data.data_sourse.PeopleItemModel
-import com.example.hostelaccount.model.Resident
 import com.example.hostelaccount.model.RoomModel
 
 
@@ -24,17 +23,18 @@ class CreatingRoomList {
             for (i in 0 until 4) {
                 if (i < peopleInRoom.size) {
                     val people = peopleInRoom[i]
-                    val resident = Resident(
-                        name = people.guestName,
+                    val resident = PeopleItemModel(
+                        guestName = people.guestName,
                         id = people.id!!,
                         liveFrom = people.liveFrom,
                         liveTo = people.liveTo,
-                        usMan = people.usPeople,
-                        additionalInfo = people.addInfo
+                        usPeople = people.usPeople,
+                        addInfo = people.addInfo,
+                        roomNumber = people.roomNumber
                     )
                     room.people += (resident)
                 } else {
-                    room.people += (Resident("", 0, "", "", false, ""))
+                    room.people += (PeopleItemModel(0,0, "", "", "", false, ""))
                 }
             }
             roomList.add(room)
