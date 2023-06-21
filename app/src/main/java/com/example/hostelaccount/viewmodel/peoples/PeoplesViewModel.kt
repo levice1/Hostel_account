@@ -12,6 +12,7 @@ import com.example.hostelaccount.viewmodel.peoples.util.CreatingRoomList
 import com.example.hostelaccount.viewmodel.peoples.util.PeoplesStateModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
@@ -25,6 +26,8 @@ class PeoplesViewModel : ViewModel() {
 
     private val _state: MutableLiveData<PeoplesStateModel> = MutableLiveData()
     val state: LiveData<PeoplesStateModel> = _state
+
+    private var getRoomListJob: Job? = null
 
 
     fun init(repository: PeopleRepository) {
@@ -56,7 +59,9 @@ class PeoplesViewModel : ViewModel() {
     }
 
     private fun getRoomsList() {
-        _repository.getPeoples().onEach {
+        // cancel previous coroutine, and start new
+        getRoomListJob?.cancel()
+        getRoomListJob = _repository.getPeoples().onEach {
             _state.value = PeoplesStateModel(null, CreatingRoomList().invoke(it))
         }.launchIn(viewModelScope)
     }

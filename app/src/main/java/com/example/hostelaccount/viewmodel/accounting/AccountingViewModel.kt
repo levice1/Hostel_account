@@ -11,6 +11,7 @@ import com.example.hostelaccount.viewmodel.accounting.repository.AccountingRepos
 import com.example.hostelaccount.viewmodel.accounting.util.AccountingStateModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
@@ -23,6 +24,8 @@ class AccountingViewModel : ViewModel() {
 
     private val _state: MutableLiveData<AccountingStateModel> = MutableLiveData()
     val state: LiveData<AccountingStateModel> = _state
+
+    private var getAccountingItemsJob: Job? = null
 
 
     fun init(repository: AccountingRepository) {
@@ -56,7 +59,9 @@ class AccountingViewModel : ViewModel() {
 
 
     private fun getAccountingItems() {
-        _repository.getAllEntries().onEach {
+        // cancel previous coroutine, and start new
+        getAccountingItemsJob?.cancel()
+        getAccountingItemsJob = _repository.getAllEntries().onEach {
             _state.value = AccountingStateModel(null, it)
         }.launchIn(viewModelScope)
     }
