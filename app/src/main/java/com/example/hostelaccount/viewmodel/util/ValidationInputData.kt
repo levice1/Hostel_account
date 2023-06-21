@@ -1,11 +1,11 @@
-package com.example.hostelaccount.viewmodel
+package com.example.hostelaccount.viewmodel.util
 
 import java.text.ParseException
 
-class ValidationInputData : ProcessingDate() {
+class ValidationInputData : GetDateTime() {
 
     fun validateDateStr(str: String): Boolean {
-        val  dF = ProcessingDate().dateFormat
+        val  dF = dateFormat
         dF.isLenient = false
         return try {
             dF.parse(str)

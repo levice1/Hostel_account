@@ -6,16 +6,15 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.asLiveData
 import androidx.recyclerview.widget.RecyclerView
 import com.example.hostelaccount.R
-import com.example.hostelaccount.adapter.RoomListAdapter
+import com.example.hostelaccount.data.repository.PeopleRepositoryImpl
+import com.example.hostelaccount.view.peoples.util.RoomListAdapter
 import com.example.hostelaccount.databinding.FragmentListRoomsBinding
-import com.example.hostelaccount.db.local.DbManager
 import com.example.hostelaccount.model.RoomModel
-import com.example.hostelaccount.model.PeopleIdViewModel
-import com.example.hostelaccount.viewmodel.FragmentManageHelper
-import com.example.hostelaccount.viewmodel.CreatingPeoplesList
+import com.example.hostelaccount.viewmodel.peoples.PeoplesEvent
+import com.example.hostelaccount.viewmodel.peoples.PeoplesViewModel
+import com.example.hostelaccount.viewmodel.util.FragmentManageHelper
 
 class ListRoomsFragment : Fragment() {
 
@@ -23,10 +22,15 @@ class ListRoomsFragment : Fragment() {
 
     private lateinit var recyclerView: RecyclerView
 
+    private lateinit var viewModel: PeoplesViewModel
+
+    private lateinit var adapter: RoomListAdapter
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle? ): View {
+        savedInstanceState: Bundle?
+    ): View {
         binding = FragmentListRoomsBinding.inflate(layoutInflater)
         return binding.root
     }
@@ -34,21 +38,22 @@ class ListRoomsFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val viewModel = ViewModelProvider(requireActivity())[PeopleIdViewModel::class.java]
-        val adapter = RoomListAdapter(viewModel)
-        // инициализация RecView
+
+        viewModel = ViewModelProvider(requireActivity())[PeoplesViewModel::class.java]
+        adapter = RoomListAdapter(viewModel)
+        val repository = PeopleRepositoryImpl(this.requireContext())
+
         initRecyclerView(adapter)
-        // получение всех данных из БД и обновление адаптера RecView
-        DbManager.getInstance(requireActivity())
-            .peopleDao()
-            .getAll()
-            .asLiveData()
-            .observe(viewLifecycleOwner){
-                val roomsArray = CreatingPeoplesList().createRoomList(it) // получение массива комнат
-                updateRecView(roomsArray, adapter)// передача в адаптер
+        viewModel.init(repository)
+
+        viewModel.onEvent(PeoplesEvent.GetRoomsList)
+
+        viewModel.state.observe(viewLifecycleOwner) {
+            if (it.listRooms != null) {
+                updateRecView(it.listRooms, adapter)
             }
-        // инициализация кнопки добавления нового человека
-        initAddButton()
+        }
+        initAddNewPeopleButton()
     }
 
 
@@ -58,22 +63,18 @@ class ListRoomsFragment : Fragment() {
     }
 
 
-    // функция инициализации RecView
     private fun initRecyclerView(adapter: RoomListAdapter) {
         recyclerView = binding.recViewRoomsList
         recyclerView.adapter = adapter
     }
 
 
-    // функция обновления адаптера RecView
-    // Принимает массив комнат с уже распределёнными людьми
-    private fun updateRecView(list:ArrayList<RoomModel>, adapter: RoomListAdapter){
+    private fun updateRecView(list: List<RoomModel>, adapter: RoomListAdapter) {
         adapter.setList(list)
     }
 
 
-    // функция инициализации кнопки добавления нового человека
-    private fun initAddButton(){
+    private fun initAddNewPeopleButton() {
         binding.btnAddNewGuest.setOnClickListener {
             FragmentManageHelper(parentFragmentManager)
                 .initFragment(R.id.fragmentLayoutPeoples, AddNewPeopleFragment.newInstance())

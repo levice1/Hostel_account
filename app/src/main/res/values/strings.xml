@@ -12,7 +12,7 @@
     <string name="currency" translatable="false">"  CZK"</string>
     <string name="peoples_live">Peoples live:</string>
     <string name="rand_peoples_count" translatable="false">99</string>
-    <string name="max_peoples_count" translatable="false"> / 50</string>
+    <string name="max_peoples_count" translatable="false"> / 46</string>
     <string name="summa">Summa</string>
     <string name="reason">Reason</string>
     <string name="date">Date</string>

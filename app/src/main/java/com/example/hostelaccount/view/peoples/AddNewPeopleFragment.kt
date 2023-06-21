@@ -9,26 +9,25 @@ import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
 import com.example.hostelaccount.R
 import com.example.hostelaccount.databinding.FragmentAddNewPeopleBinding
-import com.example.hostelaccount.db.local.DbManager
-import com.example.hostelaccount.db.local.PeopleItemModel
-import com.example.hostelaccount.db.remote.BackendConstants
-import com.example.hostelaccount.db.remote.RequestToRemoteDB
-import com.example.hostelaccount.model.PeopleIdViewModel
-import com.example.hostelaccount.viewmodel.FragmentManageHelper
-import com.example.hostelaccount.viewmodel.ValidationInputData
-import kotlinx.coroutines.DelicateCoroutinesApi
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.launch
+import com.example.hostelaccount.data.data_sourse.PeopleItemModel
+import com.example.hostelaccount.viewmodel.peoples.PeoplesEvent
+import com.example.hostelaccount.viewmodel.peoples.PeoplesViewModel
+import com.example.hostelaccount.viewmodel.util.FragmentManageHelper
+import com.example.hostelaccount.viewmodel.util.ValidationInputData
 
 class AddNewPeopleFragment : Fragment() {
+
     private lateinit var binding: FragmentAddNewPeopleBinding
 
-    private lateinit var viewModel: PeopleIdViewModel
+    private lateinit var viewModel: PeoplesViewModel
+
+    private var tempSavedResident: PeopleItemModel? = null
 
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle? ): View {
+        savedInstanceState: Bundle?
+    ): View {
         binding = FragmentAddNewPeopleBinding.inflate(layoutInflater)
         return binding.root
     }
@@ -36,26 +35,20 @@ class AddNewPeopleFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        // определение viewModel для приёма данных от фрагмента
-        viewModel = ViewModelProvider(requireActivity())[PeopleIdViewModel::class.java]
-        //  определение объекта viewModel и получение данных
-        val inputData = viewModel.getData()
-        // определение переменной БД
-        val db = DbManager.getInstance(requireActivity())
-        //  ЕСЛИ БЫЛИ ПЕРЕДАНЫ ДАННЫЕ ИЗ ДРУГОГО ФРАГМЕНТА, ТО ЗАПОЛНЯЕТ ПОЛЯ АВТОМАТИЧЕСКИ
-        if (inputData != null) {
-            fillFields(inputData)
-            initDeleteBtn(db,inputData)
+        viewModel = ViewModelProvider(requireActivity())[PeoplesViewModel::class.java]
+        viewModel.onEvent(PeoplesEvent.GetTempResident)
+        // if data were transferred via a viewModel, it fills in the fields automatically
+        // and do Delete button active
+        viewModel.state.observe(viewLifecycleOwner) {
+            if (it.tempResidentItem != null) {
+                tempSavedResident = it.tempResidentItem
+                fillFields(tempSavedResident!!)
+                initDeleteBtn(it.tempResidentItem)
+            }
         }
-        // слушатель нажатий на кнопку сохранить
-        initSaveBtnListener(inputData, db)
+        initSaveBtnListener()
     }
 
-
-    override fun onStop() {
-        super.onStop()
-        viewModel.clearData()
-    }
 
     companion object {
         @JvmStatic
@@ -63,20 +56,17 @@ class AddNewPeopleFragment : Fragment() {
     }
 
 
-
-    // Функция для отображения короткого сообщения
     private fun showToast(msg: Int) {
         Toast.makeText(requireContext(), msg, Toast.LENGTH_LONG).show()
     }
 
 
-    // инициализация кнопки сохранить
-    @OptIn(DelicateCoroutinesApi::class)
-    private fun initSaveBtnListener(inputData: PeopleItemModel?, db: DbManager) {
-        val validInptData = ValidationInputData()
+    private fun initSaveBtnListener() {
+        val validInputData = ValidationInputData()
         binding.btnSave.setOnClickListener {
-            // ЕСЛИ БЫЛИ ПЕРЕДАНЫ ДАННЫЕ, ТО ID ПРИСВАЕВАЕТ ТОТ ЧТО БЫЛ ПЕРЕДАН. ЕСЛИ НЕТ ТО NULL
-            val id: Int? = inputData?.id
+            // if the data was transmitted, it assigns an ID to the one that was transmitted
+            // if not, it assigns null
+            val id: Int? = tempSavedResident?.id
             val name = binding.txtNameNewMan.text.toString().trim()
             val roomNum = binding.txtRoomNumNewMan.text.toString().trim()
             val dateFrom = binding.txtPlDateFrom.text.toString().trim()
@@ -85,45 +75,47 @@ class AddNewPeopleFragment : Fragment() {
             val addInfo = binding.txtEdAddInfo.text.toString().trim()
 
             when {
-                !validInptData.validateNameStr(name) -> showToast(R.string.error_name_required)
-                !validInptData.validateDateStr(dateFrom) -> showToast(R.string.error_datefrom_required)
-                !validInptData.validateDateStr(dateTo) -> showToast(R.string.error_dateto_required)
-                !validInptData.validateIntNum(roomNum) -> showToast(R.string.error_roomnum_required)
+                !validInputData.validateNameStr(name) -> showToast(R.string.error_name_required)
+                !validInputData.validateDateStr(dateFrom) -> showToast(R.string.error_datefrom_required)
+                !validInputData.validateDateStr(dateTo) -> showToast(R.string.error_dateto_required)
+                !validInputData.validateIntNum(roomNum) -> showToast(R.string.error_roomnum_required)
                 else -> {
-                    // создание переменной с введёнными данными
-                   val peopleItem = PeopleItemModel(id, roomNum.toInt(), name, dateFrom, dateTo, usMan, addInfo)
-                    // запуск нового потока для асинхронного сохранения данных в БД
-                    GlobalScope.launch{
-                        val insertedItemId = db.peopleDao().insertItem(peopleItem) // сохранение to local
-                        peopleItem.id = insertedItemId[0].toInt()// change id to AutIncr generated
-                        RequestToRemoteDB(BackendConstants().insertPeople).insertToPeople(peopleItem)// save to remote
-                    }
-                    // запуск первого фрагмента после сохранения
-                    FragmentManageHelper(parentFragmentManager).initFragment(R.id.fragmentLayoutPeoples, ListRoomsFragment.newInstance())
+                    // create a variable with the entered data
+                    val residentItem =
+                        PeopleItemModel(id, roomNum.toInt(), name, dateFrom, dateTo, usMan, addInfo)
+
+                    viewModel.onEvent(PeoplesEvent.SaveResident(residentItem))
+
+                    FragmentManageHelper(parentFragmentManager).initFragment(
+                        R.id.fragmentLayoutPeoples,
+                        ListRoomsFragment.newInstance()
+                    )
                 }
             }
         }
     }
-    // инициализация кнопки удалить, и слушателя нажатий
-    // когда слушатель срабатывает - отправляет команду в ДАО БД на удаление, и передаёт id удаляемого
-    @OptIn(DelicateCoroutinesApi::class)
-    private fun initDeleteBtn(db: DbManager, item: PeopleItemModel) {
+
+
+    private fun initDeleteBtn(resident: PeopleItemModel) {
         binding.btnDelete.visibility = View.VISIBLE
         binding.btnDelete.setOnClickListener {
-            GlobalScope.launch {
-                db.peopleDao().deleteById(item.id!!)
-                RequestToRemoteDB(BackendConstants().deletePeople).insertToPeople(item)
-            }
-            FragmentManageHelper(parentFragmentManager).initFragment(R.id.fragmentLayoutPeoples, ListRoomsFragment.newInstance())
+
+            viewModel.onEvent(PeoplesEvent.DeleteResident(resident))
+
+            FragmentManageHelper(parentFragmentManager).initFragment(
+                R.id.fragmentLayoutPeoples,
+                ListRoomsFragment.newInstance()
+            )
         }
     }
-    // функция для заполнения полей переданными данными
-    private fun fillFields(people: PeopleItemModel){
-        binding.txtNameNewMan.setText(people.guestName)
-        binding.txtRoomNumNewMan.setText(people.roomNumber.toString())
-        binding.txtPlDateFrom.setText(people.liveFrom)
-        binding.txtPlDateTo.setText(people.liveTo)
-        binding.txtEdAddInfo.setText(people.addInfo)
-        binding.switchUsMan.isChecked = people.usPeople
+
+
+    private fun fillFields(resident: PeopleItemModel) {
+        binding.txtNameNewMan.setText(resident.guestName)
+        binding.txtRoomNumNewMan.setText(resident.roomNumber.toString())
+        binding.txtPlDateFrom.setText(resident.liveFrom)
+        binding.txtPlDateTo.setText(resident.liveTo)
+        binding.txtEdAddInfo.setText(resident.addInfo)
+        binding.switchUsMan.isChecked = resident.usPeople
     }
 }

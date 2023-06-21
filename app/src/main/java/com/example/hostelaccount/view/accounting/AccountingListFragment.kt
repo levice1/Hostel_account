@@ -6,19 +6,20 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.asLiveData
 import androidx.recyclerview.widget.RecyclerView
 import com.example.hostelaccount.R
-import com.example.hostelaccount.adapter.AccountingListAdapter
+import com.example.hostelaccount.view.accounting.util.AccountingListAdapter
 import com.example.hostelaccount.databinding.FragmentAccountingListBinding
-import com.example.hostelaccount.db.local.AccountingItemModel
-import com.example.hostelaccount.db.local.DbManager
-import com.example.hostelaccount.model.AccountingViewModel
-import com.example.hostelaccount.viewmodel.FragmentManageHelper
+import com.example.hostelaccount.data.data_sourse.AccountingItemModel
+import com.example.hostelaccount.data.repository.AccountingRepositoryImpl
+import com.example.hostelaccount.viewmodel.accounting.AccountingEvent
+import com.example.hostelaccount.viewmodel.accounting.AccountingViewModel
+import com.example.hostelaccount.viewmodel.util.FragmentManageHelper
 
 class AccountingListFragment : Fragment() {
     private lateinit var binding: FragmentAccountingListBinding
     private lateinit var recyclerView: RecyclerView
+    private lateinit var viewModel: AccountingViewModel
 
 
     override fun onCreateView(
@@ -28,22 +29,27 @@ class AccountingListFragment : Fragment() {
         return binding.root
     }
 
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val viewModel = ViewModelProvider(requireActivity())[AccountingViewModel::class.java]
+        viewModel = ViewModelProvider(requireActivity())[AccountingViewModel::class.java]
+        val repositoryImpl = AccountingRepositoryImpl(this.requireContext())
+        viewModel.init(repositoryImpl)
         val adapter = AccountingListAdapter(viewModel)
-        // инициализация RecView
         initRecyclerView(adapter)
-        // получение всех данных из БД и обновление адаптера RecView
-        DbManager.getInstance(requireActivity())
-            .accountingDao()
-            .getAll()
-            .asLiveData()
-            .observe(viewLifecycleOwner){
-                updateRecView(it, adapter) // передача в адаптер
+        viewModel.state.observe(viewLifecycleOwner) {
+            if (it.listAccountingItems != null) {
+                updateRecView(it.listAccountingItems, adapter)
             }
-        initAddButton() // инициализация кнопки добавления новой записи
+        }
+        initAddButton()
     }
+
+    override fun onResume() {
+        super.onResume()
+        viewModel.onEvent(AccountingEvent.GetAccountingItems)
+    }
+
 
     companion object {
         @JvmStatic
@@ -51,20 +57,17 @@ class AccountingListFragment : Fragment() {
     }
 
 
-    // функция инициализации RecView
-    private fun initRecyclerView(adapter: AccountingListAdapter) { // функция инициализации адаптера
+    private fun initRecyclerView(adapter: AccountingListAdapter) {
         recyclerView = binding.recViewAccountingList
         recyclerView.adapter = adapter
     }
 
 
-    // функция обновления адаптера RecView
     private fun updateRecView(list:List<AccountingItemModel>, adapter: AccountingListAdapter){
         adapter.setList(list)
     }
 
 
-    // функция инициализации кнопки добавления новой записи
     private fun initAddButton(){
         binding.btnAddNewEntry.setOnClickListener {
             FragmentManageHelper(parentFragmentManager)

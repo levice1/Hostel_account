@@ -1,4 +1,4 @@
-package com.example.hostelaccount.db.local
+package com.example.hostelaccount.data.data_sourse
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
@@ -26,7 +26,7 @@ interface AccountingDao {
     fun getAll(): Flow<List<AccountingItemModel>>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insertItem(vararg accountingItemModel: AccountingItemModel) : List<Long>
+    suspend fun insertItem(vararg accountingItem: AccountingItemModel) : List<Long>
 
     @Query("DELETE FROM Accounting WHERE id = :id")
     suspend fun deleteById(id: Int)
