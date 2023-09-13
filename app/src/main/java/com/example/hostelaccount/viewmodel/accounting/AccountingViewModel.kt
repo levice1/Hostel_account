@@ -5,6 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.hostelaccount.data.data_sourse.AccountingItemModel
+import com.example.hostelaccount.data.data_sourse.PeopleItemModel
 import com.example.hostelaccount.data.remote.BackendConstants
 import com.example.hostelaccount.data.remote.InsertLocalDBToRemoteDB
 import com.example.hostelaccount.viewmodel.accounting.repository.AccountingRepository
@@ -12,6 +13,7 @@ import com.example.hostelaccount.viewmodel.accounting.util.AccountingStateModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
+import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch

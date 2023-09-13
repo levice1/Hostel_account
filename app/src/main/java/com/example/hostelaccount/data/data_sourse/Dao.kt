@@ -15,7 +15,6 @@ interface PeopleDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertItem(vararg peopleItemModels: PeopleItemModel) : List<Long>
-
     @Query("DELETE FROM Peoples WHERE id = :id")
     suspend fun deleteById(id: Int)
 }
