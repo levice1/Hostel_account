@@ -2,6 +2,7 @@ package com.example.hostelaccount.view.peoples
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.text.Html
 import com.example.hostelaccount.R
 import com.example.hostelaccount.databinding.ActivityPeoplesBinding
 import com.example.hostelaccount.viewmodel.util.FragmentManageHelper
@@ -12,6 +13,9 @@ class PeoplesActivity : AppCompatActivity() {
     private lateinit var binding: ActivityPeoplesBinding
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        // Колхоз! Нужно изменить на адекватный вариант!
+        supportActionBar!!.title = Html.fromHtml("<font color=\"#FFFFFF\">" + getString(R.string.app_name) + "</font>")
+
         binding = ActivityPeoplesBinding.inflate(layoutInflater)
         setContentView(binding.root)
         InitMenuChoice(this).init(binding.bottomNavigation)

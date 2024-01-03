@@ -1,6 +1,7 @@
 package com.example.hostelaccount.view.accounting
 
 import android.os.Bundle
+import android.text.Html
 import androidx.appcompat.app.AppCompatActivity
 import com.example.hostelaccount.R
 import com.example.hostelaccount.databinding.ActivityAccountingBinding
@@ -12,6 +13,9 @@ class AccountingActivity : AppCompatActivity() {
     private lateinit var binding: ActivityAccountingBinding
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        // Колхоз! Нужно изменить на адекватный вариант!
+        supportActionBar!!.title = Html.fromHtml("<font color=\"#FFFFFF\">" + getString(R.string.app_name) + "</font>")
+
         binding = ActivityAccountingBinding.inflate(layoutInflater)
         setContentView(binding.root)
         InitMenuChoice(this).init(binding.bottomNavigation)

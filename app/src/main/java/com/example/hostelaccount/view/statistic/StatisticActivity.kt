@@ -2,6 +2,7 @@ package com.example.hostelaccount.view.statistic
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.text.Html
 import android.util.Log
 import android.view.View
 import androidx.lifecycle.ViewModelProvider
@@ -30,6 +31,9 @@ class StatisticActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        // Колхоз! Нужно изменить на адекватный вариант!
+        supportActionBar!!.title = Html.fromHtml("<font color=\"#FFFFFF\">" + getString(R.string.app_name) + "</font>")
+
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
         InitMenuChoice(this).init(binding.bottomNavigation)
