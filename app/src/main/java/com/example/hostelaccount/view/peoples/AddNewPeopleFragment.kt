@@ -14,6 +14,9 @@ import com.example.hostelaccount.viewmodel.peoples.PeoplesEvent
 import com.example.hostelaccount.viewmodel.peoples.PeoplesViewModel
 import com.example.hostelaccount.viewmodel.util.FragmentManageHelper
 import com.example.hostelaccount.viewmodel.util.ValidationInputData
+import java.text.SimpleDateFormat
+import java.util.Calendar
+import java.util.Locale
 
 class AddNewPeopleFragment : Fragment() {
 
@@ -44,6 +47,18 @@ class AddNewPeopleFragment : Fragment() {
                 tempSavedResident = it.tempResidentItem
                 fillFields(tempSavedResident!!)
                 initDeleteBtn(it.tempResidentItem)
+            } else {
+                // if there was no data transmitted
+                // Set the current date for convenience
+                // And date for next month
+                val sdf = SimpleDateFormat("dd.MM.yy", Locale.getDefault())
+
+                val currentDate = Calendar.getInstance()
+                val nextMonth = Calendar.getInstance()
+                nextMonth.add(Calendar.MONTH, 1)
+
+                binding.txtPlDateFrom.setText(sdf.format(currentDate.time))
+                binding.txtPlDateTo.setText(sdf.format(nextMonth.time))
             }
         }
         initSaveBtnListener()
